@@ -14,11 +14,7 @@ const wordModel = mongoose.Schema(
             type: String,
             required: [true, 'Please add meaning']
         },
-        tags: [String],
-        createdAt: {
-            type: Date(),
-            default: new Date()
-        }
+        tags: [String]
     }
 )
 
