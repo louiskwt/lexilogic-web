@@ -1,0 +1,49 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn create react-app frontend --template redux
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/louis/opt/anaconda3/condabin:/Users/louis/.local/bin:/Users/louis/.local/bin:/Users/louis/.local/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.14.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EACCES: permission denied, mkdir '/Users/louis/.config/yarn'
+
+npm manifest: 
+  {
+    "name": "wordie",
+    "version": "1.0.0",
+    "description": "The API for Wordie",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+      "start": "node server/index.js",
+      "server": "nodemon server/index.js"
+    },
+    "author": "Louis T",
+    "license": "MIT",
+    "dependencies": {
+      "body-parser": "^1.19.2",
+      "cors": "^2.8.5",
+      "dotenv": "^16.0.0",
+      "express": "^4.17.3",
+      "mongodb": "^4.4.1",
+      "mongoose": "^6.2.8"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.15"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
