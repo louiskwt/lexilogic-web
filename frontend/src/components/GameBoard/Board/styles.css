@@ -1,0 +1,15 @@
+#board-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+	height: 100%;
+	flex-direction: column;
+}
+
+#board {
+	display: grid;
+	grid-gap: 5px;
+	padding: 10px;
+	box-sizing: border-box;
+}

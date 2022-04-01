@@ -3,8 +3,6 @@ import './styles.css'
 import { FaDelicious } from 'react-icons/fa'
 import { BsFillBarChartFill } from 'react-icons/bs'
 
-
-
 const Navbar = () => {
   return (
     <div className='game-navbar'>
