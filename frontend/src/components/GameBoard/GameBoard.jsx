@@ -1,5 +1,6 @@
 import React from 'react'
 import Board from './Board/Board'
+import GameKeyBoard from './GameKeyBoard/GameKeyBoard'
 import './styles.css'
 
 const GameBoard = () => {
@@ -7,7 +8,7 @@ const GameBoard = () => {
   return (
         <div id='game'>
               <Board />
-              <div>keyboard</div>
+              <GameKeyBoard />
         </div> 
   )
 }
