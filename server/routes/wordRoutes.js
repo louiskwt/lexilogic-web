@@ -1,10 +1,10 @@
 import express from 'express'
-import { getWords, getAllWords } from '../controllers/wordControllers.js'
+import { getWord, getAllWords } from '../controllers/wordControllers.js'
 
 const router = express.Router()
 
 
-router.get('/', getWords)
+router.get('/', getWord)
 
 router.get('/all', getAllWords)
 

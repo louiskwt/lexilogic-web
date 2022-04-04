@@ -1,5 +1,4 @@
 import Word from "../models/wordModel.js"
-import { randomMin } from "../utility/dbFunctions.js";
 
 export const getAllWords = async (req, res) => {
     try {
@@ -10,14 +9,15 @@ export const getAllWords = async (req, res) => {
     }
 }
 
-export const getWords = async (req, res) => {
+export const getWord = async (req, res) => {
     try {
-        const count = await Word.count()
+        const count = await Word.countDocuments();
       
-        const min = randomMin(count)
+        let index = Math.floor(Math.random() * count)
         
-        const wordlist = await Word.find();
-        res.status(200).json(wordlist.slice(min, min + 5))
+        const word = await Word.findOne().skip(index);
+
+        res.status(200).json(word)
     } catch (error) {
         res.status(404).json({ message: error.message })
     }

@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 app.use(cors())
 
 // Word routes
-app.use('/words', wordRoutes)
+app.use('/api/word', wordRoutes)
 
 connectDB()
 
