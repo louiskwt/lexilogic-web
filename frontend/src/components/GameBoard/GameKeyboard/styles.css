@@ -5,6 +5,10 @@
 	/* margin-top: 25px; */
 }
 
+#keyboard-container:focus {
+	outline: none;
+}
+
 .keyboard-row {
 	display: flex;
 	justify-content: center;

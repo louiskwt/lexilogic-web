@@ -1,9 +1,9 @@
 import React from 'react'
 import './styles.css'
 
-const GameTile = () => {
+const GameTile = ({value}) => {
   return (
-    <div className='letter-box'></div>
+    <div className='letter-box'>{value}</div>
   )
 }
 
