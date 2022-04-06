@@ -25,10 +25,9 @@ export function GameProvider({ children }) {
 
     const [gameState, setGameState] = useState({
         guessedWords: [],
-        currentGuess: [],
         end: false,
-        nextLetter: 0,
-        guessRemaining: 6
+        nextLetter: 0,  // position for tile
+        guessRemaining: 6 // position for row
     })
 
     const gameLogic = { gameState, setGameState, attempts, setAttempts}

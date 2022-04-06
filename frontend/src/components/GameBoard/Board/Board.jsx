@@ -13,12 +13,12 @@ const Board = () => {
 
     useEffect(() => {
          setAttempts({
-            6: [...Array(len).fill('')],
-            5: [...Array(len).fill('')],
-            4: [...Array(len).fill('')],
-            3: [...Array(len).fill('')],
-            2: [...Array(len).fill('')],
-            1: [...Array(len).fill('')],
+             6: [...Array(len).fill('')],
+             5: [...Array(len).fill('')],
+             4: [...Array(len).fill('')],
+             3: [...Array(len).fill('')],
+             2: [...Array(len).fill('')],
+             1: [...Array(len).fill('')],
         })
     }, [len, setAttempts])
 

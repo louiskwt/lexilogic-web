@@ -1,9 +1,11 @@
 import React from 'react'
 import './styles.css'
 
-const GameTile = ({value}) => {
+const GameTile = ({letter, guess}) => {
+ 
+
   return (
-    <div className='letter-box'>{value}</div>
+    <div className={'letter-box'}>{letter}</div>
   )
 }
 

@@ -12,7 +12,7 @@ const GameRow = ({ length, attemptArr }) => {
   return (
     <div className='row' style={{gridTemplateColumns: `repeat(${length}, 1fr)` }}>
        { attemptArr.map((attempt, index) => 
-          <GameTile key={index} value={attempt} />
+          <GameTile key={index} letter={attempt} />
         )} 
     </div>
   )
