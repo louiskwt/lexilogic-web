@@ -24,7 +24,7 @@ const Board = () => {
 
     if(attempts) {
         for (let i = 0; i < 6; i++) {
-            row.push(<GameRow attempt={i} length={len} key={i} attemptArr={attempts[6 - i]} />)
+            row.push(<GameRow attempt={i} length={len} key={i} letterArr={attempts[6 - i]} />)
         }
     }
     return (
