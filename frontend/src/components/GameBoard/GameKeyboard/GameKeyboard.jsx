@@ -46,8 +46,20 @@ const GameKeyBoard = () => {
               setColorState({ ...colorState, [attemptNum]: updatedColorState })
           }
       }
+      if(gameState.guessRemaining - 1 !== 0) {
+          setGameState({ ...gameState, guessRemaining: gameState.guessRemaining -= 1, nextLetter: 0 })
+      } else {
+          setTimeout(alert('You lost'), 2000)
+          return
+      }
       
-      setGameState({...gameState, guessRemaining: gameState.guessRemaining -= 1, nextLetter: 0})
+
+      if(currentGuess.join('') === ans) {
+          setGameState({...gameState, end: true})
+          setTimeout(alert('You win'), 2000)
+          return
+      }
+
   }   
 
   // set up useRef to focus on game keyboard for keydown functions   
@@ -57,11 +69,11 @@ const GameKeyBoard = () => {
     keyboard.current.focus()
   }, [])
 
-// handle game keyboard input
+    // handling keyboard click
 
     const handleClick = (e) => {    
         // handling non-enter click 
-        if(nextLetter < word.length && e.target.textContent !== 'enter' && e.target.textContent !== 'del') {
+        if(nextLetter < word.length && e.target.textContent !== 'enter' && e.target.textContent !== 'del' && gameState.end !== true) {
             // console.log(attempts)
             // console.log(attempts[guessRemaining])
             let targetArr = attempts[guessRemaining]
@@ -77,7 +89,7 @@ const GameKeyBoard = () => {
         }
 
         // handling delete
-        if(nextLetter > 0 && e.target.textContent === 'del') {
+        if (nextLetter > 0 && e.target.textContent === 'del' && gameState.end !== true) {
             console.log('fired')
             let targetArr = attempts[guessRemaining]
             let prev = nextLetter - 1
@@ -95,17 +107,17 @@ const GameKeyBoard = () => {
         }
 
         // answer checking logic
-        if(e.target.textContent === 'enter') {
+        if (e.target.textContent === 'enter' && gameState.end !== true) {
             console.log('fired') 
             checkGuess(guessRemaining, word);
         }
 
     }
 
+    // handling key press
     const handleKeyPress = (e) => {
-        console.log(e.key)
         // non-enter click 
-        if (nextLetter < word.length && e.key !== 'Enter' && e.key !== 'Backspace') {
+        if (nextLetter < word.length && e.key !== 'Enter' && e.key !== 'Backspace' && gameState.end !== true) {
             let targetArr = attempts[guessRemaining]
             targetArr[nextLetter] = e.key
             // console.log(targetArr)
@@ -119,7 +131,7 @@ const GameKeyBoard = () => {
         }
 
         // delete
-        if (nextLetter > 0 && e.key === 'Backspace') {
+        if (nextLetter > 0 && e.key === 'Backspace' && gameState.end !== true) {
             // console.log('fired')
             let targetArr = attempts[guessRemaining]
             let prev = nextLetter - 1
@@ -135,12 +147,13 @@ const GameKeyBoard = () => {
         }
 
         // answer checking logic
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && gameState.end !== true) {
             console.log('fired')
             checkGuess(guessRemaining, word);
         }
     }
 
+ 
   return (
     <div id="keyboard-container"  tabIndex={0} ref={keyboard} onKeyDown={handleKeyPress}>
         <div className="keyboard-row">
