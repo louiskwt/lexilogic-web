@@ -10,7 +10,7 @@ const GameKeyBoard = () => {
       thirdRow: ['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del']
   }
 
-  const { gameState,  setGameState, setAttempts, attempts, letterState, setLetterState } = useGameState()
+  const { gameState,  setGameState, setAttempts, attempts, setColorState, colorState } = useGameState()
   const wordState = useWordState()
 
   const word = wordState.word
@@ -21,32 +21,31 @@ const GameKeyBoard = () => {
   const checkGuess = (attemptNum, ans) => {
       let rightGuess = Array.from(ans)
       let currentGuess = attempts[attemptNum]
-      console.log(rightGuess)
 
       if (currentGuess.join('').length < ans.length) {
             alert('Not enough word')
             return
       }
 
-      let updatedCorrArr = letterState[attemptNum].correct
-      let updatedPresentArr = letterState[attemptNum].present
-      let updatedAbsentArr = letterState[attemptNum].absent
-
+      // answer checking
       for(let i = 0; i < ans.length; i++) {
           let letterPosition = rightGuess.indexOf(currentGuess[i])
           if (letterPosition !== -1) {
               if(currentGuess[i] === rightGuess[i]) {
-                   updatedCorrArr.push(currentGuess[i])
+                  let updatedColorState = colorState[attemptNum]
+                   updatedColorState[i] = 'correct'
+                   setColorState({...colorState, [attemptNum]: updatedColorState})
               } else {
-                   updatedPresentArr.push(currentGuess[i])
+                  let updatedColorState = colorState[attemptNum]
+                  updatedColorState[i] = 'present'
+                  setColorState({ ...colorState, [attemptNum]: updatedColorState })
               }
           } else {
-                   updatedPresentArr.push(currentGuess[i])
+              let updatedColorState = colorState[attemptNum]
+              updatedColorState[i] = 'absent'
+              setColorState({ ...colorState, [attemptNum]: updatedColorState })
           }
       }
-      console.log(updatedCorrArr)
-      console.log(updatedPresentArr)
-      setLetterState({...letterState, [attemptNum]: {present: updatedPresentArr, correct: updatedCorrArr, absent: updatedAbsentArr}})
       
       setGameState({...gameState, guessRemaining: gameState.guessRemaining -= 1, nextLetter: 0})
   }   

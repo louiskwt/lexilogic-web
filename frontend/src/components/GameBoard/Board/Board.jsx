@@ -7,7 +7,7 @@ import { useGameState } from '../../../context/GameContext'
 
 const Board = () => {
     const wordState = useWordState()
-    const { attempts, setAttempts } = useGameState()
+    const { attempts, setAttempts, setColorState } = useGameState()
     const row = []
     const len = wordState.word.length
 
@@ -20,11 +20,20 @@ const Board = () => {
              2: [...Array(len).fill('')],
              1: [...Array(len).fill('')],
         })
-    }, [len, setAttempts])
+        setColorState({
+            6: [...Array(len).fill('')],
+            5: [...Array(len).fill('')],
+            4: [...Array(len).fill('')],
+            3: [...Array(len).fill('')],
+            2: [...Array(len).fill('')],
+            1: [...Array(len).fill('')],
+        })
+
+    }, [len, setAttempts, setColorState])
 
     if(attempts) {
         for (let i = 0; i < 6; i++) {
-            row.push(<GameRow attempt={i} length={len} key={i} letterArr={attempts[6 - i]} />)
+            row.push(<GameRow row={6-i} length={len} key={i} attemptArr={attempts[6 - i]} />)
         }
     }
     return (

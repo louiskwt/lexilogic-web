@@ -1,18 +1,21 @@
 import React from 'react'
 import './styles.css'
-import { useGameState } from '../../../context/GameContext'
 
-const GameTile = ({letter, attempt}) => {
-  const { letterState } = useGameState()
+const GameTile = ({ letter, state }) => {
+ 
   let classList = 'letter-box'
-  if (letterState[attempt].correct.includes(letter)) {
+  if(state === 'correct') {
     classList += ' correct'
-  } else if (letterState[attempt].present.includes(letter)) {
-    classList += ' present'
-  } else if (letterState[attempt].absent.includes(letter)) {
-    classList += 'absent'
   }
-  
+  if(state === 'present') {
+    classList += ' present' 
+  }
+
+  if(state === 'absent') {
+    classList += ' absent'
+  }
+
+
   return (
     <div className={classList}>{letter}</div>
   )

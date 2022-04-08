@@ -1,12 +1,14 @@
 import React from 'react'
 import GameTile from '../GameTile/GameTile'
 import './styles.css'
+import { useGameState } from '../../../context/GameContext'
 
-const GameRow = ({ length, letterArr, attempt }) => {
+const GameRow = ({ length, attemptArr, row }) => {
+  const {colorState} = useGameState()
   return (
     <div className='row' style={{gridTemplateColumns: `repeat(${length}, 1fr)` }}>
-       { letterArr.map((letter, index) => 
-          <GameTile key={index} letter={letter} attempt={attempt + 1} />
+       { attemptArr.map((letter, index) => 
+          <GameTile key={index} letter={letter} state={colorState[row][index]}  />
         )} 
     </div>
   )

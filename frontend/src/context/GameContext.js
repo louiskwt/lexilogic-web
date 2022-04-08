@@ -30,17 +30,10 @@ export function GameProvider({ children }) {
         guessRemaining: 6 // position for row
     })
 
-    const [letterState, setLetterState] = useState({
-        6: {id: 6, present: [], absent: [], correct: []},
-        5: { id: 5, present: [], absent: [], correct: [] },
-        4: { id: 4, present: [], absent: [], correct: [] },
-        3: { id: 3, present: [], absent: [], correct: [] },
-        2: { id: 2, present: [], absent: [], correct: [] },
-        1: { id: 1, present: [], absent: [], correct: [] },
+    const [colorState, setColorState] = useState(null)
 
-    })
 
-    const gameLogic = { gameState, setGameState, attempts, setAttempts, letterState, setLetterState}
+    const gameLogic = { gameState, setGameState, attempts, setAttempts, colorState, setColorState }
 
     useEffect(() => {
         const fetchWord = async () => {
