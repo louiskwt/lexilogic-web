@@ -32,8 +32,14 @@ export function GameProvider({ children }) {
 
     const [colorState, setColorState] = useState(null)
 
+    const [keyState, setKeyState] = useState({
+        correct: [],
+        present: [],
+        absent: []
+    })
 
-    const gameLogic = { gameState, setGameState, attempts, setAttempts, colorState, setColorState }
+
+    const gameLogic = { gameState, setGameState, attempts, setAttempts, colorState, setColorState, keyState, setKeyState }
 
     useEffect(() => {
         const fetchWord = async () => {

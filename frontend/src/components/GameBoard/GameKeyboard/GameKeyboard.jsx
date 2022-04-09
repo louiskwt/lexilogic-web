@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import './styles.css'
 import { useGameState } from '../../../context/GameContext'
 import { useWordState } from '../../../context/GameContext'
+import KeyboardKey from '../../GamePieces/KeyboardKey/KeyboardKey'
 
 const GameKeyBoard = () => { 
   const btn = {
@@ -10,7 +11,7 @@ const GameKeyBoard = () => {
       thirdRow: ['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del']
   }
 
-  const { gameState,  setGameState, setAttempts, attempts, setColorState, colorState } = useGameState()
+  const { gameState,  setGameState, setAttempts, attempts, setColorState, colorState, keyState, setKeyState } = useGameState()
   const wordState = useWordState()
 
   const word = wordState.word
@@ -32,18 +33,31 @@ const GameKeyBoard = () => {
           let letterPosition = rightGuess.indexOf(currentGuess[i])
           if (letterPosition !== -1) {
               if(currentGuess[i] === rightGuess[i]) {
-                  let updatedColorState = colorState[attemptNum]
-                   updatedColorState[i] = 'correct'
-                   setColorState({...colorState, [attemptNum]: updatedColorState})
+                    let updatedColorState = colorState[attemptNum]
+                    updatedColorState[i] = 'correct'
+                   
+                    setColorState({...colorState, [attemptNum]: updatedColorState})
+
+                  let updatedKeyState = keyState['correct']
+                  updatedKeyState.push(currentGuess[i])
+                  setKeyState({...keyState, correct: [...new Set(updatedKeyState)]})
               } else {
                   let updatedColorState = colorState[attemptNum]
                   updatedColorState[i] = 'present'
                   setColorState({ ...colorState, [attemptNum]: updatedColorState })
+
+                  let updatedKeyState = keyState['present']
+                  updatedKeyState.push(currentGuess[i])
+                  setKeyState({ ...keyState, present: [...new Set(updatedKeyState)] })
               }
           } else {
               let updatedColorState = colorState[attemptNum]
               updatedColorState[i] = 'absent'
               setColorState({ ...colorState, [attemptNum]: updatedColorState })
+
+              let updatedKeyState = keyState['absent']
+              updatedKeyState.push(currentGuess[i])
+              setKeyState({ ...keyState, absent: [...new Set(updatedKeyState)] })
           }
       }
       if(gameState.guessRemaining - 1 !== 0) {
@@ -158,19 +172,20 @@ const GameKeyBoard = () => {
     <div id="keyboard-container"  tabIndex={0} ref={keyboard} onKeyDown={handleKeyPress}>
         <div className="keyboard-row">
             {btn.firstRow.map(letter => (
-                <button key={letter}  onClick={handleClick} >{letter}</button>
+                <KeyboardKey letter={letter} handleClick={handleClick} keyState={keyState} key={letter} />
             ))}
         </div>
         <div className="keyboard-row">
             <div className="spacer-half"></div>
             {btn.secondRow.map(letter => (
-                <button key={letter} onClick={handleClick}>{letter}</button>
+                <KeyboardKey letter={letter} handleClick={handleClick} keyState={keyState} key={letter} />
+
             ))}
             <div className="spacer-half"></div>
         </div>
         <div className="keyboard-row">
               {btn.thirdRow.map(letter => (
-                  <button key={letter} onClick={handleClick}>{letter}</button>
+                  <KeyboardKey letter={letter} handleClick={handleClick} keyState={keyState} key={letter} />
               ))}
         </div>
     </div>
