@@ -12,7 +12,7 @@ const GameKeyBoard = () => {
   }
 
   const { gameState,  setGameState, setAttempts, attempts, setColorState, colorState, keyState, setKeyState } = useGameState()
-  const wordState = useWordState()
+  const { wordState } = useWordState()
 
   const word = wordState.word
   let nextLetter = gameState.nextLetter
@@ -63,14 +63,14 @@ const GameKeyBoard = () => {
       if(gameState.guessRemaining - 1 !== 0) {
           setGameState({ ...gameState, guessRemaining: gameState.guessRemaining -= 1, nextLetter: 0 })
       } else {
-          setTimeout(alert('You lost'), 2000)
+          setGameState({ ...gameState, end: true, guessRemaining: 6, nextLetter: 0
+})
           return
       }
       
 
       if(currentGuess.join('') === ans) {
-          setGameState({...gameState, end: true})
-          setTimeout(alert('You win'), 2000)
+          setGameState({ ...gameState, end: true, guessRemaining: 6, nextLetter: 0, })
           return
       }
 

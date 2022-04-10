@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import GameRow from '../../GamePieces/GameRow/GameRow'
+import GameButtons from '../../GamePieces/GameButtons/GameButtons'
 import './styles.css'
 import { useWordState } from '../../../context/GameContext'
 import { useGameState } from '../../../context/GameContext'
 
 
 const Board = () => {
-    const wordState = useWordState()
+    const { wordState } = useWordState()
     const { attempts, setAttempts, setColorState } = useGameState()
     const row = []
     const len = wordState.word.length
@@ -38,6 +39,7 @@ const Board = () => {
     }
     return (
         <div id='board-container' >
+            <GameButtons />
             <div id='board'>
                 {row}
             </div>

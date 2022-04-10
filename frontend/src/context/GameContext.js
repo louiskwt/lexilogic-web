@@ -26,6 +26,7 @@ export function GameProvider({ children }) {
     const [gameState, setGameState] = useState({
         guessedWords: [],
         end: false,
+        win: null,
         nextLetter: 0,  // position for tile
         guessRemaining: 6 // position for row
     })
@@ -38,6 +39,7 @@ export function GameProvider({ children }) {
         absent: []
     })
 
+    const word = { wordState, setWordState }
 
     const gameLogic = { gameState, setGameState, attempts, setAttempts, colorState, setColorState, keyState, setKeyState }
 
@@ -53,7 +55,7 @@ export function GameProvider({ children }) {
     }, [setWordState])
 
     return (
-        <WordStateContext.Provider value={wordState}>
+        <WordStateContext.Provider value={word}>
             <GameStateContext.Provider value={gameLogic} >
                 {!wordState ? (
                     <Spinner animation="border" variant="light" />
