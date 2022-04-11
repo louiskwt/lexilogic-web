@@ -3,6 +3,8 @@ import './styles.css'
 import { useGameState } from '../../../context/GameContext'
 import { useWordState } from '../../../context/GameContext'
 import KeyboardKey from '../../GamePieces/KeyboardKey/KeyboardKey'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const GameKeyBoard = () => { 
   const btn = {
@@ -10,6 +12,17 @@ const GameKeyBoard = () => {
       secondRow: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
       thirdRow: ['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del']
   }
+
+  const notify = (type, str, theme) => toast[type](str, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: theme
+  })
 
   const { gameState,  setGameState, setAttempts, attempts, setColorState, colorState, keyState, setKeyState } = useGameState()
   const { wordState } = useWordState()
@@ -24,7 +37,7 @@ const GameKeyBoard = () => {
       let currentGuess = attempts[attemptNum]
 
       if (currentGuess.join('').length < ans.length) {
-            alert('Not enough word')
+            notify('error', '請先填滿所有空格', 'dark')
             return
       }
 
@@ -63,13 +76,14 @@ const GameKeyBoard = () => {
       if(gameState.guessRemaining - 1 !== 0) {
           setGameState({ ...gameState, guessRemaining: gameState.guessRemaining -= 1, nextLetter: 0 })
       } else {
-          setGameState({ ...gameState, end: true, guessRemaining: 6, nextLetter: 0
-})
+          notify('warn', '噢...繼續努力🥲', 'dark')
+          setGameState({ ...gameState, end: true, guessRemaining: 6, nextLetter: 0})
           return
       }
       
 
       if(currentGuess.join('') === ans) {
+          notify('success', '正確～好叻呀 🥳', 'dark')
           setGameState({ ...gameState, end: true, guessRemaining: 6, nextLetter: 0, })
           return
       }
@@ -188,6 +202,7 @@ const GameKeyBoard = () => {
                   <KeyboardKey letter={letter} handleClick={handleClick} keyState={keyState} key={letter} />
               ))}
         </div>
+        <ToastContainer />
     </div>
   )
 }

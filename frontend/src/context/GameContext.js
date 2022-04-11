@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios'
-import Spinner from 'react-bootstrap/Spinner'
 
 const API_URL = 'api/word/'
 
@@ -58,7 +57,7 @@ export function GameProvider({ children }) {
         <WordStateContext.Provider value={word}>
             <GameStateContext.Provider value={gameLogic} >
                 {!wordState ? (
-                    <Spinner animation="border" variant="light" />
+                    <></>
                 ) : (
                     children
                 )}
