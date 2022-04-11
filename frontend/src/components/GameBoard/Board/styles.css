@@ -9,7 +9,16 @@
 
 #board {
 	display: grid;
-	grid-gap: 5px;
+	grid-gap: 12px;
 	padding: 10px;
 	box-sizing: border-box;
+}
+
+@media only screen and (max-width: 600px) {
+	#board {
+		display: grid;
+		grid-gap: 20px;
+		padding: 10px;
+		box-sizing: border-box;
+	}
 }
