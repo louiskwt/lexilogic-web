@@ -75,7 +75,7 @@ const GameKeyBoard = () => {
       }
       if(gameState.guessRemaining - 1 !== 0) {
           setGameState({ ...gameState, guessRemaining: gameState.guessRemaining -= 1, nextLetter: 0 })
-      } else {
+      } else if (currentGuess.join('') !== ans) {
           let updatedWrongGuess = gameState.wrongGuess
           updatedWrongGuess.push(ans)
           notify('warn', '噢...繼續努力🥲', 'dark')
