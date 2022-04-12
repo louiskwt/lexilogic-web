@@ -14,6 +14,7 @@ const Board = () => {
     const len = wordState.word.length
 
     useEffect(() => {
+        console.log('reset fired')
          setAttempts({
              6: [...Array(len).fill('')],
              5: [...Array(len).fill('')],

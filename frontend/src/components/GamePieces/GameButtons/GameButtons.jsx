@@ -6,7 +6,7 @@ import axios from 'axios'
 const API_URL = 'api/word/'
 
 const GameButton = () => {
-    const { gameState, setGameState, setKeyState } = useGameState()
+    const { gameState, setGameState, setKeyState, setAttempts, setColorState } = useGameState()
     const { setWordState } = useWordState()
     const { setModalState } = useModalState()
     const end = gameState.end
@@ -24,6 +24,8 @@ const GameButton = () => {
             present: [],
             absent: []
         })
+        setAttempts(null)
+        setColorState(null)
     }
 
     return (

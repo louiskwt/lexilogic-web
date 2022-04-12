@@ -17,7 +17,7 @@ const Modal = () => {
             </div>
             <div className="modal-body">
                   {correctArr.length > 0 && correctArr.map((word, index) => (
-                      <p index={index}>
+                      <p key={index}>
                           {word} {' '} <span>✅</span>
                       </p>
                   ))}
