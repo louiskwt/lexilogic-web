@@ -76,15 +76,19 @@ const GameKeyBoard = () => {
       if(gameState.guessRemaining - 1 !== 0) {
           setGameState({ ...gameState, guessRemaining: gameState.guessRemaining -= 1, nextLetter: 0 })
       } else {
+          let updatedWrongGuess = gameState.wrongGuess
+          updatedWrongGuess.push(ans)
           notify('warn', '噢...繼續努力🥲', 'dark')
-          setGameState({ ...gameState, end: true, guessRemaining: 6, nextLetter: 0})
+          setGameState({ ...gameState, wrongGuess: updatedWrongGuess, end: true, guessRemaining: 6, nextLetter: 0})
           return
       }
       
 
       if(currentGuess.join('') === ans) {
+          let updatedCorrectGuess = gameState.correctGuess
+          updatedCorrectGuess.push(ans)
           notify('success', '正確～好叻呀 🥳', 'dark')
-          setGameState({ ...gameState, end: true, guessRemaining: 6, nextLetter: 0, })
+          setGameState({ ...gameState, correctGuess: updatedCorrectGuess, end: true, guessRemaining: 6, nextLetter: 0, })
           return
       }
 

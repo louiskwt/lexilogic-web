@@ -5,14 +5,18 @@ const API_URL = 'api/word/'
 
 const WordStateContext = React.createContext()
 const GameStateContext = React.createContext()
-// const GameLogicContext = React.createContext()
-
+const ModalStateContext = React.createContext()
+ 
 export function useWordState() {
     return useContext(WordStateContext)
 }
 
 export function useGameState() {
     return useContext(GameStateContext)
+}
+
+export function useModalState() {
+    return useContext(ModalStateContext)
 }
 
 
@@ -23,7 +27,8 @@ export function GameProvider({ children }) {
     const [attempts, setAttempts] = useState(null)
 
     const [gameState, setGameState] = useState({
-        guessedWords: [],
+        correctGuess: [],
+        wrongGuess: [],
         end: false,
         win: null,
         nextLetter: 0,  // position for tile
@@ -37,6 +42,10 @@ export function GameProvider({ children }) {
         present: [],
         absent: []
     })
+
+    const [modalState, setModalState] = useState('none')
+
+    const modal = {modalState, setModalState}
 
     const word = { wordState, setWordState }
 
@@ -56,11 +65,13 @@ export function GameProvider({ children }) {
     return (
         <WordStateContext.Provider value={word}>
             <GameStateContext.Provider value={gameLogic} >
-                {!wordState ? (
-                    <></>
-                ) : (
-                    children
-                )}
+                <ModalStateContext.Provider value={modal}>
+                    {!wordState ? (
+                        <></>
+                    ) : (
+                        children
+                    )}
+                </ModalStateContext.Provider>
             </GameStateContext.Provider>
         </WordStateContext.Provider>
     )
