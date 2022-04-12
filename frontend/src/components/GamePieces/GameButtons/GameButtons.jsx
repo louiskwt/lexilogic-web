@@ -26,8 +26,7 @@ const GameButton = () => {
     }
 
     return (
-       
-        <div>
+        <div className='btn-container'>
             {end && (
                 <>
                       <button id='record-btn'>我的紀錄</button>

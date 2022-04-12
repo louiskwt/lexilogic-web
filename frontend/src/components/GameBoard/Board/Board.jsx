@@ -4,6 +4,7 @@ import GameButtons from '../../GamePieces/GameButtons/GameButtons'
 import './styles.css'
 import { useWordState } from '../../../context/GameContext'
 import { useGameState } from '../../../context/GameContext'
+import GameKeyBoard from '../GameKeyBoard/GameKeyBoard'
 
 
 const Board = () => {
@@ -43,6 +44,7 @@ const Board = () => {
             <div id='board'>
                 {row}
             </div>
+            <GameKeyBoard />
         </div>
     )
 }

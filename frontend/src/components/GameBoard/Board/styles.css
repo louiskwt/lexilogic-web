@@ -2,8 +2,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	flex-grow: 1;
-	height: 100%;
+	/* flex-grow: 1; */
+	height: 80%;
 	flex-direction: column;
 }
 
@@ -12,6 +12,8 @@
 	grid-gap: 12px;
 	padding: 10px;
 	box-sizing: border-box;
+	margin-top: 1%;
+	margin-bottom: 5%;
 }
 
 @media only screen and (max-width: 600px) {
@@ -20,5 +22,7 @@
 		grid-gap: 20px;
 		padding: 10px;
 		box-sizing: border-box;
+		margin-top: 5%;
+		margin-bottom: 10%;
 	}
 }
