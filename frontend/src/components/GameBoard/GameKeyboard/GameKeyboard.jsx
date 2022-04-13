@@ -12,10 +12,10 @@ const GameKeyBoard = () => {
       secondRow: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
       thirdRow: ['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del']
   }
-
+//   React toastify
   const notify = (type, str, theme) => toast[type](str, {
-      position: "top-center",
-      autoClose: 3000,
+      position: "top-right",
+      autoClose: 2500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
