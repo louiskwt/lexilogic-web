@@ -122,7 +122,7 @@ const GameKeyBoard = () => {
 
         // handling delete
         if (nextLetter > 0 && e.target.textContent === 'del' && gameState.end !== true) {
-            console.log('fired')
+            
             let targetArr = attempts[guessRemaining]
             let prev = nextLetter - 1
             console.log(prev)
@@ -140,7 +140,7 @@ const GameKeyBoard = () => {
 
         // answer checking logic
         if (e.target.textContent === 'enter' && gameState.end !== true) {
-            console.log('fired') 
+            
             checkGuess(guessRemaining, word);
         }
 
@@ -148,6 +148,12 @@ const GameKeyBoard = () => {
 
     // handling key press
     const handleKeyPress = (e) => {
+        const re = /^[a-z]{1}$/
+
+        if (e.key !== 'Enter' &&  e.key !== 'Backspace' && !re.test(e.key)) {
+            return
+        }
+
         // non-enter click 
         if (nextLetter < word.length && e.key !== 'Enter' && e.key !== 'Backspace' && gameState.end !== true) {
             let targetArr = attempts[guessRemaining]

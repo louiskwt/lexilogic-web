@@ -13,8 +13,9 @@ const Board = () => {
     const row = []
     const len = wordState.word.length
 
+    // Set up the board
     useEffect(() => {
-        console.log('reset fired')
+        
          setAttempts({
              6: [...Array(len).fill('')],
              5: [...Array(len).fill('')],
@@ -34,11 +35,13 @@ const Board = () => {
 
     }, [len, setAttempts, setColorState])
 
-    if(attempts) {
+    if (attempts) {
         for (let i = 0; i < 6; i++) {
-            row.push(<GameRow row={6-i} length={len} key={i} attemptArr={attempts[6 - i]} />)
+            row.push(<GameRow row={6 - i} length={len} key={i} attemptArr={attempts[6 - i]} />)
         }
     }
+
+
     return (
         <div id='board-container' >
             <GameButtons />
