@@ -1,6 +1,9 @@
 {
   "name": "wordie",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.14.0"
+  },
   "description": "The API for Wordie",
   "main": "index.js",
   "type": "module",
