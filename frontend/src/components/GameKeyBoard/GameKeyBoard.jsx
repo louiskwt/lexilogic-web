@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import './styles.css'
-import { useGameState } from '../../../context/GameContext'
-import { useWordState } from '../../../context/GameContext'
-import KeyboardKey from '../../GamePieces/KeyboardKey/KeyboardKey'
+import { useGameState } from '../../context/GameContext'
+import { useWordState } from '../../context/GameContext'
+import KeyboardKey from '../GamePieces/KeyboardKey/KeyboardKey'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
