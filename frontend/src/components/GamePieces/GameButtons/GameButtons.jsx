@@ -1,6 +1,5 @@
 import React from 'react'
-import { useGameState, useModalState } from '../../../context/GameContext'
-import { useWordState } from '../../../context/GameContext'
+import { useGameState, useModalState, useWordState, useLoaderState } from '../../../context/GameContext'
 import './styles.css'
 import axios from 'axios'
 const API_URL = 'api/word/'
@@ -9,10 +8,12 @@ const GameButton = () => {
     const { gameState, setGameState, setKeyState, setAttempts, setColorState } = useGameState()
     const { setWordState, wordState } = useWordState()
     const { setModalState } = useModalState()
+    const { setLoading } = useLoaderState()
     const end = gameState.end
 
     // move on to the next word
     const nextWord = () => {
+        setLoading(true)
         const fetchWord = async () => {
             const response = await axios.get(API_URL)
             setWordState(response.data)
@@ -35,7 +36,7 @@ const GameButton = () => {
                 2: [...Array(len).fill('')],
                 1: [...Array(len).fill('')],
             })
-
+            setLoading(false)
         }
         fetchWord().catch(console.error)
         setGameState({...gameState, end: false})

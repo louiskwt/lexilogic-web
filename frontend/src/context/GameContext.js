@@ -1,11 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios'
+import Loader from '../components/Loader/Loader';
 
 const API_URL = 'api/word/'
 
 const WordStateContext = React.createContext()
 const GameStateContext = React.createContext()
 const ModalStateContext = React.createContext()
+const LoaderStateContext = React.createContext()
+
  
 // set up word context
 export function useWordState() {
@@ -20,6 +23,11 @@ export function useGameState() {
 // Set up Modal context
 export function useModalState() {
     return useContext(ModalStateContext)
+}
+
+// Set up Loader Context
+export function useLoaderState() {
+    return useContext(LoaderStateContext)
 }
 
 
@@ -55,6 +63,12 @@ export function GameProvider({ children }) {
     // modal state
     const [modalState, setModalState] = useState('none')
 
+    // Loader state
+    const [loading, setLoading] = useState(false)
+
+    // Loader context
+    const loaderValue = {loading, setLoading}
+
     // modal context values
     const modal = {modalState, setModalState}
 
@@ -69,23 +83,33 @@ export function GameProvider({ children }) {
         const fetchWord = async () => {
             const response = await axios.get(API_URL)
                 setWordState(response.data)
-                
         }
         fetchWord().catch(console.error)
 
 
-    }, [setWordState])
+    }, [setWordState, setLoading])
+
 
     // Returning all the providers
     return (
         <WordStateContext.Provider value={word}>
             <GameStateContext.Provider value={gameLogic} >
                 <ModalStateContext.Provider value={modal}>
-                    {!wordState ? (
-                        <></>
-                    ) : (
-                        children
-                    )}
+                    <LoaderStateContext.Provider value={loaderValue} >
+                        {
+                        !wordState ? (
+                            <>
+                                <div style={{ height: "600px", position: "relative"  }}>
+                                    <div style={{ margin: 0, position: 'absolute', top: '50%', left: '43%' }}>
+                                            <Loader />
+                                    </div>
+                                </div>
+                            </>
+                           
+                        ) : 
+                            children  
+                        }
+                    </LoaderStateContext.Provider>
                 </ModalStateContext.Provider>
             </GameStateContext.Provider>
         </WordStateContext.Provider>

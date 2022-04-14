@@ -2,14 +2,16 @@ import React, { useEffect } from 'react'
 import GameRow from '../GamePieces/GameRow/GameRow'
 import GameButtons from '../GamePieces/GameButtons/GameButtons'
 import './styles.css'
-import { useWordState } from '../../context/GameContext'
-import { useGameState } from '../../context/GameContext'
+import { useWordState, useGameState, useLoaderState } from '../../context/GameContext'
 import GameKeyBoard from '../GameKeyBoard/GameKeyBoard'
+import Loader from '../Loader/Loader'
 
 
 const GameBoard = () => {
     const { wordState } = useWordState()
     const { attempts, setAttempts, setColorState } = useGameState()
+    const { loading } = useLoaderState()
+
     const row = []
     const len = wordState.word.length
 
@@ -45,10 +47,14 @@ const GameBoard = () => {
     return (
         <div id='board-container' >
             <GameButtons />
-            <div id='board'>
-                {row}
-            </div>
-            <GameKeyBoard />
+            { loading ? <Loader/> : (
+                <>
+                    <div id='board'>
+                        {row}
+                    </div>
+                    <GameKeyBoard />
+                </>
+            ) }
         </div>
     )
 }

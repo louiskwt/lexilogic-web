@@ -2,16 +2,20 @@ import React from 'react'
 import './styles.css'
 import { FaDelicious } from 'react-icons/fa'
 import { BsFillBarChartFill } from 'react-icons/bs'
-import { useWordState } from '../../context/GameContext'
+import { useWordState, useLoaderState } from '../../context/GameContext'
+import Loader from '../Loader/Loader'
 
 const Navbar = () => {
   const { wordState } = useWordState()
+  const { loading } = useLoaderState()
   return (
     <div className='game-navbar'>
           <div className='left'>
               <h1><FaDelicious size={35} /> </h1> 
           </div>
-      <div className='word'> <h2>{wordState.meaning} ({wordState.pos}) </h2></div>
+      <div className='word'> 
+          {loading ? <Loader /> : (<h2>{wordState.meaning} ({wordState.pos}) </h2>)}
+      </div>
         <div className='right'><BsFillBarChartFill size={35} /></div>
     </div>
   )
