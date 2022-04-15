@@ -67,7 +67,7 @@ export function GameProvider({ children }) {
     const [page, setPage] = useState('100%') 
 
     // page content
-    const [pageContent, setPageContent] = useState('')
+    const [pageContent, setPageContent] = useState('question')
 
     // Loader state
     const [loading, setLoading] = useState(false)
