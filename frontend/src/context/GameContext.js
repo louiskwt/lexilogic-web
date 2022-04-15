@@ -6,7 +6,7 @@ const API_URL = 'api/word/'
 
 const WordStateContext = React.createContext()
 const GameStateContext = React.createContext()
-const ModalStateContext = React.createContext()
+const PopUpStateContext = React.createContext()
 const LoaderStateContext = React.createContext()
 
  
@@ -21,8 +21,8 @@ export function useGameState() {
 }
 
 // Set up Modal context
-export function useModalState() {
-    return useContext(ModalStateContext)
+export function usePopUpState() {
+    return useContext(PopUpStateContext)
 }
 
 // Set up Loader Context
@@ -63,6 +63,12 @@ export function GameProvider({ children }) {
     // modal state
     const [modalState, setModalState] = useState('none')
 
+    // overlay state
+    const [page, setPage] = useState('100%') 
+
+    // page content
+    const [pageContent, setPageContent] = useState('')
+
     // Loader state
     const [loading, setLoading] = useState(false)
 
@@ -70,7 +76,7 @@ export function GameProvider({ children }) {
     const loaderValue = {loading, setLoading}
 
     // modal context values
-    const modal = {modalState, setModalState}
+    const popUp = {modalState, setModalState, page, setPage, pageContent, setPageContent}
 
     // word context values
     const word = { wordState, setWordState }
@@ -94,7 +100,7 @@ export function GameProvider({ children }) {
     return (
         <WordStateContext.Provider value={word}>
             <GameStateContext.Provider value={gameLogic} >
-                <ModalStateContext.Provider value={modal}>
+                <PopUpStateContext.Provider value={popUp}>
                     <LoaderStateContext.Provider value={loaderValue} >
                         {
                         !wordState ? (
@@ -110,7 +116,7 @@ export function GameProvider({ children }) {
                             children  
                         }
                     </LoaderStateContext.Provider>
-                </ModalStateContext.Provider>
+                </PopUpStateContext.Provider>
             </GameStateContext.Provider>
         </WordStateContext.Provider>
     )

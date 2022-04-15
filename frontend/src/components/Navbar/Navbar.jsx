@@ -1,22 +1,32 @@
 import React from 'react'
 import './styles.css'
-import { FaDelicious } from 'react-icons/fa'
+import { FaQuestionCircle } from 'react-icons/fa'
 import { BsFillBarChartFill } from 'react-icons/bs'
-import { useWordState, useLoaderState } from '../../context/GameContext'
+import { useWordState, useLoaderState, usePopUpState } from '../../context/GameContext'
 import Loader from '../Loader/Loader'
 
 const Navbar = () => {
   const { wordState } = useWordState()
   const { loading } = useLoaderState()
+  const { setPage, setPageContent } = usePopUpState()
+  const handleOpen = (content) => {
+    setPageContent(content)
+    setPage('100%')
+  }
+
   return (
     <div className='game-navbar'>
           <div className='left'>
-              <h1><FaDelicious size={35} /> </h1> 
+              <span onClick={() => handleOpen('question')}><FaQuestionCircle size={30} /> </span> 
           </div>
       <div className='word'> 
           {loading ? <Loader /> : (<h2>{wordState.meaning} ({wordState.pos}) </h2>)}
       </div>
-        <div className='right'><BsFillBarChartFill size={35} /></div>
+        <div className='right'>
+          <span onClick={() => handleOpen('ranking')}>
+            <BsFillBarChartFill size={30} />
+          </span>
+         </div>
     </div>
   )
 }

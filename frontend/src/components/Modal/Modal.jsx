@@ -1,9 +1,9 @@
 import React from 'react'
-import { useGameState, useModalState } from '../../context/GameContext'
+import { useGameState, usePopUpState } from '../../context/GameContext'
 import './styles.css'
 
 const Modal = () => {
-    const { modalState, setModalState } = useModalState()
+    const { modalState, setModalState } = usePopUpState()
     const { gameState } = useGameState()
     const correctArr = gameState.correctGuess
     const wrongArr = gameState.wrongGuess

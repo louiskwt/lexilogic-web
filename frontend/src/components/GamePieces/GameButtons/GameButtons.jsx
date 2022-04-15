@@ -1,5 +1,5 @@
 import React from 'react'
-import { useGameState, useModalState, useWordState, useLoaderState } from '../../../context/GameContext'
+import { useGameState, usePopUpState, useWordState, useLoaderState } from '../../../context/GameContext'
 import './styles.css'
 import axios from 'axios'
 const API_URL = 'api/word/'
@@ -7,7 +7,7 @@ const API_URL = 'api/word/'
 const GameButton = () => {
     const { gameState, setGameState, setKeyState, setAttempts, setColorState } = useGameState()
     const { setWordState, wordState } = useWordState()
-    const { setModalState } = useModalState()
+    const { setModalState } = usePopUpState()
     const { setLoading } = useLoaderState()
     const end = gameState.end
 
