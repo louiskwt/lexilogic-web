@@ -28,12 +28,40 @@
     color: #000;
 }
 
-.modal-body {
-    padding: 2px 16px;
-    font-size: 1.5rem;
-    color: #000;
+.stat {
+    padding: 2px 12px;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
 }
 
+.stat p {
+    font-size: 1.2rem;
+    color: #000;
+    font-weight: bold;
+}
+
+.modal-body {
+    margin-top: 10px;
+    padding: 2px 12px;
+    font-size: 1.5rem;
+    color: #000;
+    max-width: 300px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.correct-list {
+    height: 350px;
+    width: 50%;
+    overflow-y: auto;
+}
+
+.wrong-list {
+    height: 350px;
+    width: 50%;
+    overflow-y: auto;
+}
 /* Modal Content */
 .modal-content {
     background-color: #fefefe;
