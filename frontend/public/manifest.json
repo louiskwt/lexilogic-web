@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "DSE Wordle",
+  "name": "DSE Wordle | 幫你隨時學習DSE詞彙",
   "icons": [
     {
       "src": "favicon.ico",
