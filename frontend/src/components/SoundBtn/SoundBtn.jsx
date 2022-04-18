@@ -3,6 +3,8 @@ import './styles.css'
 import { GiSpeaker, GiMusicalNotes } from 'react-icons/gi'
 
 const useAudio = url => {
+    console.log('fired')
+    console.log(url)
     const [audio] = useState(new Audio(url))
     const [playing, setPlaying] = useState(false)
 
@@ -18,7 +20,7 @@ const useAudio = url => {
             audio.addEventListener('ended', () => setPlaying(false))
         }
     })
-    
+
     return [playing, toggle]
 }
 

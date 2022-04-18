@@ -19,3 +19,20 @@
 	justify-content: space-around;
 	align-items: center;
 }
+
+.ios-btn {
+	display: inline-block;
+	padding: 0 1.6em;
+	margin: 0 0;
+	border-radius: 1em;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-size: 1rem;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: transparent;
+	text-align: center;
+	transition: all 0.2s;
+	border: none;
+	cursor: pointer;
+}
