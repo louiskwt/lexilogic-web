@@ -4,6 +4,7 @@ import { FaQuestionCircle } from 'react-icons/fa'
 import { BsFillBarChartFill } from 'react-icons/bs'
 import { useWordState, useLoaderState, usePopUpState } from '../../context/GameContext'
 import Loader from '../Loader/Loader'
+import SoundBtn from '../SoundBtn/SoundBtn'
 
 const Navbar = () => {
   const { wordState } = useWordState()
@@ -20,7 +21,14 @@ const Navbar = () => {
               <span onClick={() => handleOpen('question')}><FaQuestionCircle size={30} /> </span> 
           </div>
       <div className='word'> 
-          {loading ? <Loader /> : (<h2>{wordState.meaning} ({wordState.pos}) </h2>)}
+          {loading ? <Loader /> : (
+            <>
+              <h2>
+                {wordState.meaning} ({wordState.pos})
+              </h2>
+              <SoundBtn url={`sounds/words/${wordState.word}.mp3`} />  
+            </>       
+           )}  
       </div>
         <div className='right'>
           <span onClick={() => handleOpen('ranking')}>
