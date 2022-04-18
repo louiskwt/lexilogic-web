@@ -28,9 +28,9 @@ const Navbar = () => {
       <div className='word'> 
           {loading ? <Loader /> : (
             <>
-              <h3>
+              <h2>
                 {wordState.meaning} ({wordState.pos}) 
-              </h3>
+              </h2>
           
               {
                 showSound && <SoundBtn url={`sounds/words/${wordState.word}.mp3`} />  
