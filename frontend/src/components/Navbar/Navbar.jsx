@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <div className='game-navbar'>
           <div className='left'>
-              <span onClick={() => handleOpen('question')}><FaQuestionCircle size={30} /> </span> 
+              <span onClick={() => handleOpen('question')}><FaQuestionCircle size={25} /> </span> 
           </div>
       <div className='word'> 
           {loading ? <Loader /> : (
@@ -46,7 +46,7 @@ const Navbar = () => {
       </div>
         <div className='right'>
           <span onClick={() => handleOpen('ranking')}>
-            <BsFillBarChartFill size={30} />
+            <BsFillBarChartFill size={25} />
           </span>
          </div>
     </div>
