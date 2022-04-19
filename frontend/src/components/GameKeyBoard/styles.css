@@ -1,9 +1,10 @@
 #keyboard-container {
-	height: 150px;
+	height: 200px;
 	/* max-width: 500px; */
 	width: 100%;
 	/* margin-top: 25px; */
 }
+
 
 
 #keyboard-container:focus {

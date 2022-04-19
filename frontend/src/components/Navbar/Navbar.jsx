@@ -28,19 +28,21 @@ const Navbar = () => {
       <div className='word'> 
           {loading ? <Loader /> : (
             <>
-              <h2>
+              <h3>
                 {wordState.meaning} ({wordState.pos}) 
-              </h2>
+              </h3>
           
               {
                 showSound && <SoundBtn url={`sounds/words/${wordState.word}.mp3`} />  
               }
+              {
+              !showSound && <button className='ios-btn' onClick={toggleSound}>
+                +聲音提示
+              </button>
+              }  
               
             </>       
            )}
-        {!showSound && <button className='ios-btn' onClick={toggleSound}>
-          +聲音提示
-        </button>}  
       </div>
         <div className='right'>
           <span onClick={() => handleOpen('ranking')}>
