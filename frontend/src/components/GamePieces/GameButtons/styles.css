@@ -1,12 +1,8 @@
 .btn-container {
-    margin-top: 15%
+    height: 20%;
+    margin-top: 2%;
 }
 
-@media only screen and (max-width: 600px) {
-    .btn-container {
-        margin-top: 38%;
-    }
-}
 
 
 #next-btn {
@@ -43,9 +39,7 @@
 
 
 @media only screen and (max-width: 600px) {
-    .btn-container {
-        margin-top: 40%;
-    }
+
     #record-btn {
         display: inline-block;
         padding: 0.6em 1.5em;
@@ -58,10 +52,6 @@
 }
 
 @media only screen and (max-width: 400px) {
-    .btn-container {
-        margin-top: 68%;
-    }
-
     #record-btn {
         display: inline-block;
         padding: 0.6em 1.5em;

@@ -3,8 +3,8 @@
 	justify-content: center;
 	align-items: center;
 	/* flex-grow: 1; */
-	height: 80%;
 	flex-direction: column;
+	height: 90%;
 }
 
 #board {
@@ -12,7 +12,7 @@
 	grid-gap: 12px;
 	padding: 10px;
 	box-sizing: border-box;
-	margin-bottom: 5%;
+	margin-bottom: 2%;
 }
 
 @media only screen and (max-width: 600px) {
@@ -20,8 +20,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		/* flex-grow: 1; */
-		height: 60%;
 		flex-direction: column;
 	}
 }
