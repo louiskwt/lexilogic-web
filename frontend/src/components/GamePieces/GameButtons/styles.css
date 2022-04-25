@@ -1,6 +1,6 @@
 .btn-container {
     height: 20%;
-    margin-top: 2%;
+    margin-top: 4%;
 }
 
 
@@ -9,7 +9,7 @@
     display: inline-block;
     padding: 0.8em 1.8em;
     margin: 0 0.3em 0.3em 0;
-    border-radius: 2em;
+    border-radius: 0.5rem;
     box-sizing: border-box;
     text-decoration: none;
     font-weight: bold;
@@ -25,7 +25,7 @@
     display: inline-block;
     padding: 0.8em 1.8em;
     margin: 0 1.2em 1em 0;
-    border-radius: 2em;
+    border-radius: 0.5rem;
     box-sizing: border-box;
     text-decoration: none;
     font-weight: bold;

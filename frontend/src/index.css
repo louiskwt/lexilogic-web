@@ -1,4 +1,5 @@
 * {
+	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
@@ -11,6 +12,7 @@ body {
 	overflow: hidden;
 	height: 100%;
 	width: 100%;
+	-webkit-text-size-adjust: none;
 }
 
 #container {

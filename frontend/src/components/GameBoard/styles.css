@@ -10,9 +10,9 @@
 #board {
 	display: grid;
 	grid-gap: 12px;
-	padding: 10px;
-	box-sizing: border-box;
-	margin-bottom: 2%;
+	column-gap: 5px;
+	margin-bottom: 3%;
+	width: 90%;
 }
 
 @media only screen and (max-width: 600px) {
