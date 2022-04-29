@@ -3,17 +3,21 @@ import GameBoard from './components/GameBoard/GameBoard';
 import GamePage from './components/GamePage/GamePage';
 import Modal from './components/Modal/Modal';
 import Navbar from './components/Navbar/Navbar';
-import { GameProvider } from './context/GameContext';
+import { PopUpProvider } from './context/PopUpContext';
+import { WordProvider } from './context/WordContext';
 
 
 function App() {
   return (
-    <GameProvider>
-          <Navbar />
-          <GameBoard />
-          <Modal />
-          <GamePage />
-    </GameProvider>
+    <WordProvider>
+          <PopUpProvider>
+            <Navbar />
+            <GamePage />
+          </PopUpProvider>
+          {/* <GameBoard />
+          <Modal /> */}
+          
+    </WordProvider>
   );
 }
 
