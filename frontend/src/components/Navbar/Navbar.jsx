@@ -26,7 +26,7 @@ const Navbar = () => {
               <span onClick={() => handleOpen('question')}><FaQuestionCircle size={25} /> </span> 
           </div>
       <div className='word'> 
-          {loading ? <Loader size={'small'} /> : (
+          {loading ? <Loader /> : (
             <>
               <h3>
                 {wordState.meaning} ({wordState.pos}) 

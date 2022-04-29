@@ -1,11 +1,10 @@
 import React from 'react'
 import './styles.css'
 
-const Loader = ({ size }) => {
-  // Allow props to be passed in to resize loader
+const Loader = () => {
 
   return (
-    <div className={'loader ' + (size === 'small' ? 'small' : '')}>
+    <div className='loader'>
           <div></div><div></div><div></div>
     </div>
   )
