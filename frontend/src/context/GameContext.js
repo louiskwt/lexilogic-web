@@ -46,7 +46,7 @@ export function GameProvider({ children }) {
         end: false,
         win: null,
         nextLetter: 0,  // position for tile
-        guessRemaining: 6 // position for row
+        guessRemaining: 5 // position for row
     })
 
     // color state

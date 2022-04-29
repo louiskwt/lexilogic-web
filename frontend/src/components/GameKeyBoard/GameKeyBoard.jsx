@@ -79,7 +79,7 @@ const GameKeyBoard = () => {
           let updatedWrongGuess = gameState.wrongGuess
           updatedWrongGuess.push(ans)
           notify('warn', '噢...繼續努力🥲', 'dark')
-          setGameState({ ...gameState, wrongGuess: updatedWrongGuess, end: true, guessRemaining: 6, nextLetter: 0})
+          setGameState({ ...gameState, wrongGuess: updatedWrongGuess, end: true, guessRemaining: 5, nextLetter: 0})
           return
       }
       
@@ -88,7 +88,7 @@ const GameKeyBoard = () => {
           let updatedCorrectGuess = gameState.correctGuess
           updatedCorrectGuess.push(ans)
           notify('success', '正確～好叻呀 🥳', 'dark')
-          setGameState({ ...gameState, correctGuess: updatedCorrectGuess, end: true, guessRemaining: 6, nextLetter: 0, })
+          setGameState({ ...gameState, correctGuess: updatedCorrectGuess, end: true, guessRemaining: 5, nextLetter: 0, })
           return
       }
 

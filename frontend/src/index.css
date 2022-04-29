@@ -16,20 +16,12 @@ body {
 }
 
 #container {
-	background-color: #121213;
 	height: 100%;
 	width: 100%;
-	align-items: center;
+	display: flex;
 	flex-direction: column;
+	align-items: stretch;
+	justify-content: space-around;
 	overflow: hidden;
 }
 
-#game {
-	display: flex;
-	flex-direction: column;
-	/* max-width: 500px; */
-	height: 100%;
-	/* align-items: center; */
-	flex-grow: 1;
-	overflow: hidden;
-}

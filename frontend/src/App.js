@@ -9,12 +9,10 @@ import { GameProvider } from './context/GameContext';
 function App() {
   return (
     <GameProvider>
-      <div id='game'>
           <Navbar />
           <GameBoard />
           <Modal />
           <GamePage />
-      </div>
     </GameProvider>
   );
 }

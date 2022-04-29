@@ -28,7 +28,7 @@ const SoundBtn = ({ url }) => {
     const [playing, toggle] = useAudio(url)
 
   return (
-      <span className={'sound-btn'} onClick={toggle}> {playing ? <GiMusicalNotes size={35} /> : <GiSpeaker size={35} />} </span>
+      <div className={'sound-btn'} onClick={toggle}> {playing ? <GiMusicalNotes size={28} /> : <GiSpeaker size={28} />} </div>
   )
 }
 

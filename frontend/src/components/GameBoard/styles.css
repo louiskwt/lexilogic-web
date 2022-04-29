@@ -2,17 +2,18 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* flex-grow: 1; */
+	flex-grow: 1;
 	flex-direction: column;
 	height: 90%;
 }
 
 #board {
 	display: grid;
-	grid-gap: 12px;
-	column-gap: 5px;
-	margin-bottom: 3%;
-	width: 90%;
+	grid-gap: .5rem;
+	justify-content: center;
+	width: 100%;
+	align-self: center;
+	margin-bottom: 2rem;
 }
 
 @media only screen and (max-width: 600px) {

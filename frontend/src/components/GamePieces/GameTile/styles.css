@@ -4,30 +4,13 @@
 	margin: 2px;
 	font-size: 3rem;
 	font-weight: 700;
-	height: 3.5rem;
-	width: 3.5rem;
+	height: 3rem;
+	width: 3rem;
 	margin-left: 20px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-transform: uppercase;
-}
-
-@media only screen and (max-width: 600px) {
-	.letter-box {
-		border: 1px solid white;
-		border-radius: 3px;
-		margin: 2px;
-		font-size: 2rem;
-		font-weight: 700;
-		height: 2.3rem;
-		width: 2.3rem;
-		margin-left: 0;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-transform: uppercase;
-	}
 }
 
 .correct {
@@ -48,12 +31,30 @@
 	border-color: #3a3a3c;
 }
 
-@media only screen and (max-width: 400px) {
+/* ===== Small Devices ====== */
+@media only screen and (max-width: 599px) {
 		.letter-box {
-			font-size: 1.5rem;
+			font-size: 2rem;
 			font-weight: 700;
-			height: 1.8rem;
-			width: 1.8rem;
+			height: 2.3rem;
+			width: 2.3rem;
 			margin-left: 0;
 		}
+}
+/* ==== Medium and Larger Device ==== */
+@media only screen and (min-width: 600px) {
+	.letter-box {
+		border: 1px solid white;
+		border-radius: 3px;
+		margin: 2px;
+		font-size: 2rem;
+		font-weight: 700;
+		height: 3rem;
+		width: 3rem;
+		margin-left: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-transform: uppercase;
+	}
 }

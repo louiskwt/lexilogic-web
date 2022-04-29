@@ -1,6 +1,8 @@
 .btn-container {
-    height: 20%;
-    margin-top: 4%;
+    height: 1rem;
+    margin-bottom: 2.5rem;
+    align-self: center;
+    justify-self: center;
 }
 
 

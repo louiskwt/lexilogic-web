@@ -1,3 +1,8 @@
 .sound-btn {
-    margin-top: 5px;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    cursor: pointer;
 }

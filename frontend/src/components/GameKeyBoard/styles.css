@@ -1,8 +1,10 @@
 #keyboard-container {
-	height: 100%;
 	/* max-width: 500px; */
-	width: 100%;
+	width: 95%;
 	/* margin-top: 25px; */
+	justify-self: center;
+	align-self: center;
+	
 }
 
 

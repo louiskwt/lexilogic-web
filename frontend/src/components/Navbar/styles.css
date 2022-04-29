@@ -1,11 +1,10 @@
 .game-navbar {
 	display: flex;
 	justify-content: space-between;
-	flex-direction: row;
 	border-bottom: 1px solid #3a3a3c;
-	align-items: center;
-	padding: 10px;
-	height: 10%;
+	align-items: flex-end;
+	padding: 1rem 0 .5rem;
+	height: 3rem;
 	margin-top: 3px;
 }
 
@@ -17,17 +16,16 @@
 .word {
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	padding: 0 0;
 	margin: 0 0;
 }
 
 
 
-
 .ios-btn {
-	display: inline-block;
+	display: flex;
+	align-self: flex-end;
 	padding: 0 1.6em;
 	margin: 0 0;
 	border-radius: 1em;

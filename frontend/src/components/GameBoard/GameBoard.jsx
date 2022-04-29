@@ -17,9 +17,7 @@ const GameBoard = () => {
 
     // Set up the board
     useEffect(() => {
-        
          setAttempts({
-             6: [...Array(len).fill('')],
              5: [...Array(len).fill('')],
              4: [...Array(len).fill('')],
              3: [...Array(len).fill('')],
@@ -27,7 +25,6 @@ const GameBoard = () => {
              1: [...Array(len).fill('')],
         })
         setColorState({
-            6: [...Array(len).fill('')],
             5: [...Array(len).fill('')],
             4: [...Array(len).fill('')],
             3: [...Array(len).fill('')],
@@ -38,8 +35,8 @@ const GameBoard = () => {
     }, [len, setAttempts, setColorState])
 
     if (attempts) {
-        for (let i = 0; i < 6; i++) {
-            row.push(<GameRow row={6 - i} length={len} key={i} attemptArr={attempts[6 - i]} />)
+        for (let i = 0; i < 5; i++) {
+            row.push(<GameRow row={5 - i} length={len} key={i} attemptArr={attempts[5 - i]} />)
         }
     }
 
