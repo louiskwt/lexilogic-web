@@ -6,6 +6,14 @@
     color: #fff;
 }
 
+.loader .small {
+    display: inline-block;
+    position: relative;
+    width: 2px;
+    height: 5px;
+    color: #fff;
+}
+
 .loader div {
     display: inline-block;
     position: absolute;
@@ -30,6 +38,8 @@
     left: 56px;
     animation-delay: 0;
 }
+
+
 
 @keyframes loader {
     0% {
