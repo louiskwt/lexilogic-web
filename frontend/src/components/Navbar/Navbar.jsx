@@ -15,12 +15,6 @@ const Navbar = () => {
   // Local state
   const [showSound, setShow] = useState(false)
 
-
-  // const handleOpen = (content) => {
-  //   setPageContent(content)
-  //   setPage('100%')
-  // }
-
   const toggleSound = () => { setShow(!showSound) }
   console.log(wordState)
 

@@ -1,55 +1,38 @@
 import React, { useEffect } from 'react'
 import GameRow from '../GamePieces/GameRow/GameRow'
-import GameButtons from '../GamePieces/GameButtons/GameButtons'
+// import GameButtons from '../GamePieces/GameButtons/GameButtons'
 import './styles.css'
-import { useWordState, useGameState, useLoaderState } from '../../context/GameContext'
-import GameKeyBoard from '../GameKeyBoard/GameKeyBoard'
+// import GameKeyBoard from '../GameKeyBoard/GameKeyBoard'
 import Loader from '../Loader/Loader'
 
+// Import contexts
+import { useWord } from '../../context/WordContext'
+import { useGame } from '../../context/GameContext'
 
 const GameBoard = () => {
-    const { wordState } = useWordState()
-    const { attempts, setAttempts, setColorState } = useGameState()
-    const { loading } = useLoaderState()
+    const { wordState } = useWord()
+    const { setAttempts, setColors, gameState} = useGame()
 
-    const row = []
     const len = wordState.word.length
 
     // Set up the board
     useEffect(() => {
-         setAttempts({
-             5: [...Array(len).fill('')],
-             4: [...Array(len).fill('')],
-             3: [...Array(len).fill('')],
-             2: [...Array(len).fill('')],
-             1: [...Array(len).fill('')],
-        })
-        setColorState({
-            5: [...Array(len).fill('')],
-            4: [...Array(len).fill('')],
-            3: [...Array(len).fill('')],
-            2: [...Array(len).fill('')],
-            1: [...Array(len).fill('')],
-        })
-
-    }, [len, setAttempts, setColorState])
-
-    if (attempts) {
-        for (let i = 0; i < 5; i++) {
-            row.push(<GameRow row={5 - i} length={len} key={i} attemptArr={attempts[5 - i]} />)
-        }
-    }
+         setAttempts(len)
+         setColors(len)
+    }, [len])
 
 
     return (
         <div id='board-container' >
-            <GameButtons />
-            { loading ? <Loader/> : (
+            {/* <GameButtons /> */}
+            { wordState.loading ? <Loader/> : (
                 <>
                     <div id='board'>
-                        {row}
+                        {Object.keys(gameState.attempts).map((key, index) => (
+                            <GameRow key={index} row={key} length={gameState.attempts[key].length} attemptArr={gameState.attempts[key]} />
+                        ))}
                     </div>
-                    <GameKeyBoard />
+       
                 </>
             ) }
         </div>
@@ -57,3 +40,4 @@ const GameBoard = () => {
 }
 
 export default GameBoard
+
