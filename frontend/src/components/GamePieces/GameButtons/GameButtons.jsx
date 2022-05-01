@@ -1,59 +1,23 @@
 import React from 'react'
-import { useGameState, usePopUpState, useWordState, useLoaderState } from '../../../context/GameContext'
 import './styles.css'
-import axios from 'axios'
-const API_URL = 'api/word/'
+
+// import contexts
+import { useWord } from '../../../context/WordContext'
+import { useGame } from '../../../context/GameContext'
+import { usePopUp } from '../../../context/PopUpContext'
+
 
 const GameButton = () => {
-    const { gameState, setGameState, setKeyState, setAttempts, setColorState } = useGameState()
-    const { setWordState, wordState } = useWordState()
-    const { setModalState } = usePopUpState()
-    const { setLoading } = useLoaderState()
-    const end = gameState.end
-
-    // move on to the next word
-    const nextWord = () => {
-        setLoading(true)
-        const fetchWord = async () => {
-            const response = await axios.get(API_URL)
-            setWordState(response.data)
-
-            const len = wordState.word.length
-
-            setAttempts({
-                6: [...Array(len).fill('')],
-                5: [...Array(len).fill('')],
-                4: [...Array(len).fill('')],
-                3: [...Array(len).fill('')],
-                2: [...Array(len).fill('')],
-                1: [...Array(len).fill('')],
-            })
-            setColorState({
-                6: [...Array(len).fill('')],
-                5: [...Array(len).fill('')],
-                4: [...Array(len).fill('')],
-                3: [...Array(len).fill('')],
-                2: [...Array(len).fill('')],
-                1: [...Array(len).fill('')],
-            })
-            setLoading(false)
-        }
-        fetchWord().catch(console.error)
-        setGameState({...gameState, end: false})
-        setKeyState({
-            correct: [],
-            present: [],
-            absent: []
-        })
-    
-    }
+    const { setLoading } = useWord() // pull in to load new word
+    const { openModal } = usePopUp()
+    const { gameState } = useGame()
 
     return (
         <div className='btn-container'>
-            {end && (
+            {gameState.end && (
                 <>
-                      <button id='record-btn' onClick={() => setModalState('block')}>我的紀錄</button>
-                      <button id='next-btn' onClick={nextWord}>下一個</button>
+                      <button id='record-btn' onClick={openModal}>我的紀錄</button>
+                      <button id='next-btn' onClick={setLoading}>下一個</button>
                 </>
               )}
         </div>

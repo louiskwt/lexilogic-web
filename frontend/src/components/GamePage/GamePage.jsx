@@ -5,9 +5,10 @@ import Instructions from '../Instructions/Instructions'
 
 const GamePage = () => {
     const { popUp, closePage } = usePopUp()
+    console.log(popUp.page)
     return (
         //   Overlay
-        <div className='overlay' style={{ height: `${popUp.page}`  }}>
+        <div className='overlay' style={{ display: `${popUp.page}`  }}>
             <span className='close-btn' onClick={closePage}>&times;</span>
             <div className="overlay-content">
                 {popUp.content === 'question' && <Instructions/> }

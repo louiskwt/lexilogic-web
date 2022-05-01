@@ -1,10 +1,11 @@
 import React from 'react'
 import GameTile from '../GameTile/GameTile'
 import './styles.css'
-import { useGame } from '../../../context/GameContext'
+// Import context
+import { useKey } from '../../../context/KeyContext'
 
 const GameRow = ({ length, attemptArr, row }) => {
-  const { keyState } = useGame()
+  const { keyState } = useKey()
   return (
     <div className='row' style={{gridTemplateColumns: `repeat(${length}, 1fr)` }}>
        { attemptArr.map((letter, index) => 

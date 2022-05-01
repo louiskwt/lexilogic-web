@@ -10,8 +10,9 @@ export function usePopUp() {
 
 // Initial PopUp
 const initialState = {
+    initial: true,
     modal: 'none',
-    page: '100%',
+    page: '',
     content: 'question'
 } 
 
@@ -19,6 +20,8 @@ const initialState = {
 const ACTIONS = {
     CLOSE_PAGE: 'close-page',
     OPEN_PAGE: 'open-page',
+    OPEN_MODAL: 'open-modal',
+    CLOSE_MODAL: 'close-modal'
 }
 
 // PopUp reducer
@@ -27,13 +30,24 @@ const reducer = (state, action) => {
         case ACTIONS.CLOSE_PAGE:
             return {
                 ...state,
-                page: '0%'
+                initial: false,
+                page: 'none'
             };
         case ACTIONS.OPEN_PAGE:
             return {
                 ...state,
-                page: '100%',
+                page: 'block',
                 content: action.content
+            };
+        case ACTIONS.OPEN_MODAL:
+            return {
+                ...state,
+                modal: 'block'
+            };
+        case ACTIONS.CLOSE_MODAL:
+            return {
+                ...state,
+                modal: 'none'
             }
         default: 
             return state
@@ -56,7 +70,17 @@ export function PopUpProvider({children}) {
         dispatch({type: ACTIONS.CLOSE_PAGE})
     }
 
-    const value = {popUp, closePage, openPage}
+    // Open modal 
+    const openModal = () => {
+        dispatch({ type: ACTIONS.OPEN_MODAL })
+    }
+
+    // Close modal 
+    const closeModal = () => {
+        dispatch({ type: ACTIONS.CLOSE_MODAL })
+    }
+
+    const value = {popUp, closePage, openPage, openModal, closeModal}
 
     return (
         <PopUpContext.Provider value={value}>

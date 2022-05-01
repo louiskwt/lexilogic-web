@@ -17,7 +17,8 @@ const initialWordState = {
     word: '',
     pos: '',
     tag: '',
-    loading: true
+    loading: true,
+    initial: true
 }
 
 // Actions Constant
@@ -31,6 +32,7 @@ const reducer = (state, action) => {
     switch(action.type) {
         case ACTIONS.LOAD_WORD:
             return {
+                ...state,
                 meaning: action.res.data.meaning,
                 word: action.res.data.word,
                 pos: action.res.data.pos,
@@ -39,6 +41,7 @@ const reducer = (state, action) => {
             };
         case ACTIONS.SET_LOADING:
             return {
+                initial: false,
                 loading: true
             }
         default:

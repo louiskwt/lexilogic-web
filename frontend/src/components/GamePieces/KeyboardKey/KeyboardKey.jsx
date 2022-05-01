@@ -9,7 +9,7 @@ const KeyboardKey = ({ handleClick, letter, keyState}) => {
         id += 'correct-key'
     }
 
-    if (keyState['present'].includes(letter)) {
+    if (keyState['present'].includes(letter) && !keyState['correct'].includes(letter)) {
         id += 'present-key'
     }
 
