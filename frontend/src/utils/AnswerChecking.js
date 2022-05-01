@@ -15,7 +15,7 @@ export const checkGuess = (attempts, attemptNum, ans, notify, setNext, setLose, 
     // Losing situation (run out of guess without entering the correct word)
     if (attemptNum - 1 === 0 && guess !== ans) {
         notify('warn', '噢...繼續努力🥲', 'dark')
-        setLose(guess)
+        setLose(ans)
         return
     }
     // Winning situation (entered the correct word)

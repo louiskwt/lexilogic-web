@@ -1,14 +1,15 @@
 import React from 'react'
 import './styles.css'
-import { usePopUp } from '../../context/PopUpContext'
 import Instructions from '../Instructions/Instructions'
+// import contexts
+import { usePopUp } from '../../context/PopUpContext'
 
 const GamePage = () => {
     const { popUp, closePage } = usePopUp()
-    console.log(popUp.page)
+
     return (
         //   Overlay
-        <div className='overlay' style={{ display: `${popUp.page}`  }}>
+        <div className='overlay' style={{ display: (popUp.showPage ?  'block' : 'none' ) }}>
             <span className='close-btn' onClick={closePage}>&times;</span>
             <div className="overlay-content">
                 {popUp.content === 'question' && <Instructions/> }

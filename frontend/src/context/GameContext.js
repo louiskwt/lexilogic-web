@@ -32,6 +32,7 @@ const gameReducer = (state, action) => {
             return {
                 // Set the attemps object based on the length of the word
                 ...state,
+                end: false,
                 attempts: {
                     5: [...Array(action.len).fill('')],
                     4: [...Array(action.len).fill('')],
@@ -75,7 +76,7 @@ const gameReducer = (state, action) => {
         case ACTIONS.SET_LOSE:
             return {
                 ...state,
-                wrongGuess: [...state.wrongGuess, action.guess],
+                wrongGuess: [...state.wrongGuess, action.ans],
                 end: true,
                 guessRemaining: 5,
                 nextLetter: 0,
@@ -99,7 +100,7 @@ export function GameProvider({ children }) {
     const setWin = (guess) => {dispatchGame({ type: ACTIONS.SET_WIN, guess })}
 
     // Set Lose
-    const setLose = (guess) => { dispatchGame({ type: ACTIONS.SET_LOSE, guess }) }
+    const setLose = (ans) => { dispatchGame({ type: ACTIONS.SET_LOSE, ans }) }
 
     // Set Next
     const setNext = () => dispatchGame({type: ACTIONS.SET_NEXT})

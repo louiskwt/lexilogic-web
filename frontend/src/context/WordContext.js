@@ -1,6 +1,5 @@
 import React, { useContext, useReducer, useEffect } from 'react';
 import axios from 'axios'
-import Loader from '../components/Loader/Loader';
 
 const API_URL = 'api/word/'
 
@@ -41,7 +40,9 @@ const reducer = (state, action) => {
             };
         case ACTIONS.SET_LOADING:
             return {
-                initial: false,
+                word: '',
+                pos: '',
+                tag: '',
                 loading: true
             }
         default:
@@ -76,16 +77,7 @@ export function WordProvider({children}) {
     return (
         <WordContext.Provider value={value} >
             {
-                wordState.loading ? (
-                    <>
-                        <div style={{ height: "600px", position: "relative" }}>
-                            <div style={{ margin: 0, position: 'absolute', top: '50%', left: '43%' }}>
-                                <Loader />
-                            </div>
-                        </div>
-                    </>
-
-                ) :
+            
                     children  
             }
         </WordContext.Provider>

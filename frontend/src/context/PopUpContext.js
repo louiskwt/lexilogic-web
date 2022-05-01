@@ -10,9 +10,8 @@ export function usePopUp() {
 
 // Initial PopUp
 const initialState = {
-    initial: true,
-    modal: 'none',
-    page: '',
+    showModal: false,
+    showPage: true,
     content: 'question'
 } 
 
@@ -30,24 +29,23 @@ const reducer = (state, action) => {
         case ACTIONS.CLOSE_PAGE:
             return {
                 ...state,
-                initial: false,
-                page: 'none'
+                showPage: false
             };
         case ACTIONS.OPEN_PAGE:
             return {
                 ...state,
-                page: 'block',
+                showPage: true,
                 content: action.content
             };
         case ACTIONS.OPEN_MODAL:
             return {
                 ...state,
-                modal: 'block'
+                showModal: true
             };
         case ACTIONS.CLOSE_MODAL:
             return {
                 ...state,
-                modal: 'none'
+                showModal: false
             }
         default: 
             return state

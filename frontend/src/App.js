@@ -1,6 +1,7 @@
 import './App.css';
 import GameBoard from './components/GameBoard/GameBoard';
 import GamePage from './components/GamePage/GamePage';
+import Modal from './components/Modal/Modal';
 // import Modal from './components/Modal/Modal';
 import Navbar from './components/Navbar/Navbar';
 import { GameProvider } from './context/GameContext';
@@ -19,6 +20,7 @@ function App() {
                 <KeyProvider>
                   <GameBoard />
                 </KeyProvider>
+                <Modal />
             </GameProvider>
           </PopUpProvider>
     </WordProvider>

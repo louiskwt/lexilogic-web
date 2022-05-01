@@ -1,20 +1,23 @@
 import React from 'react'
-import { useGameState, usePopUpState } from '../../context/GameContext'
 import './styles.css'
 
+// Import contexts
+import { usePopUp } from '../../context/PopUpContext'
+import { useGame } from '../../context/GameContext'
+
 const Modal = () => {
-    const { modalState, setModalState } = usePopUpState()
-    const { gameState } = useGameState()
+    const { popUp, closeModal } = usePopUp()
+    const { gameState } = useGame()
     const correctArr = gameState.correctGuess
     const wrongArr = gameState.wrongGuess
     let total = wrongArr.length + correctArr.length
     let corRate = Math.round(correctArr.length / total * 100)
  
   return (
-    <div className='modal' style={{ 'display': modalState }} onClick={() => setModalState('none')}>
+      <div className='modal' style={{ display: (popUp.showModal ? 'block' : 'none') }} onClick={closeModal}>
         <div className="modal-content">
             <div className="modal-header">
-                  <span className="close" onClick={() => setModalState('none')}>&times;</span>
+                  <span className="close" onClick={closeModal}>&times;</span>
                   <h1>我的記錄</h1>
             </div>
             <div className='stat'>
