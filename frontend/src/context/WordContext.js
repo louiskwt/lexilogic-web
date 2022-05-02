@@ -18,7 +18,8 @@ const initialWordState = {
     pos: '',
     tag: '',
     loading: true,
-    initial: true
+    initial: true,
+    round: 0
 }
 
 // Actions Constant
@@ -47,6 +48,7 @@ const reducer = (state, action) => {
                 tag: '',
                 loading: true,
                 showSound: false,
+                round: state.round + 1
             };
         case ACTIONS.SHOW_SOUND:
             return {
@@ -81,11 +83,11 @@ export function WordProvider({children}) {
     useEffect(() => {
         const fetchWord = async () => {
             const res = await axios.get(API_URL)
-            console.log(res)
+            // console.log(res)
             dispatch({ type: ACTIONS.LOAD_WORD, res})
         }
         fetchWord().catch(console.error)
-    }, [wordState.loading])
+    }, [wordState.round])
 
     return (
         <WordContext.Provider value={value} >
