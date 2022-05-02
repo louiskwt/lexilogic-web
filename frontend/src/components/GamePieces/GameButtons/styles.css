@@ -40,7 +40,7 @@
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 600px) {
 
     #record-btn {
         display: inline-block;
@@ -54,6 +54,14 @@
 }
 
 @media only screen and (max-width: 400px) {
+    .btn-container {
+        height: 0.8rem;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        align-self: center;
+        justify-self: center;
+    }
+
     #record-btn {
         display: inline-block;
         padding: 0.6em 1.5em;

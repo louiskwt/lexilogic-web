@@ -4,7 +4,6 @@
 	align-items: center;
 	flex-grow: 1;
 	flex-direction: column;
-	height: 90%;
 }
 
 #board {
@@ -14,6 +13,7 @@
 	width: 100%;
 	align-self: center;
 	margin-bottom: 2rem;
+	margin-top: 1rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -22,5 +22,15 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
+		max-height: 500px;
+	}
+	
+	#board {
+		display: grid;
+		grid-gap: .01rem;
+		justify-content: center;
+		width: 100%;
+		align-self: center;
+		margin: 0;
 	}
 }

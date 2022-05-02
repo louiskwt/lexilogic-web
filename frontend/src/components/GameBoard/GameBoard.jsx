@@ -20,6 +20,7 @@ const GameBoard = () => {
     useEffect(() => {
          setAttempts(len)
          setTiles(len)
+         // eslint-disable-next-line
     }, [len])
 
     return (
