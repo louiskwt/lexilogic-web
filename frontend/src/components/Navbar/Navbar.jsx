@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './styles.css'
 import { FaQuestionCircle } from 'react-icons/fa'
 import { BsFillBarChartFill } from 'react-icons/bs'
@@ -9,13 +9,8 @@ import SoundBtn from '../SoundBtn/SoundBtn'
 
 const Navbar = () => {
   //Context States
-  const { wordState } = useWord()
+  const { wordState, showSoundHint } = useWord()
   const { openPage } = usePopUp()
-
-  // Local state
-  const [showSound, setShow] = useState(false)
-
-  const toggleSound = () => { setShow(!showSound) }
 
   return (
     <div className='game-navbar'>
@@ -30,10 +25,10 @@ const Navbar = () => {
               </h3>
           
               {
-                showSound && <SoundBtn url={`sounds/words/${wordState.word}.mp3`} />  
+                wordState.showSound && <SoundBtn url={`sounds/words/${wordState.word}.mp3`} />  
               }
               {
-              !showSound && <button className='ios-btn' onClick={toggleSound}>
+                !wordState.showSound && <button className='ios-btn' onClick={showSoundHint}>
                 +聲音提示
               </button>
               }  

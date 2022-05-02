@@ -13,6 +13,7 @@ export function useWord() {
 
 // Initial Word State
 const initialWordState = {
+    showSound: false,
     word: '',
     pos: '',
     tag: '',
@@ -23,7 +24,8 @@ const initialWordState = {
 // Actions Constant
 const ACTIONS = {
     LOAD_WORD: 'load-word',
-    SET_LOADING: 'set-loading'
+    SET_LOADING: 'set-loading',
+    SHOW_SOUND: 'show-sound'
 }
 
 // Word Reducer
@@ -43,8 +45,14 @@ const reducer = (state, action) => {
                 word: '',
                 pos: '',
                 tag: '',
-                loading: true
-            }
+                loading: true,
+                showSound: false,
+            };
+        case ACTIONS.SHOW_SOUND:
+            return {
+                ...state,
+                showSound: true
+            };
         default:
             return state;
     }
@@ -61,8 +69,13 @@ export function WordProvider({children}) {
         dispatch({ type: ACTIONS.SET_LOADING })
     }
 
+    // show sound
+    const showSoundHint = () => {
+        dispatch({ type: ACTIONS.SHOW_SOUND })
+    }
+
     // word context values
-    const value = { wordState, setLoading }
+    const value = { wordState, setLoading, showSoundHint }
 
     // Fetch the word in context 
     useEffect(() => {
@@ -76,10 +89,7 @@ export function WordProvider({children}) {
 
     return (
         <WordContext.Provider value={value} >
-            {
-            
-                    children  
-            }
+            {children}
         </WordContext.Provider>
     )
 }
