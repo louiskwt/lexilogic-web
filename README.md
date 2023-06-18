@@ -1,19 +1,19 @@
 # HKDSE Wordle
 
-Wordle HKDSE version
+Wordle (HKDSE version)
+Rebuilding... Stay tuned
 
 ## Description
 
-This game is developed for my beloved students who are preparing for the HKDSE.
-
-It's built by React, NodeJS, and MongoDB
-
-##
-[Click here to play](http://www.hkdsewordle.com/)
+一款為香港 DSE 考生設計的詞彙學習遊戲
+A Wordle clone designed for HKDSE students to exapnd their vocabulary
 
 ## Next Step
-In the future, I'd like to turn it into a mobile app and improve the UI
 
+從 6 月 18 日起，這項目會進入重建階段，預計 8 月底會重新上線
+
+As of June 18, 2023, this project will enter the stage of rebuild, and will be available by the end of August
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
