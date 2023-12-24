@@ -1,20 +1,18 @@
-# HKDSE Wordle 📖
+# HK Study Break 📖
 
-Wordle (HKDSE version)
+2024 重新開始 ⋯ 敬請期待！
+這個計畫的目標是為香港的學生打造幾款超棒的遊戲（字謎、拼字遊戲、記憶遊戲）
 
 Rebuilding... Stay tuned
+This project sets out to build several games (wordles, spelling game, memory game) for students in Hong Kong
 
 ## Description 📚
 
-一款為香港 DSE 考生設計的詞彙學習遊戲
+這個平台是為那些感到壓力山大的學生們所開發的，他們可以在玩遊戲的同時放鬆壓力，同時強化學習。
 
-A Wordle clone designed for HKDSE students to exapnd their vocabulary
+This platform is developed for all the studetns who are feeling an overwhelming amount of pressure and take a study break while playing games that can reinforce their learning.
 
 ## Next Step 🛠
-
-從 6 月 18 日起，這項目會進入重建階段，預計 8 月底會重新上線
-
-As of June 18, 2023, this project will enter the stage of rebuild, and will be available by the end of August
 
 ## License 📝
 
