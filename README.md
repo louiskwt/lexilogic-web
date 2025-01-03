@@ -1,19 +1,50 @@
-# HK Study Break 📖
+# React + TypeScript + Vite
 
-2025 重新開始 ⋯ 敬請期待！
-這個計畫的目標是為香港的學生打造幾款超棒的遊戲（字謎、拼字遊戲、記憶遊戲）
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Rebuilding... Stay tuned
-This project sets out to build several games (wordles, spelling game, memory game) for students in Hong Kong
+Currently, two official plugins are available:
 
-## Description 📚
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-這個平台是為那些感到壓力山大的學生們所開發的，他們可以在玩遊戲的同時放鬆壓力，同時強化學習。
+## Expanding the ESLint configuration
 
-This platform is developed for all the studetns who are feeling an overwhelming amount of pressure and take a study break while playing games that can reinforce their learning.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-## Next Step 🛠
+- Configure the top-level `parserOptions` property like this:
 
-## License 📝
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-[MIT](https://choosealicense.com/licenses/mit/)
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
