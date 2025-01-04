@@ -4,7 +4,7 @@ import Keyboard from "../components/Keyboard";
 import Square from "../components/Square";
 
 const Wordle = () => {
-  const [rows, setRows] = useState<string[] | unknown[]>(Array.from({length: 6}).fill([" ", " ", " ", " ", " "]));
+  const [rows, setRows] = useState<string[][]>(Array.from({length: 6}).map(() => Array(5).fill(" ")));
   return (
     <>
       <Navbar />
