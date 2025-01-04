@@ -1,3 +1,5 @@
+import {Link} from "react-router";
+
 interface IGame {
   name: string;
   desc: string;
@@ -32,7 +34,9 @@ function App() {
             <div className="p-4">
               <h2 className="text-2xl font-bold mb-2">{game.name}</h2>
               <p className="text-gray-400 mb-4">{game.desc}</p>
-              <button className="bg-lime-800 hover:bg-lime-600 rounded-md border-2 text-white font-bold py-2 px-4 ">Play</button>
+              <Link className="bg-lime-800 hover:bg-lime-600 rounded-md border-2 text-white font-bold py-2 px-4 " to={`/${game.name.toLowerCase()}`}>
+                Play
+              </Link>
             </div>
           </div>
         ))}
