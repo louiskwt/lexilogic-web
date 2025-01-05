@@ -26,7 +26,7 @@ function App() {
   ];
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">Let's Play Some Games</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center">Let's Play and Learn</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {games.map((game, key) => (
