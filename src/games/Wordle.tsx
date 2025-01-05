@@ -17,7 +17,6 @@ const Wordle = () => {
           </div>
         ))}
       </div>
-
       <Keyboard />
     </>
   );
