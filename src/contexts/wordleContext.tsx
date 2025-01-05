@@ -1,4 +1,4 @@
-import {createContext, FC, ReactNode, useState} from "react";
+import {createContext, FC, ReactNode, useContext, useState} from "react";
 
 export type WordleContextValue = {
   rows: string[][];
@@ -11,7 +11,13 @@ export type WordleContextValue = {
 
 const WordleContext = createContext<WordleContextValue | undefined>(undefined);
 
-const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
+export const useWordleContext = () => {
+  const context = useContext(WordleContext);
+  if (context === undefined) throw new Error("useWordleContext must be used withint a WordlerProvder");
+  return context;
+};
+
+export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [rows, setRows] = useState<string[][]>(Array.from({length: 6}).map(() => Array(5).fill(" ")));
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
@@ -55,5 +61,3 @@ const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     </WordleContext.Provider>
   );
 };
-
-export default WordleProvider;
