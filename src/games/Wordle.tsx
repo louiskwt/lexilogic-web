@@ -1,7 +1,7 @@
 import Navbar from "../components/GameNav";
 import Keyboard from "../components/Keyboard";
 import Square from "../components/Square";
-import {useWordleContext} from "../contexts/WordleContext";
+import {useWordleContext} from "../contexts/wordleContext";
 
 const Wordle = () => {
   const {rows, handleKeyPress, handleBackspace, handleEnter} = useWordleContext();
