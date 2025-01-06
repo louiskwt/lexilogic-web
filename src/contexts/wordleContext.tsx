@@ -1,4 +1,5 @@
-import {createContext, FC, ReactNode, useContext, useState} from "react";
+import {createContext, FC, ReactNode, useContext, useEffect, useState} from "react";
+import supabase from "../supabaseClient";
 
 export type WordleContextValue = {
   rows: string[][];
@@ -19,8 +20,22 @@ export const useWordleContext = () => {
 
 export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [rows, setRows] = useState<string[][]>(Array.from({length: 6}).map(() => Array(5).fill(" ")));
+  const [word, setWord] = useState<string>("words");
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchRandomWord = async () => {
+      const {data, error} = await supabase.from("words").select("word").order("id").limit(1);
+      if (error) {
+        console.error("Error fetching word: ", error);
+      } else if (data) {
+        console.log(data);
+        setWord(data[0].word);
+      }
+    };
+    fetchRandomWord();
+  });
 
   const handleKeyPress = (key: string) => {
     if (currentCol < 5) {
@@ -32,6 +47,10 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   };
 
   const handleEnter = () => {
+    if (currentCol !== 4) {
+      alert("Not enough letters");
+      return;
+    }
     if (currentRow < 6) {
       setCurrentRow(currentRow + 1);
       setCurrentCol(0);
