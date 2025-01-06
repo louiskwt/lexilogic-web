@@ -1,4 +1,4 @@
-import {createContext, FC, ReactNode, useContext, useEffect, useState} from "react";
+import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
 
 export type WordleContextValue = {
@@ -26,6 +26,45 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
   const [correctLetters, setCorrectLetters] = useState<string[]>([]);
 
+  const handleKeyPress = useCallback(
+    (key: string) => {
+      if (currentCol < 5) {
+        const newRows = [...rows];
+        newRows[currentRow][currentCol] = key;
+        setRows(newRows);
+        setCurrentCol(currentCol + 1);
+      }
+    },
+    [rows, currentCol, currentRow]
+  );
+
+  const handleChecking = (guess: string) => {
+    return guess === word;
+  };
+
+  const handleEnter = useCallback(() => {
+    if (currentCol < 4) {
+      alert("Not enough letters");
+      return;
+    }
+
+    if (currentRow < 6) {
+      const guess = rows[currentRow].join("");
+
+      setCurrentRow(currentRow + 1);
+      setCurrentCol(0);
+    }
+  }, [currentRow, currentCol, rows]);
+
+  const handleBackspace = useCallback(() => {
+    if (currentCol > 0) {
+      const newRows = [...rows];
+      newRows[currentRow][currentCol - 1] = " ";
+      setRows(newRows);
+      setCurrentCol(currentCol - 1);
+    }
+  }, [currentCol, rows, currentRow]);
+
   useEffect(() => {
     const fetchRandomWord = async () => {
       const {data, error} = await supabase.from("words").select("word").order("id").limit(1);
@@ -39,41 +78,25 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     fetchRandomWord();
   }, []);
 
-  const handleKeyPress = (key: string) => {
-    if (currentCol < 5) {
-      const newRows = [...rows];
-      newRows[currentRow][currentCol] = key;
-      setRows(newRows);
-      setCurrentCol(currentCol + 1);
-    }
-  };
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Backspace") {
+        handleBackspace();
+      }
+      if (e.key === "Enter") {
+        handleEnter();
+      }
+      if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)) {
+        handleKeyPress(e.key);
+      }
 
-  const handleChecking = (guess: string) => {
-    return guess === word;
-  };
-
-  const handleEnter = () => {
-    if (currentCol < 4) {
-      alert("Not enough letters");
-      return;
-    }
-
-    if (currentRow < 6) {
-      const guess = rows[currentRow].join("");
-
-      setCurrentRow(currentRow + 1);
-      setCurrentCol(0);
-    }
-  };
-
-  const handleBackspace = () => {
-    if (currentCol > 0) {
-      const newRows = [...rows];
-      newRows[currentRow][currentCol - 1] = " ";
-      setRows(newRows);
-      setCurrentCol(currentCol - 1);
-    }
-  };
+      console.log(e.key);
+    };
+    window.addEventListener("keydown", handler, false);
+    return () => {
+      window.removeEventListener("keydown", handler);
+    };
+  }, [handleBackspace, handleEnter, handleKeyPress]);
 
   return (
     <WordleContext.Provider
