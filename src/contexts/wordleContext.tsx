@@ -23,6 +23,8 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [word, setWord] = useState<string>("words");
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
+  const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
+  const [correctLetters, setCorrectLetters] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchRandomWord = async () => {
@@ -35,7 +37,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       }
     };
     fetchRandomWord();
-  });
+  }, []);
 
   const handleKeyPress = (key: string) => {
     if (currentCol < 5) {
@@ -46,12 +48,19 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     }
   };
 
+  const handleChecking = (guess: string) => {
+    return guess === word;
+  };
+
   const handleEnter = () => {
-    if (currentCol !== 4) {
+    if (currentCol < 4) {
       alert("Not enough letters");
       return;
     }
+
     if (currentRow < 6) {
+      const guess = rows[currentRow].join("");
+
       setCurrentRow(currentRow + 1);
       setCurrentCol(0);
     }
