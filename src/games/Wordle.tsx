@@ -1,10 +1,10 @@
-import {useState} from "react";
 import Navbar from "../components/GameNav";
 import Keyboard from "../components/Keyboard";
 import Square from "../components/Square";
+import {useWordleContext} from "../contexts/WordleContext";
 
 const Wordle = () => {
-  const [rows, setRows] = useState<string[][]>(Array.from({length: 6}).map(() => Array(5).fill(" ")));
+  const {rows} = useWordleContext();
   return (
     <>
       <Navbar />
