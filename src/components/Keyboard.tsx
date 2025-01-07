@@ -3,12 +3,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {BaseSyntheticEvent} from "react";
 
 interface IKeyboardProps {
+  misplacedLetters: string[];
+  correctLetters: string[];
   handleEnter: () => void;
   handleBackSpace: () => void;
   handleKeyPress: (key: string) => void;
 }
 
-const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress}: IKeyboardProps) => {
+const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress, misplacedLetters, correctLetters}: IKeyboardProps) => {
   const topRow: string[] = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const middleRow: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
   const bottomRow: string[] = ["Back", "X", "Z", "C", "V", "B", "N", "M", "Enter"];
@@ -19,7 +21,7 @@ const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress}: IKeyboardProps
           {topRow.map((key, index) => (
             <button
               key={index}
-              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md flex-1`}
+              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md flex-1 ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-gray-700 text-white"}`}
               onClick={(e: BaseSyntheticEvent) => {
                 handleKeyPress(e.target.innerText);
               }}>
@@ -31,7 +33,7 @@ const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress}: IKeyboardProps
           {middleRow.map((key, index) => (
             <button
               key={index}
-              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md flex-1`}
+              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md flex-1 ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-gray-700 text-white"}`}
               onClick={(e: BaseSyntheticEvent) => {
                 handleKeyPress(e.target.innerText);
               }}>
@@ -43,7 +45,7 @@ const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress}: IKeyboardProps
           {bottomRow.map((key, index) => (
             <button
               key={index}
-              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md  ${key === "Back" || key === "Enter" ? "flex-1 flex-grow" : "flex-1"}`}
+              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md  ${key === "Back" || key === "Enter" ? "flex-1 flex-grow" : "flex-1"} ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-gray-700 text-white"}`}
               onClick={(e: BaseSyntheticEvent) => {
                 const innerText = e.target.innerText;
                 if (key !== "Back" && key !== "Enter") return handleKeyPress(innerText);
