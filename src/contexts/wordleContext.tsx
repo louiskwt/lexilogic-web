@@ -89,7 +89,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       return;
     }
 
-    if (currentRow < 5) {
+    if (currentRow <= 5) {
       const guess = rows[currentRow].map((col) => col.character);
       const isCorrect = handleChecking(guess);
       if (isCorrect) {
