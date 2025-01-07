@@ -26,6 +26,11 @@ function App() {
   ];
   return (
     <div className="container mx-auto py-8">
+      <header className="flex justify-center mb-8">
+        <div className="relative w-20 h-20 rounded-full overflow-hidden">
+          <img src="/logo512.png" alt="Logo" className="object-fill w-full h-full" />
+        </div>
+      </header>
       <h1 className="text-4xl font-bold mb-8 text-center">Lexi Game - Let's play and learn</h1>
 
       <div className="flex flex-col space-y-5 px-8">
