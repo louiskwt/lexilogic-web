@@ -89,15 +89,18 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       return;
     }
 
-    if (currentRow <= 5) {
-      const guess = rows[currentRow].map((col) => col.character);
-      const isCorrect = handleChecking(guess);
-      if (isCorrect) {
-        alert("You win");
-      } else {
-        setCurrentRow(currentRow + 1);
-        setCurrentCol(0);
-      }
+    const guess = rows[currentRow].map((col) => col.character);
+    const isCorrect = handleChecking(guess);
+
+    if (!isCorrect && currentRow === 5) {
+      alert(`Game over, the word is ${word}`);
+    }
+
+    if (isCorrect) {
+      alert("You win");
+    } else {
+      setCurrentRow(currentRow + 1);
+      setCurrentCol(0);
     }
   }, [currentRow, currentCol, rows, handleChecking]);
 
