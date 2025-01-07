@@ -21,7 +21,7 @@ const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress, misplacedLetter
           {topRow.map((key, index) => (
             <button
               key={index}
-              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md flex-1 ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-gray-700 text-white"}`}
+              className={`hover:bg-gray-700 font-medium py-3 px-2 rounded-md flex-1 ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-zinc-600 text-white"}`}
               onClick={(e: BaseSyntheticEvent) => {
                 handleKeyPress(e.target.innerText);
               }}>
@@ -33,7 +33,7 @@ const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress, misplacedLetter
           {middleRow.map((key, index) => (
             <button
               key={index}
-              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md flex-1 ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-gray-700 text-white"}`}
+              className={` hover:bg-gray-700  font-medium py-3 px-2 rounded-md flex-1 ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-zinc-600 text-white"}`}
               onClick={(e: BaseSyntheticEvent) => {
                 handleKeyPress(e.target.innerText);
               }}>
@@ -45,7 +45,7 @@ const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress, misplacedLetter
           {bottomRow.map((key, index) => (
             <button
               key={index}
-              className={`bg-zinc-600 hover:bg-gray-700 text-white font-medium py-3 px-2 rounded-md  ${key === "Back" || key === "Enter" ? "flex-1 flex-grow" : "flex-1"} ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-gray-700 text-white"}`}
+              className={` hover:bg-gray-700 font-medium py-3 px-2 rounded-md  ${key === "Back" || key === "Enter" ? "flex-1 flex-grow" : "flex-1"} ${correctLetters.includes(key) ? "bg-green-500 text-white" : misplacedLetters.includes(key) ? "bg-yellow-500 text-white" : "bg-zinc-600 text-white"}`}
               onClick={(e: BaseSyntheticEvent) => {
                 const innerText = e.target.innerText;
                 if (key !== "Back" && key !== "Enter") return handleKeyPress(innerText);
