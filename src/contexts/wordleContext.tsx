@@ -1,10 +1,18 @@
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
 
+interface ISquare {
+  character: string;
+  correct: boolean;
+  misplaced: boolean;
+}
+
 export type WordleContextValue = {
-  rows: string[][];
+  rows: ISquare[][];
   currentRow: number;
   currentCol: number;
+  misplacedLetters: string[];
+  correctLetters: string[];
   handleKeyPress: (key: string) => void;
   handleEnter: () => void;
   handleBackspace: () => void;
@@ -19,7 +27,15 @@ export const useWordleContext = () => {
 };
 
 export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
-  const [rows, setRows] = useState<string[][]>(Array.from({length: 6}).map(() => Array(5).fill(" ")));
+  const [rows, setRows] = useState<ISquare[][]>(
+    Array.from({length: 6}).map(() =>
+      Array(5).fill({
+        character: " ",
+        correct: false,
+        misplaced: false,
+      })
+    )
+  );
   const [word, setWord] = useState<string>("words");
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
@@ -30,7 +46,11 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     (key: string) => {
       if (currentCol < 5) {
         const newRows = [...rows];
-        newRows[currentRow][currentCol] = key;
+        newRows[currentRow][currentCol] = {
+          character: key.toUpperCase(),
+          correct: false,
+          misplaced: false,
+        };
         setRows(newRows);
         setCurrentCol(currentCol + 1);
       }
@@ -38,9 +58,30 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     [rows, currentCol, currentRow]
   );
 
-  const handleChecking = (guess: string) => {
-    return guess === word;
-  };
+  const handleChecking = useCallback(
+    (guess: string[]) => {
+      const misplaced: string[] = [];
+      const correct: string[] = [];
+      const newRows = [...rows];
+
+      for (let i = 0; i < guess.length; i++) {
+        if (guess[i] === word[i]) {
+          correct.push(guess[i]);
+          newRows[currentRow][i].correct = true;
+        } else if (word.includes(guess[i])) {
+          misplaced.push(guess[i]);
+          newRows[currentRow][i].misplaced = true;
+        }
+      }
+
+      setMisplacedLetters(misplaced);
+      setCorrectLetters(correct);
+      setRows(newRows);
+
+      return guess.join("") === word;
+    },
+    [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word]
+  );
 
   const handleEnter = useCallback(() => {
     if (currentCol < 4) {
@@ -48,18 +89,22 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       return;
     }
 
-    if (currentRow < 6) {
-      const guess = rows[currentRow].join("");
-
-      setCurrentRow(currentRow + 1);
-      setCurrentCol(0);
+    if (currentRow < 5) {
+      const guess = rows[currentRow].map((col) => col.character);
+      const isCorrect = handleChecking(guess);
+      if (isCorrect) {
+        alert("You win");
+      } else {
+        setCurrentRow(currentRow + 1);
+        setCurrentCol(0);
+      }
     }
-  }, [currentRow, currentCol, rows]);
+  }, [currentRow, currentCol, rows, handleChecking]);
 
   const handleBackspace = useCallback(() => {
     if (currentCol > 0) {
       const newRows = [...rows];
-      newRows[currentRow][currentCol - 1] = " ";
+      newRows[currentRow][currentCol - 1].character = " ";
       setRows(newRows);
       setCurrentCol(currentCol - 1);
     }
@@ -72,7 +117,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         console.error("Error fetching word: ", error);
       } else if (data) {
         console.log(data);
-        setWord(data[0].word);
+        setWord(data[0].word.toUpperCase());
       }
     };
     fetchRandomWord();
@@ -104,6 +149,8 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         rows,
         currentRow,
         currentCol,
+        correctLetters,
+        misplacedLetters,
         handleKeyPress,
         handleEnter,
         handleBackspace,
