@@ -51,7 +51,7 @@ const Navbar = () => {
     <>
       <nav className="bg-zinc-800 text-white py-4 px-6 flex items-center justify-between">
         <div
-          className="flex items-center"
+          className="flex items-center cursor-pointer"
           onClick={() => {
             setIsModalOpen(true);
             setModalType("language");
