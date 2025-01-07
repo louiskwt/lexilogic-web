@@ -1,4 +1,6 @@
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
+import GameOverDisplay from "../components/GameOverDisplay";
+import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
 
 interface ISquare {
@@ -41,6 +43,9 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
   const [correctLetters, setCorrectLetters] = useState<string[]>([]);
+  const [isGameOverModalOpen, setIsGameOverModalOpen] = useState<boolean>(false);
+  const [gameOverTitle, setGameOverTitle] = useState<string>("");
+  const [gameOverMessage, setGameOverMessage] = useState<string>("");
 
   const handleKeyPress = useCallback(
     (key: string) => {
@@ -83,6 +88,10 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word]
   );
 
+  const handleNextGame = () => {
+    window.location.reload();
+  };
+
   const handleEnter = useCallback(() => {
     if (currentCol < 4) {
       alert("Not enough letters");
@@ -93,11 +102,19 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     const isCorrect = handleChecking(guess);
 
     if (!isCorrect && currentRow === 5) {
-      alert(`Game over, the word is ${word}`);
+      setTimeout(() => {
+        setGameOverTitle("OH NO : ( Game Over");
+        setGameOverMessage(`答案是 ${word}! 下次加油啊～`);
+        setIsGameOverModalOpen(true);
+      }, 1000);
     }
 
     if (isCorrect) {
-      alert("You win");
+      setTimeout(() => {
+        setGameOverTitle("OH NO : ( Game Over");
+        setGameOverMessage(`你猜對了 好厲害啊👍～`);
+        setIsGameOverModalOpen(true);
+      }, 1000);
     } else {
       setCurrentRow(currentRow + 1);
       setCurrentCol(0);
@@ -156,6 +173,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} handleNewGame={handleNextGame} />} />
     </WordleContext.Provider>
   );
 };
