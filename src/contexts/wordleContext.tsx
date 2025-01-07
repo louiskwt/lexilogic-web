@@ -134,8 +134,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)) {
         handleKeyPress(e.key);
       }
-
-      console.log(e.key);
     };
     window.addEventListener("keydown", handler, false);
     return () => {
