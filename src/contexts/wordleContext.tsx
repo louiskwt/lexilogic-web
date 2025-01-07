@@ -38,7 +38,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       })
     )
   );
-  const [word, setWord] = useState<string>("words");
+  const [word, setWord] = useState<string>("");
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
@@ -65,8 +65,8 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const handleChecking = useCallback(
     (guess: string[]) => {
-      const misplaced: string[] = [];
-      const correct: string[] = [];
+      const misplaced: string[] = [...misplacedLetters];
+      const correct: string[] = [...correctLetters];
       const newRows = [...rows];
 
       for (let i = 0; i < guess.length; i++) {
@@ -88,9 +88,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word]
   );
 
-  const handleNextGame = () => {
-    window.location.reload();
-  };
+  const handleNextGame = () => window.location.reload();
 
   const handleEnter = useCallback(() => {
     if (currentCol < 4) {
