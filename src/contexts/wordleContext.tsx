@@ -112,12 +112,11 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
   useEffect(() => {
     const fetchRandomWord = async () => {
-      const {data, error} = await supabase.from("words").select("word").order("id").limit(1);
+      const {data, error} = await supabase.from("random_wordle_words").select("word, pos, meaning").limit(1).single();
       if (error) {
         console.error("Error fetching word: ", error);
       } else if (data) {
-        console.log(data);
-        setWord(data[0].word.toUpperCase());
+        setWord(data.word.toUpperCase());
       }
     };
     fetchRandomWord();
