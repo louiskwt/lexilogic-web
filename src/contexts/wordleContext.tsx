@@ -15,6 +15,7 @@ export type WordleContextValue = {
   currentCol: number;
   misplacedLetters: string[];
   correctLetters: string[];
+  wrongLetters: string[];
   handleKeyPress: (key: string) => void;
   handleEnter: () => void;
   handleBackspace: () => void;
@@ -43,6 +44,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
   const [correctLetters, setCorrectLetters] = useState<string[]>([]);
+  const [wrongLetters, setWrongLetters] = useState<string[]>([]);
   const [isGameOverModalOpen, setIsGameOverModalOpen] = useState<boolean>(false);
   const [gameOverTitle, setGameOverTitle] = useState<string>("");
   const [gameOverMessage, setGameOverMessage] = useState<string>("");
@@ -67,6 +69,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     (guess: string[]) => {
       const misplaced: string[] = [...misplacedLetters];
       const correct: string[] = [...correctLetters];
+      const wrong: string[] = [...wrongLetters];
       const newRows = [...rows];
 
       for (let i = 0; i < guess.length; i++) {
@@ -76,11 +79,13 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         } else if (word.includes(guess[i])) {
           misplaced.push(guess[i]);
           newRows[currentRow][i].misplaced = true;
+        } else {
+          wrong.push(guess[i]);
         }
       }
-
       setMisplacedLetters(misplaced);
       setCorrectLetters(correct);
+      setWrongLetters(wrong);
       setRows(newRows);
 
       return guess.join("") === word;
@@ -142,15 +147,10 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Backspace") {
-        handleBackspace();
-      }
-      if (e.key === "Enter") {
-        handleEnter();
-      }
-      if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)) {
-        handleKeyPress(e.key);
-      }
+      if (e.key === "Backspace") handleBackspace();
+
+      if (e.key === "Enter") handleEnter();
+      if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)) handleKeyPress(e.key);
     };
     window.addEventListener("keydown", handler, false);
     return () => {
@@ -166,6 +166,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         currentCol,
         correctLetters,
         misplacedLetters,
+        wrongLetters,
         handleKeyPress,
         handleEnter,
         handleBackspace,
