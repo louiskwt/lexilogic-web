@@ -106,7 +106,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
     if (!isCorrect && currentRow === 5) {
       setTimeout(() => {
-        setGameOverTitle("OH NO : ( Game Over");
+        setGameOverTitle("Oh Noo : ( Game Over");
         setGameOverMessage(`答案是 ${word}! 下次加油啊～`);
         setIsGameOverModalOpen(true);
       }, 1000);
@@ -114,7 +114,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
     if (isCorrect) {
       setTimeout(() => {
-        setGameOverTitle("OH NO : ( Game Over");
+        setGameOverTitle("Yay! Correct!");
         setGameOverMessage(`你猜對了 好厲害啊👍～`);
         setIsGameOverModalOpen(true);
       }, 1000);
