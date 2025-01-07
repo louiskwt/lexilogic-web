@@ -4,7 +4,7 @@ import Square from "../components/Square";
 import {useWordleContext} from "../contexts/wordleContext";
 
 const Wordle = () => {
-  const {rows, handleKeyPress, handleBackspace, handleEnter, misplacedLetters, correctLetters} = useWordleContext();
+  const {rows, handleKeyPress, handleBackspace, handleEnter, misplacedLetters, correctLetters, wrongLetters} = useWordleContext();
   return (
     <>
       <Navbar />
@@ -17,7 +17,7 @@ const Wordle = () => {
           </div>
         ))}
       </div>
-      <Keyboard handleKeyPress={handleKeyPress} handleEnter={handleEnter} handleBackSpace={handleBackspace} correctLetters={correctLetters} misplacedLetters={misplacedLetters} />
+      <Keyboard handleKeyPress={handleKeyPress} handleEnter={handleEnter} handleBackSpace={handleBackspace} correctLetters={correctLetters} misplacedLetters={misplacedLetters} wrongLetters={wrongLetters} />
     </>
   );
 };
