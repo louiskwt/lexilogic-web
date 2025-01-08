@@ -2,12 +2,19 @@ import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useSta
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
+import {findVowels} from "../utils";
 
 interface ISquare {
   character: string;
   correct: boolean;
   misplaced: boolean;
 }
+
+export type WordHint = {
+  meaning: string;
+  pos: string;
+  vowels: string[];
+};
 
 export type WordleContextValue = {
   rows: ISquare[][];
@@ -16,6 +23,7 @@ export type WordleContextValue = {
   misplacedLetters: string[];
   correctLetters: string[];
   wrongLetters: string[];
+  wordHint: WordHint;
   handleKeyPress: (key: string) => void;
   handleEnter: () => void;
   handleBackspace: () => void;
@@ -48,6 +56,11 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isGameOverModalOpen, setIsGameOverModalOpen] = useState<boolean>(false);
   const [gameOverTitle, setGameOverTitle] = useState<string>("");
   const [gameOverMessage, setGameOverMessage] = useState<string>("");
+  const [wordHint, setWordHint] = useState<WordHint>({
+    meaning: "",
+    pos: "",
+    vowels: [],
+  });
 
   const handleKeyPress = useCallback(
     (key: string) => {
@@ -140,6 +153,12 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         console.error("Error fetching word: ", error);
       } else if (data) {
         setWord(data.word.toUpperCase());
+        console.log(data);
+        setWordHint({
+          meaning: data.meaning,
+          pos: data.pos,
+          vowels: findVowels(data.word),
+        });
       }
     };
     fetchRandomWord();
@@ -167,6 +186,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         correctLetters,
         misplacedLetters,
         wrongLetters,
+        wordHint,
         handleKeyPress,
         handleEnter,
         handleBackspace,

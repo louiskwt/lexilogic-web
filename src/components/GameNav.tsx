@@ -1,16 +1,23 @@
-import {faChartSimple, faCircleQuestion, faGear} from "@fortawesome/free-solid-svg-icons";
+import {faChartSimple, faCircleQuestion, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactNode, useState} from "react";
+import {WordHint} from "../contexts/WordleContext";
 import Modal from "./Modal";
 
-const Navbar = () => {
+interface INavbarProps {
+  wordHint: WordHint;
+}
+
+const Navbar = ({wordHint}: INavbarProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<"en-US" | "en-UK">("en-US");
-  const [modalType, setModalType] = useState<"language" | "rules">("rules");
+  const [modalType, setModalType] = useState<"language" | "rules" | "hints">("rules");
   const handleLanguageChange = (newLanguage: "en-US" | "en-UK") => {
     setLanguage(newLanguage);
     // Implement any additional logic to update the app's language
   };
+
+  const {meaning, pos, vowels} = wordHint;
 
   const renderRules = (): ReactNode => (
     <>
@@ -42,9 +49,29 @@ const Navbar = () => {
     </>
   );
 
+  const renderHints = (): ReactNode => (
+    <>
+      <h3 className="text-xl font-bold mb-2">Hints</h3>
+      <p className="text-xl mb-4 font-semibold">
+        意思： {meaning} ({pos})
+      </p>
+      <hr />
+
+      <div className="flex space-x-4 mt-8 ">
+        <h4>Vowels</h4>
+        <p>
+          {vowels.map((v, key) => (
+            <span key={key}>{v}, </span>
+          ))}
+        </p>
+      </div>
+    </>
+  );
+
   const modalContent = {
     rules: renderRules(),
     language: renderLanguage(),
+    hints: renderHints(),
   };
 
   return (
@@ -61,13 +88,18 @@ const Navbar = () => {
         </div>
         <div className="flex items-center">
           <div className="mr-4">
-            <button className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded">
-              <FontAwesomeIcon icon={faChartSimple} size="lg" />
+            <button
+              className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded"
+              onClick={() => {
+                setIsModalOpen(true);
+                setModalType("hints");
+              }}>
+              <FontAwesomeIcon icon={faLightbulb} size="lg" />
             </button>
           </div>
           <div className="mr-4">
             <button className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded">
-              <FontAwesomeIcon icon={faGear} size="lg" />
+              <FontAwesomeIcon icon={faChartSimple} size="lg" />
             </button>
           </div>
           <div>
