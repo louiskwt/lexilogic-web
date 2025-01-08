@@ -24,6 +24,7 @@ export type WordleContextValue = {
   correctLetters: string[];
   wrongLetters: string[];
   wordHint: WordHint;
+  isFetchingWord: boolean;
   handleKeyPress: (key: string) => void;
   handleEnter: () => void;
   handleBackspace: () => void;
@@ -56,6 +57,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isGameOverModalOpen, setIsGameOverModalOpen] = useState<boolean>(false);
   const [gameOverTitle, setGameOverTitle] = useState<string>("");
   const [gameOverMessage, setGameOverMessage] = useState<string>("");
+  const [isFetchingWord, setIsFetchingWord] = useState<boolean>(true);
   const [wordHint, setWordHint] = useState<WordHint>({
     meaning: "",
     pos: "",
@@ -159,6 +161,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
           pos: data.pos,
           vowels: findVowels(data.word),
         });
+        setIsFetchingWord(false);
       }
     };
     fetchRandomWord();
@@ -187,6 +190,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         misplacedLetters,
         wrongLetters,
         wordHint,
+        isFetchingWord,
         handleKeyPress,
         handleEnter,
         handleBackspace,
