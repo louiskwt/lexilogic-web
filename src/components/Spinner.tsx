@@ -5,7 +5,7 @@ interface LoadingSpinnerProps {
   color?: "primary" | "secondary" | "white";
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({size = "md", color = "primary"}) => {
+const Spinner: React.FC<LoadingSpinnerProps> = ({size = "md", color = "primary"}) => {
   const sizeClass = {
     sm: "w-6 h-6",
     md: "w-8 h-8",
@@ -13,7 +13,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({size = "md", color = "pr
   };
 
   const colorClass = {
-    primary: "border-blue-500",
+    primary: "border-zinc-300",
     secondary: "border-gray-500",
     white: "border-white",
   };
@@ -25,4 +25,4 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({size = "md", color = "pr
   );
 };
 
-export default LoadingSpinner;
+export default Spinner;
