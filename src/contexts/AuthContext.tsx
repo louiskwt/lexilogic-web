@@ -42,13 +42,13 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   }, []);
 
   const signInWithGoogle = async () => {
-    await supabase.auth.signIn({
+    await supabase.auth.signInWithOAuth({
       provider: "google",
     });
   };
 
   const signInWithEmail = async (email: string, password: string) => {
-    await supabase.auth.signIn({
+    await supabase.auth.signInWithPassword({
       email,
       password,
     });
