@@ -8,7 +8,7 @@ interface ISignInProps {
 
 const SignIn = ({isLoginModal, toggleModal}: ISignInProps) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="bg-zinc-800 rounded-lg p-6 shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4">{isLoginModal ? "Login" : "Signup"}</h2>
         <div className="flex flex-col space-y-4">
