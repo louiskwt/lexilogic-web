@@ -16,8 +16,13 @@ const SignIn = ({isLoginModal, toggleModal}: ISignInProps) => {
             <FontAwesomeIcon className="mr-2" icon={faGoogle} />
             Sign in with Google
           </button>
-          <input type="email" placeholder="Email" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
-          <input type="password" placeholder="Password" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
+          <div className="flex items-center my-4">
+            <div className="flex-grow border-t border-gray-400"></div>
+            <span className="flex-shrink mx-4 text-gray-400">OR</span>
+            <div className="flex-grow border-t border-gray-400"></div>
+          </div>
+          <input type="email" placeholder="Email" autoComplete="off" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
+          <input type="password" placeholder="Password" autoComplete="off" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
           <button className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4">{isLoginModal ? "Login" : "Signup"}</button>
           <button onClick={toggleModal} className="text-gray-400 hover:text-gray-200 font-medium">
             {isLoginModal ? "Don't have an account? Sign up" : "Already have an account? Login"}
