@@ -1,5 +1,5 @@
 import {Session, User} from "@supabase/supabase-js";
-import {createContext, ReactNode, useEffect, useState} from "react";
+import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
 
 type AuthContextType = {
@@ -19,6 +19,12 @@ export const AuthContext = createContext<AuthContextType>({
   signInWithEmail: async (email, password) => {},
   signOut: async () => {},
 });
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) throw new Error("useWordleContext must be used withint a WordlerProvder");
+  return context;
+};
 
 export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<User | null>(null);
