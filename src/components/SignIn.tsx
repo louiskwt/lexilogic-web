@@ -1,18 +1,27 @@
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useAuthContext} from "../contexts/AuthContext";
 
 interface ISignInProps {
   isLoginModal: boolean;
   toggleModal: () => void;
+  closeModal: () => void;
 }
 
-const SignIn = ({isLoginModal, toggleModal}: ISignInProps) => {
+const SignIn = ({isLoginModal, toggleModal, closeModal}: ISignInProps) => {
+  const {signInWithGoogle} = useAuthContext();
+
+  const handleGoogleSignIn = async () => {
+    await signInWithGoogle();
+    closeModal();
+  };
+
   return (
     <div className="flex items-center justify-center">
       <div className="bg-zinc-800 rounded-lg p-6 shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4">{isLoginModal ? "Login" : "Signup"}</h2>
         <div className="flex flex-col space-y-4">
-          <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md flex items-center justify-center">
+          <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md flex items-center justify-center" onClick={handleGoogleSignIn}>
             <FontAwesomeIcon className="mr-2" icon={faGoogle} />
             Sign in with Google
           </button>
