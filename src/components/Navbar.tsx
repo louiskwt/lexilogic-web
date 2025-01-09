@@ -7,7 +7,6 @@ const Navbar = () => {
   const [isLoginModal, setIsLoginModal] = useState(true);
 
   const toggleModal = () => {
-    setShowModal(!showModal);
     setIsLoginModal(!isLoginModal);
   };
 
