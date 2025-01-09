@@ -1,4 +1,5 @@
 import {Link} from "react-router";
+import Navbar from "./components/Navbar";
 
 interface IGame {
   name: string;
@@ -26,6 +27,7 @@ function App() {
   ];
   return (
     <div className="container mx-auto py-8">
+      <Navbar />
       <header className="flex justify-center mb-8">
         <div className="relative w-20 h-20 rounded-full overflow-hidden">
           <img src="/logo512.png" alt="Logo" className="object-fill w-full h-full" />
