@@ -1,5 +1,6 @@
 import {Session, User} from "@supabase/supabase-js";
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
+import SetupProfileModal from "../components/SetupProfileModal";
 import supabase from "../supabaseClient";
 
 type AuthContextType = {
@@ -30,16 +31,31 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isProfileSetUpModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({data: {session}}) => {
+    supabase.auth.getSession().then(async ({data: {session}}) => {
       setSession(session);
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+
+      // Check if the user has a profile set up
+      if (session?.user) {
+        const {data, error} = await supabase.from("profiles").select("*").eq("id", session.user.id);
+        if (error) {
+          console.error("Error fetching user profile:", error);
+        } else if (data.length === 0) {
+          // User has no profile set up, open the profile setup modal
+          setIsProfileModalOpen(true);
+        }
+      }
     });
 
     const {
       data: {subscription},
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      setUser(session?.user ?? null);
     });
 
     return () => subscription.unsubscribe();
@@ -62,6 +78,8 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
     await supabase.auth.signOut();
   };
 
+  const closeModal = () => setIsProfileModalOpen(false);
+
   return (
     <AuthContext.Provider
       value={{
@@ -73,6 +91,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
         signOut,
       }}>
       {children}
+      <SetupProfileModal user={user} isOpen={isProfileSetUpModalOpen} onClose={closeModal} />
     </AuthContext.Provider>
   );
 };
