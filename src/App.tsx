@@ -8,14 +8,7 @@ interface IGame {
 
 function App() {
   const games: IGame[] = [
-    {
-      name: "Speller",
-      desc: "Spell the word based on meaning",
-    },
-    {
-      name: "Voice Speller",
-      desc: "Listen and spell the word",
-    },
+    {name: "Dictator", desc: "Can you spell out the name pronounced by the dictator"},
     {
       name: "Phraser",
       desc: "Guess a phrase based on meaning",
