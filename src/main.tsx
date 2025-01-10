@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import App from "./App.tsx";
 import {AuthProvider} from "./contexts/AuthContext.tsx";
 import {WordleProvider} from "./contexts/WordleContext.tsx";
+import Dictator from "./games/Dictator.tsx";
 import Wordle from "./games/Wordle.tsx";
 import "./index.css";
 
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")!).render(
               </WordleProvider>
             }
           />
+          <Route path="/dictator" element={<Dictator />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
