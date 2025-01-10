@@ -53,13 +53,10 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
       // Check if the user has a profile set up
       if (session?.user) {
         const {data, error} = await supabase.from("profiles").select("*").eq("id", session.user.id);
-        console.log(data);
-
         if (error) {
           console.error("Error fetching user profile:", error);
         } else if (data.length === 0) {
           // User has no profile set up, open the profile setup modal
-          console.log(data);
           setIsProfileModalOpen(true);
         } else {
           setUserProfile(data[0]);
