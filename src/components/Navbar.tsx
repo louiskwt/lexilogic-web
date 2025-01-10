@@ -34,7 +34,7 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
-      <Modal onClose={closeModal} isOpen={showModal} children={<SignIn isLoginModal={isLoginModal} toggleModal={toggleModal} />} />
+      <Modal onClose={closeModal} isOpen={showModal} children={<SignIn isLoginModal={isLoginModal} toggleModal={toggleModal} closeModal={closeModal} />} />
     </>
   );
 };
