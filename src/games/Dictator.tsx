@@ -26,9 +26,9 @@ const DictatorGame: React.FC = () => {
     setIsCorrect(false);
   };
 
-  const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const input = event.target.value.toLowerCase();
-    setUserInput(input);
+    setUserInput([...userInput.split(""), input].join(""));
 
     if (input === currentWord?.word.toLowerCase()) {
       setIsCorrect(true);
