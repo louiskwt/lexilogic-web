@@ -7,7 +7,7 @@ interface IWord {
   audio: string;
 }
 
-const Dictator = () => {
+const DictatorGame: React.FC = () => {
   const [currentWord, setCurrentWord] = useState<IWord | null>(null);
   const [userInput, setUserInput] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
@@ -49,8 +49,11 @@ const Dictator = () => {
       <h1 className="text-4xl font-bold mb-8">Dictator</h1>
       {currentWord ? (
         <div className="flex flex-col items-center">
-          <div className="text-4xl font-bold mb-4">{currentWord.word.split("").map((letter, index) => (userInput.length > index && userInput[index] === letter.toLowerCase() ? letter : "_"))}</div>
-          <input type="text" value={userInput} onChange={handleUserInput} className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600 mb-4 text-2xl" />
+          <div className="text-4xl font-bold mb-4">
+            {currentWord.word.split("").map((_, index) => (
+              <input key={index} type="text" value={userInput[index] || ""} onChange={handleUserInput} className={`bg-transparent border-b-2 mr-5 border-gray-400 focus:border-lime-600 focus:outline-none w-8 text-center text-4xl ${userInput[index] === currentWord.word[index].toLowerCase() ? "text-green-500" : "text-white"}`} />
+            ))}
+          </div>
           <button onClick={playAudio} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 flex items-center">
             <FontAwesomeIcon icon={faVolumeUp} className="mr-2" />
             Play Audio
@@ -66,4 +69,4 @@ const Dictator = () => {
   );
 };
 
-export default Dictator;
+export default DictatorGame;
