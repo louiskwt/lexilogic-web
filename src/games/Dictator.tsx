@@ -51,7 +51,7 @@ const DictatorGame: React.FC = () => {
         <div className="flex flex-col items-center">
           <div className="text-4xl font-bold mb-4">
             {currentWord.word.split("").map((_, index) => (
-              <input key={index} type="text" value={userInput[index] || ""} onChange={(e) => handleUserInput(e, index)} className={`bg-transparent border-b-2 mr-5 border-gray-400 focus:border-lime-600 focus:outline-none w-8 text-center text-4xl ${userInput[index] === currentWord.word[index].toLowerCase() ? "text-green-500" : "text-white"}`} />
+              <input key={index} type="text" value={userInput[index] || ""} onChange={(e) => handleUserInput(e, index)} className={`bg-transparent border-b-2 mr-5 border-gray-400 focus:border-lime-600 focus:outline-none w-16 h-16 text-center text-4xl ${userInput[index] === currentWord.word[index].toLowerCase() ? "text-green-500" : "text-white"}`} />
             ))}
           </div>
           <button onClick={playAudio} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 flex items-center">
