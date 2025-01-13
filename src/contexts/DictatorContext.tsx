@@ -37,7 +37,8 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const handleDelete = (event: KeyboardEvent, index: number) => {
     if (event.key === "Backspace") {
       const updatedInput = [...userInput];
-      setUserInput(updatedInput.slice(index, 0).join(""));
+      updatedInput.splice(index, 1);
+      setUserInput(updatedInput.join(""));
     }
   };
 
