@@ -10,7 +10,8 @@ export type DictatorContextValue = {
   userInput: string;
   isCorrect: boolean;
   startGame: () => void;
-  handleUserInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleUserInput: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
+  handleDelete: (event: React.KeyboardEvent, index: number) => void;
   playAudio: () => void;
 };
 
@@ -28,16 +29,31 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isCorrect, setIsCorrect] = useState(false);
 
   const startGame = () => {
-    setCurrentWord(null);
+    setCurrentWord({word: "serious", audio: "/serious.mp3"});
     setUserInput("");
     setIsCorrect(false);
   };
 
-  const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = event.target.value.toLowerCase();
-    setUserInput(input);
+  const handleDelete = (event: KeyboardEvent, index: number) => {
+    if (event.key === "Backspace") {
+      const updatedInput = [...userInput];
+      setUserInput(updatedInput.slice(index, 0).join(""));
+    }
+  };
 
-    if (input === currentWord?.word.toLowerCase()) {
+  const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const updatedWordArr = [...userInput];
+    const input = event.target.value.toLowerCase();
+    if (updatedWordArr[index]) {
+      updatedWordArr[index] = input;
+    } else {
+      updatedWordArr.push(input);
+    }
+
+    const updatedWord = updatedWordArr.join("");
+    setUserInput(updatedWord);
+
+    if (updatedWord === currentWord?.word.toLowerCase()) {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
@@ -51,5 +67,5 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     }
   };
 
-  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, startGame, handleUserInput, playAudio}}>{children}</DictatorContext.Provider>;
+  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, startGame, handleUserInput, handleDelete, playAudio}}>{children}</DictatorContext.Provider>;
 };
