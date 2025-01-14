@@ -1,4 +1,4 @@
-import Navbar from "../components/GameNav";
+import GameNav from "../components/GameNav";
 import Keyboard from "../components/Keyboard";
 import Spinner from "../components/Spinner";
 import Square from "../components/Square";
@@ -8,7 +8,7 @@ const Wordle = () => {
   const {rows, handleKeyPress, handleBackspace, handleEnter, misplacedLetters, correctLetters, wrongLetters, wordHint, isFetchingWord} = useWordleContext();
   return (
     <>
-      <Navbar wordHint={wordHint} />
+      <GameNav wordHint={wordHint} />
       {isFetchingWord ? (
         <Spinner size="lg" />
       ) : (
