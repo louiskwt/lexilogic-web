@@ -92,7 +92,12 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   };
 
   const checkAns = () => {
-    if (userInput.join("").toLowerCase() === currentWord?.word.toLowerCase()) {
+    if (
+      userInput
+        .map(({character}) => character)
+        .join("")
+        .toLowerCase() === currentWord?.word.toLowerCase()
+    ) {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
