@@ -18,18 +18,18 @@ const DictatorGame: React.FC = () => {
             ))}
           </div>
           <div className="text-4xl font-bold mb-4 flex justify-center">
-            {userInput.map((val, index) => (
+            {userInput.map(({character, correct}, index) => (
               <input
                 key={index}
                 ref={inputRefsArray[index]}
                 type="text"
-                value={val}
+                value={character}
                 maxLength={1}
                 onClick={() => setCurrentIndex(index)}
                 onChange={(e) => {
                   handleUserInput(e, index);
                 }}
-                className={`bg-transparent border-b-2 mr-2 md:mr-5 border-gray-400 focus:border-lime-600 focus:outline-none w-8 md:w-12 md:h-12 text-center text-4xl ${userInput[index] === currentWord.word[index].toLowerCase() ? "text-green-500" : "text-white"}`}
+                className={`bg-transparent border-b-2 mr-2 md:mr-5 border-gray-400 focus:border-lime-600 focus:outline-none w-8 md:w-12 md:h-12 text-center text-4xl ${correct ? "text-green-500" : "text-white"}`}
               />
             ))}
           </div>
@@ -37,6 +37,13 @@ const DictatorGame: React.FC = () => {
             <FontAwesomeIcon icon={faVolumeUp} className="mr-2" />
             Play Audio
           </button>
+          {userInput.every((i) => i.character !== "") && (
+            <button onClick={playAudio} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 flex items-center mt-8">
+              <FontAwesomeIcon icon={faVolumeUp} className="mr-2" />
+              Check Answer
+            </button>
+          )}
+
           {isCorrect && <div className="text-green-500 font-bold mt-4">Correct!</div>}
         </div>
       ) : (

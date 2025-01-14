@@ -5,9 +5,14 @@ interface IWord {
   audio: string;
 }
 
+interface IUserInput {
+  character: string;
+  correct: boolean;
+}
+
 export type DictatorContextValue = {
   currentWord: IWord | null;
-  userInput: string[];
+  userInput: IUserInput[];
   isCorrect: boolean;
   currentIndex: number;
   inputRefsArray: React.RefObject<HTMLInputElement>[];
@@ -28,7 +33,12 @@ export const useDictatorContext = () => {
 
 export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentWord, setCurrentWord] = useState<IWord | null>(null);
-  const [userInput, setUserInput] = useState<string[]>([""]);
+  const [userInput, setUserInput] = useState<IUserInput[]>([
+    {
+      character: "",
+      correct: false,
+    },
+  ]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [tries, setTries] = useState<number>(5);
   // create a array of refs
@@ -41,7 +51,12 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     const word = {word: "serious", audio: "/serious.mp3"};
     setCurrentWord(word);
     if (word) {
-      const inputs = word.word.split("").map((c) => "");
+      const inputs = word.word.split("").map((_) => {
+        return {
+          character: "",
+          correct: false,
+        };
+      });
       setUserInput(inputs);
     }
     setIsCorrect(false);
@@ -55,19 +70,13 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const inputValue = event.target.value;
     const updatedInput = [...userInput];
-    if (updatedInput[index] === "" && currentIndex + 1 !== currentWord?.word.length) {
+    if (updatedInput[index].character === "" && currentIndex + 1 !== currentWord?.word.length) {
       inputRefsArray[currentIndex + 1].current?.focus();
       setCurrentIndex(currentIndex + 1);
     }
 
-    updatedInput[index] = inputValue;
+    updatedInput[index].character = inputValue;
     setUserInput(updatedInput);
-
-    if (updatedInput.join("") === currentWord?.word.toLowerCase()) {
-      setIsCorrect(true);
-    } else {
-      setIsCorrect(false);
-    }
   };
 
   const playAudio = () => {
