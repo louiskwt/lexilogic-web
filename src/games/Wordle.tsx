@@ -8,7 +8,21 @@ const Wordle = () => {
   const {rows, handleKeyPress, handleBackspace, handleEnter, misplacedLetters, correctLetters, wrongLetters, wordHint, isFetchingWord} = useWordleContext();
   return (
     <>
-      <GameNav wordHint={wordHint} />
+      <GameNav
+        wordHint={wordHint}
+        rules={{
+          title: "Wordle 玩法",
+          message: (
+            <>
+              {" "}
+              你要喺六次機會之內猜出隱藏嘅英文字。
+              <br /> <br />
+              每次輸入一個字後,系統會顯示唔同嘅顏色提示你點樣修正。綠色代表字母位置正確,黃色代表字母無錯但位置唔對,灰色就代表呢個字母完全唔係隱藏字。加油!
+            </>
+          ),
+          description: "快啲同朋友一齊玩啦!考考你嘅英文水平。既好玩又可以提升你嘅英文能力,仲唔快啲嚟試吓?",
+        }}
+      />
       {isFetchingWord ? (
         <Spinner size="lg" />
       ) : (
