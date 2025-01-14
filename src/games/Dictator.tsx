@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useDictatorContext} from "../contexts/DictatorContext";
 
 const DictatorGame: React.FC = () => {
-  const {currentWord, userInput, isCorrect, inputRefsArray, currentIndex, handleUserInput, setCurrentIndex, playAudio, startGame} = useDictatorContext();
+  const {currentWord, userInput, isCorrect, inputRefsArray, handleUserInput, setCurrentIndex, playAudio, startGame} = useDictatorContext();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
