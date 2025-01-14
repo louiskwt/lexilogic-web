@@ -1,16 +1,22 @@
 // DictatorGame.tsx
-import {faVolumeUp} from "@fortawesome/free-solid-svg-icons";
+import {faHeart, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useDictatorContext} from "../contexts/DictatorContext";
 
 const DictatorGame: React.FC = () => {
-  const {currentWord, userInput, isCorrect, inputRefsArray, handleUserInput, setCurrentIndex, playAudio, startGame} = useDictatorContext();
+  const {currentWord, userInput, isCorrect, inputRefsArray, tries, handleUserInput, setCurrentIndex, playAudio, startGame} = useDictatorContext();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-4xl font-bold mb-8">Dictator</h1>
+
       {currentWord ? (
         <div className="flex flex-col items-center justify-center">
+          <div className="border-b-2 flex justify-items-center space-x-2">
+            {Array.from({length: tries}).map((_, index) => (
+              <FontAwesomeIcon icon={faHeart} key={index} size="lg" color="lime" />
+            ))}
+          </div>
           <div className="text-4xl font-bold mb-4 flex justify-center">
             {userInput.map((val, index) => (
               <input
