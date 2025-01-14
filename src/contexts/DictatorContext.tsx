@@ -7,13 +7,12 @@ interface IWord {
 
 export type DictatorContextValue = {
   currentWord: IWord | null;
-  userInput: string;
+  userInput: string[];
   isCorrect: boolean;
   currentIndex: number;
   inputRefsArray: React.RefObject<HTMLInputElement>[];
   startGame: () => void;
   handleUserInput: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
-  handleDelete: (event: React.KeyboardEvent, index: number) => void;
   playAudio: () => void;
   setCurrentIndex: (n: number) => void;
 };
@@ -28,7 +27,7 @@ export const useDictatorContext = () => {
 
 export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentWord, setCurrentWord] = useState<IWord | null>(null);
-  const [userInput, setUserInput] = useState<string[]>([]);
+  const [userInput, setUserInput] = useState<string[]>([""]);
   const [isCorrect, setIsCorrect] = useState(false);
   // create a array of refs
   const [inputRefsArray, setInputRefsArray] = useState<React.RefObject<HTMLInputElement>[]>([]);
@@ -37,8 +36,12 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const startGame = () => {
-    setCurrentWord({word: "serious", audio: "/serious.mp3"});
-    setUserInput(Array.from(currentWord?.word.length).map(() => ""));
+    const word = {word: "serious", audio: "/serious.mp3"};
+    setCurrentWord(word);
+    if (word) {
+      const inputs = word.word.split("").map((c) => "");
+      setUserInput(inputs);
+    }
     setIsCorrect(false);
   };
 
@@ -48,12 +51,15 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   }, [currentWord]);
 
   const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const updatedInput = userInput;
-    const input = event.target.value.toLowerCase();
-    updatedInput[index] = input;
+    const inputValue = event.target.value;
+    const updatedInput = [...userInput];
+    if (updatedInput[index] === "" && currentIndex + 1 !== currentWord?.word.length) {
+      inputRefsArray[currentIndex + 1].current?.focus();
+      setCurrentIndex(currentIndex + 1);
+    }
 
+    updatedInput[index] = inputValue;
     setUserInput(updatedInput);
-    setCurrentIndex(currentIndex + 1);
 
     if (updatedInput.join("") === currentWord?.word.toLowerCase()) {
       setIsCorrect(true);
@@ -67,6 +73,10 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
       const audio = new Audio(currentWord.audio);
       audio.play();
     }
+    if (inputRefsArray[0]) {
+      inputRefsArray[currentIndex].current?.focus();
+    }
+    return;
   };
 
   return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, startGame, handleUserInput, setCurrentIndex, inputRefsArray, playAudio}}>{children}</DictatorContext.Provider>;
