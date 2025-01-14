@@ -18,7 +18,42 @@ const DictatorGame: React.FC = () => {
 
   return (
     <>
-      <GameNav wordHint={{meaning: "", pos: "Noun", vowels: ["a"]}} />
+      <GameNav
+        wordHint={{meaning: "", pos: "Noun", vowels: ["a"]}}
+        rules={{
+          title: "Dictator 遊戲玩法",
+          description: "Dictator 遊戲是一個有趣且充滿挑戰的方式,可以測試和提升你的英文拼寫技能。快邀請你的朋友一起玩,看看誰能成為終極「Dictator」!",
+          message: (
+            <>
+              <h3 className="text-xl font-bold mb-2">遊戲的玩法:</h3>
+              <ol className="list-decimal pl-6 text-xl font-semibold mb-4">
+                <li>
+                  <strong>聆聽單字發音</strong>:遊戲開始時,你可以點擊「播放音訊」按鈕來聽隱藏單字的發音。
+                </li>
+                <li>
+                  <strong>猜測單字</strong>:你有 5 次機會來猜這個單字。一次輸入一個字母到提供的輸入欄位中。
+                </li>
+                <li>
+                  <strong>獲得視覺提示</strong>:每次猜測後,字母會以不同顏色高亮顯示,以指示它們的狀態:
+                  <ul className="list-disc pl-6 text-lg mb-2">
+                    <li>綠色:字母位置正確。</li>
+                    <li>紅色:字母位置不正確</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>檢查你的答案</strong>:一旦你填完整個單字,點擊「檢查答案」按鈕來查看是否猜對。
+                </li>
+                <li>
+                  <strong>繼續嘗試</strong>:如果你的猜測不正確,你將失去一顆心。繼續嘗試,直到你猜對單字或用完所有機會。
+                </li>
+                <li>
+                  <strong>再次遊玩</strong>:如果你成功猜出單字,你會看到「正確!」的訊息。點擊「下一個挑戰」按鈕開始新一輪遊戲。
+                </li>
+              </ol>
+            </>
+          ),
+        }}
+      />
       <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
         <h1 className="text-4xl font-bold mb-8">Dictator</h1>
         {currentWord ? (
