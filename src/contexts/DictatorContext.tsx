@@ -17,6 +17,7 @@ export type DictatorContextValue = {
   currentIndex: number;
   inputRefsArray: React.RefObject<HTMLInputElement>[];
   tries: number;
+  isGameOver: boolean;
   startGame: () => void;
   handleUserInput: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   playAudio: () => void;
@@ -42,6 +43,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   ]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [tries, setTries] = useState<number>(5);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
   // create a array of refs
   const [inputRefsArray, setInputRefsArray] = useState<React.RefObject<HTMLInputElement>[]>([]);
 
@@ -61,6 +63,8 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
       setUserInput(inputs);
     }
     setIsCorrect(false);
+    setIsGameOver(false);
+    setTries(5);
   };
 
   useEffect(() => {
@@ -101,6 +105,11 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
+      if (tries - 1 === 0) {
+        setIsGameOver(true);
+        return;
+      }
+
       setTries(tries - 1);
       const checkedInput = [...userInput].map((input, index) => {
         const {character} = input;
@@ -118,5 +127,5 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     }
   };
 
-  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio}}>{children}</DictatorContext.Provider>;
+  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, isGameOver, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio}}>{children}</DictatorContext.Provider>;
 };
