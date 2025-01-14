@@ -14,10 +14,28 @@ const Wordle = () => {
           title: "Wordle 玩法",
           message: (
             <>
-              {" "}
-              你要喺六次機會之內猜出隱藏嘅英文字。
-              <br /> <br />
-              每次輸入一個字後,系統會顯示唔同嘅顏色提示你點樣修正。綠色代表字母位置正確,黃色代表字母無錯但位置唔對,灰色就代表呢個字母完全唔係隱藏字。加油!
+              <ol className="list-decimal pl-6 text-xl font-semibold mb-4">
+                <li>
+                  <strong>輸入猜測</strong>：你有六次機會來猜這個單字。一次輸入一個完整的英文單字。
+                </li>
+                <li>
+                  <strong>獲得提示</strong>：每次輸入後，系統會以不同顏色標示每個字母的狀態:
+                  <ul className="list-disc pl-6 text-lg mb-2">
+                    <li>綠色：字母位置正確。</li>
+                    <li>黃色：字母在單字中，但位置不對。</li>
+                    <li>灰色：字母不在單字中。</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>修正答案</strong>：根據系統提供的提示，你可以修正你的下一個猜測。
+                </li>
+                <li>
+                  <strong>猜對單字</strong>：如果你在六次機會內猜出正確的單字，你就獲勝了。
+                </li>
+                <li>
+                  <strong>再次遊玩</strong>：當你猜對單字後，你可以點擊「下一個挑戰」開始新的一輪遊戲。
+                </li>
+              </ol>
             </>
           ),
           description: "快啲同朋友一齊玩啦!考考你嘅英文水平。既好玩又可以提升你嘅英文能力,仲唔快啲嚟試吓?",
