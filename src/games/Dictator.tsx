@@ -25,8 +25,8 @@ const DictatorGame: React.FC = () => {
           description: "Dictator 遊戲是一個有趣且充滿挑戰的方式,可以測試和提升你的英文拼寫技能。快邀請你的朋友一起玩,看看誰能成為終極「Dictator」!",
           message: (
             <>
-              <h3 className="text-xl font-bold mb-2">遊戲的玩法:</h3>
               <ol className="list-decimal pl-6 text-xl font-semibold mb-4">
+                <li>按 Start Game 展開遊戲</li>
                 <li>
                   <strong>聆聽單字發音</strong>:遊戲開始時,你可以點擊「播放音訊」按鈕來聽隱藏單字的發音。
                 </li>
