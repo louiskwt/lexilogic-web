@@ -10,16 +10,16 @@ const DictatorGame: React.FC = () => {
   return (
     <>
       <GameNav wordHint={{meaning: "", pos: "Noun", vowels: ["a"]}} />
-      <div className="flex flex-col items-center justify-center h-screen overflow-hidden">
+      <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
         <h1 className="text-4xl font-bold mb-8">Dictator</h1>
         {currentWord ? (
           <div className="flex flex-col items-center justify-center">
             <div className="border-b-2 flex justify-items-center space-x-2">
               {Array.from({length: tries}).map((_, index) => (
-                <FontAwesomeIcon icon={faHeart} key={index} size="lg" color="lime" />
+                <FontAwesomeIcon icon={faHeart} key={index} size="2x" color="lime" />
               ))}
             </div>
-            <div className="text-4xl font-bold mb-4 flex justify-center mt-6">
+            <div className="text-4xl font-bold mb-4 flex justify-center mt-6 space-x-3">
               {userInput.map(({character, correct}, index) => (
                 <input
                   key={index}
@@ -31,7 +31,7 @@ const DictatorGame: React.FC = () => {
                   onChange={(e) => {
                     handleUserInput(e, index);
                   }}
-                  className={`bg-transparent border-b-2 mr-2 md:mr-5 border-gray-400 focus:border-lime-600 focus:outline-none w-8 md:w-12 md:h-12 text-center text-4xl ${correct ? "text-green-500" : tries === 5 || character === "" ? "text-white" : "text-red-500"}`}
+                  className={`bg-transparent border-b-2 border-gray-400 focus:border-lime-600 focus:outline-none w-8 md:w-12 md:h-12 text-center text-4xl ${correct ? "text-green-500" : tries === 5 || character === "" ? "text-white" : "text-red-500"}`}
                 />
               ))}
             </div>
