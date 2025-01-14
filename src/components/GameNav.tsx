@@ -8,7 +8,7 @@ interface INavbarProps {
   wordHint: WordHint;
 }
 
-const Navbar = ({wordHint}: INavbarProps) => {
+const GameNav = ({wordHint}: INavbarProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<"en-US" | "en-UK">("en-US");
   const [modalType, setModalType] = useState<"language" | "rules" | "hints">("rules");
@@ -127,4 +127,4 @@ const Navbar = ({wordHint}: INavbarProps) => {
   );
 };
 
-export default Navbar;
+export default GameNav;
