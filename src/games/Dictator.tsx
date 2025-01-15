@@ -6,7 +6,7 @@ import GameOverDisplay from "../components/GameOverDisplay";
 import {useDictatorContext} from "../contexts/DictatorContext";
 
 const DictatorGame: React.FC = () => {
-  const {currentWord, userInput, isCorrect, inputRefsArray, tries, isGameOver, handleUserInput, setCurrentIndex, playAudio, startGame, checkAns} = useDictatorContext();
+  const {currentWord, userInput, isCorrect, inputRefsArray, tries, isGameOver, wordHint, handleUserInput, setCurrentIndex, playAudio, startGame, checkAns} = useDictatorContext();
 
   if (isGameOver) {
     return (
@@ -19,7 +19,7 @@ const DictatorGame: React.FC = () => {
   return (
     <>
       <GameNav
-        wordHint={{meaning: "", pos: "Noun", vowels: ["a"]}}
+        wordHint={wordHint}
         rules={{
           title: "Dictator 遊戲玩法",
           description: "Dictator 遊戲是一個有趣且充滿挑戰的方式,可以測試和提升你的英文拼寫技能。快邀請你的朋友一起玩,看看誰能成為終極「Dictator」!",
