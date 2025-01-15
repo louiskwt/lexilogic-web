@@ -1,4 +1,5 @@
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
+import supabase from "../supabaseClient";
 
 interface IWord {
   word: string;
@@ -50,11 +51,31 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const startGame = () => {
-    const word = {word: "serious", audio: "/serious.mp3"};
-    setCurrentWord(word);
-    if (word) {
-      const inputs = word.word.split("").map((_) => {
+  const fetchDictationWord = async (): IWord => {
+    try {
+      const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, audio").limit(1).single();
+
+      if (error) throw error;
+
+      console.log(data);
+      return data;
+    } catch (err) {
+      const word = {word: "serious", audio: "/serious.mp3"};
+      console.error(err);
+      return word;
+    }
+  };
+
+  const startGame = async () => {
+    const wordData = await fetchDictationWord();
+
+    setCurrentWord({
+      word: wordData.word,
+      audio: wordData.audio,
+    });
+
+    if (wordData) {
+      const inputs = wordData.word.split("").map((_) => {
         return {
           character: "",
           correct: false,
