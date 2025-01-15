@@ -1,10 +1,14 @@
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
+import {findVowels} from "../utils";
+import {WordHint} from "./WordleContext";
 
 interface IWord {
   word: string;
   audio: string;
 }
+
+type WordData = IWord & {pos: string; meaning: string};
 
 interface IUserInput {
   character: string;
@@ -19,6 +23,7 @@ export type DictatorContextValue = {
   inputRefsArray: React.RefObject<HTMLInputElement>[];
   tries: number;
   isGameOver: boolean;
+  wordHint: WordHint;
   startGame: () => void;
   handleUserInput: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   playAudio: () => void;
@@ -36,6 +41,11 @@ export const useDictatorContext = () => {
 
 export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentWord, setCurrentWord] = useState<IWord | null>(null);
+  const [wordHint, setWordHint] = useState<WordHint>({
+    meaning: "",
+    pos: "",
+    vowels: [],
+  });
   const [userInput, setUserInput] = useState<IUserInput[]>([
     {
       character: "",
@@ -51,29 +61,25 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const fetchDictationWord = async (): Promise<IWord> => {
+  const fetchDictationWord = async (): Promise<WordData | null> => {
     try {
       const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, audio").limit(1).single();
-
       if (error) throw error;
-
       return data;
     } catch (err) {
-      const word = {word: "serious", audio: "/serious.mp3"};
       console.error(err);
-      return word;
+      return null;
     }
   };
 
   const startGame = async () => {
     const wordData = await fetchDictationWord();
-
-    setCurrentWord({
-      word: wordData.word,
-      audio: wordData.audio,
-    });
-
     if (wordData) {
+      setCurrentWord({
+        word: wordData.word,
+        audio: wordData.audio,
+      });
+
       const inputs = wordData.word.split("").map((_) => {
         return {
           character: "",
@@ -81,6 +87,11 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         };
       });
       setUserInput(inputs);
+      setWordHint({
+        meaning: wordData.meaning,
+        pos: wordData.pos,
+        vowels: findVowels(wordData.word),
+      });
     }
     setIsCorrect(false);
     setIsGameOver(false);
@@ -148,5 +159,5 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     }
   };
 
-  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, isGameOver, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio}}>{children}</DictatorContext.Provider>;
+  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, wordHint, isGameOver, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio}}>{children}</DictatorContext.Provider>;
 };
