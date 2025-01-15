@@ -51,7 +51,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const fetchDictationWord = async (): IWord => {
+  const fetchDictationWord = async (): Promise<IWord> => {
     try {
       const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, audio").limit(1).single();
 
