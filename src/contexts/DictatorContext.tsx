@@ -57,7 +57,6 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
 
       if (error) throw error;
 
-      console.log(data);
       return data;
     } catch (err) {
       const word = {word: "serious", audio: "/serious.mp3"};
@@ -86,6 +85,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     setIsCorrect(false);
     setIsGameOver(false);
     setTries(5);
+    setCurrentIndex(0);
   };
 
   useEffect(() => {
