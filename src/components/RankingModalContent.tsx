@@ -3,7 +3,7 @@ import {useAuthContext} from "../contexts/AuthContext";
 import supabase from "../supabaseClient";
 
 const RankingModalContent = () => {
-  const {profile} = useAuthContext();
+  const {profile, openLoginModal} = useAuthContext();
   const [weeklyXP, setWeeklyXP] = useState(0);
 
   useEffect(() => {
@@ -27,7 +27,9 @@ const RankingModalContent = () => {
       {!profile ? (
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Please log in to view the rankings</h2>
-          <button className="bg-lime-600 hover:bg-lime-800 text-white font-bold py-2 px-4 rounded">Log In</button>
+          <button className="bg-lime-600 hover:bg-lime-800 text-white font-bold py-2 px-4 rounded" onClick={openLoginModal}>
+            Log In
+          </button>
         </div>
       ) : (
         <>
