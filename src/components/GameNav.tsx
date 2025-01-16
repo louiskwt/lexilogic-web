@@ -5,6 +5,7 @@ import {WordHint} from "../contexts/WordleContext";
 import HintModalContent from "./HintModalContent";
 import LanguageModalContent from "./LanguageModalContent";
 import Modal from "./Modal";
+import RankingModalContent from "./RankingModalContent";
 import RulesModalContent from "./RulesModalContent";
 
 interface IRules {
@@ -21,7 +22,7 @@ interface INavbarProps {
 const GameNav = ({wordHint, rules}: INavbarProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<"en-US" | "en-UK">("en-US");
-  const [modalType, setModalType] = useState<"language" | "rules" | "hints">("rules");
+  const [modalType, setModalType] = useState<"language" | "rules" | "rankings" | "hints">("rules");
   const handleLanguageChange = (newLanguage: "en-US" | "en-UK") => {
     setLanguage(newLanguage);
     // Implement any additional logic to update the app's language
@@ -31,6 +32,7 @@ const GameNav = ({wordHint, rules}: INavbarProps) => {
     rules: <RulesModalContent title={rules.title} description={rules.description} message={rules.message} />,
     language: <LanguageModalContent language={language} handleLanguageChange={handleLanguageChange} />,
     hints: <HintModalContent meaning={wordHint.meaning} pos={wordHint.pos} vowels={wordHint.vowels} />,
+    rankings: <RankingModalContent />,
   };
 
   return (
@@ -57,7 +59,12 @@ const GameNav = ({wordHint, rules}: INavbarProps) => {
             </button>
           </div>
           <div className="mr-4">
-            <button className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded">
+            <button
+              className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded"
+              onClick={() => {
+                setIsModalOpen(true);
+                setModalType("rankings");
+              }}>
               <FontAwesomeIcon icon={faChartSimple} size="lg" />
             </button>
           </div>
