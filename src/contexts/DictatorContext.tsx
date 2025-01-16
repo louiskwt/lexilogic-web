@@ -24,6 +24,7 @@ export type DictatorContextValue = {
   tries: number;
   isGameOver: boolean;
   wordHint: WordHint;
+  isFetchingWord: boolean;
   startGame: () => void;
   handleUserInput: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   playAudio: () => void;
@@ -57,7 +58,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   // create a array of refs
   const [inputRefsArray, setInputRefsArray] = useState<React.RefObject<HTMLInputElement>[]>([]);
-
+  const [isFetchingWord, setIsFetchingWord] = useState<boolean>(false);
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -73,7 +74,9 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   };
 
   const startGame = async () => {
+    setIsFetchingWord(true);
     const wordData = await fetchDictationWord();
+
     if (wordData) {
       setCurrentWord({
         word: wordData.word,
@@ -92,7 +95,11 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         pos: wordData.pos,
         vowels: findVowels(wordData.word),
       });
+    } else {
+      alert("Something went wrong, please try again");
     }
+
+    setIsFetchingWord(false);
     setIsCorrect(false);
     setIsGameOver(false);
     setTries(5);
@@ -168,5 +175,5 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     }
   };
 
-  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, wordHint, isGameOver, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio}}>{children}</DictatorContext.Provider>;
+  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, wordHint, isGameOver, isFetchingWord, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio}}>{children}</DictatorContext.Provider>;
 };
