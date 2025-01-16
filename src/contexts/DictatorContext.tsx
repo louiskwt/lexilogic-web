@@ -83,7 +83,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         audio: wordData.audio,
       });
 
-      const inputs = wordData.word.split("").map((_) => {
+      const inputs = wordData.word.split("").map(() => {
         return {
           character: "",
           correct: false,
