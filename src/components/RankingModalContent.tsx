@@ -36,25 +36,24 @@ const RankingModalContent = () => {
             <p className="text-xl font-semibold">Your weekly XP:</p>
             <p className="text-4xl font-bold">{weeklyXP}</p>
           </div>
-
-          <div className="border-t border-white pt-4 ranking">
-            <h3 className="text-xl font-bold mb-2">Ranking</h3>
-            {[
-              {rank: 1, name: "Player 1", score: 100},
-              {rank: 2, name: "Player 2", score: 90},
-              {rank: 3, name: "Player 3", score: 80},
-              {rank: 4, name: "Player 4", score: 70},
-              {rank: 5, name: "Player 5", score: 60},
-            ].map((player, index) => (
-              <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">
-                <span>{player.rank}.</span>
-                <span>{player.name}</span>
-                <span>{player.score}</span>
-              </div>
-            ))}
-          </div>
         </>
       )}
+      <div className="border-t border-white pt-4 ranking">
+        <h3 className="text-xl font-bold mb-2">Ranking</h3>
+        {[
+          {rank: 1, name: "Player 1", score: 100},
+          {rank: 2, name: "Player 2", score: 90},
+          {rank: 3, name: "Player 3", score: 80},
+          {rank: 4, name: "Player 4", score: 70},
+          {rank: 5, name: "Player 5", score: 60},
+        ].map((player, index) => (
+          <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">
+            <span>{player.rank}.</span>
+            <span>{player.name}</span>
+            <span>{player.score}</span>
+          </div>
+        ))}
+      </div>
     </>
   );
 };
