@@ -134,6 +134,15 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         .join("")
         .toLowerCase() === currentWord?.word.toLowerCase()
     ) {
+      const updatedInput = [...userInput].map((value) => {
+        return {
+          character: value.character,
+          correct: true,
+        };
+      });
+
+      setUserInput(updatedInput);
+
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
