@@ -3,15 +3,24 @@ import {faCheck, faHeart, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import GameNav from "../components/GameNav";
 import GameOverDisplay from "../components/GameOverDisplay";
+import Spinner from "../components/Spinner";
 import {useDictatorContext} from "../contexts/DictatorContext";
 
 const DictatorGame: React.FC = () => {
-  const {currentWord, userInput, isCorrect, inputRefsArray, tries, isGameOver, wordHint, handleUserInput, setCurrentIndex, playAudio, startGame, checkAns} = useDictatorContext();
+  const {currentWord, userInput, isCorrect, inputRefsArray, tries, isGameOver, wordHint, isFetchingWord, handleUserInput, setCurrentIndex, playAudio, startGame, checkAns} = useDictatorContext();
 
   if (isGameOver) {
     return (
       <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
         <GameOverDisplay message="Try again" title="Oh No" handleNewGame={startGame} />
+      </div>
+    );
+  }
+
+  if (isFetchingWord) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <Spinner size="lg" />
       </div>
     );
   }
