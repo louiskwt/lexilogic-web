@@ -27,7 +27,7 @@ const RankingModalContent = () => {
       {!profile ? (
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Please log in to view the rankings</h2>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Log In</button>
+          <button className="bg-lime-600 hover:bg-lime-800 text-white font-bold py-2 px-4 rounded">Log In</button>
         </div>
       ) : (
         <>
@@ -38,7 +38,7 @@ const RankingModalContent = () => {
           </div>
         </>
       )}
-      <div className="border-t border-white pt-4 ranking">
+      <div className="border-t border-white pt-4 mt-4 ranking">
         <h3 className="text-xl font-bold mb-2">Ranking</h3>
         {[
           {rank: 1, name: "Player 1", score: 100},
@@ -48,8 +48,10 @@ const RankingModalContent = () => {
           {rank: 5, name: "Player 5", score: 60},
         ].map((player, index) => (
           <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">
-            <span>{player.rank}.</span>
-            <span>{player.name}</span>
+            <div className="flex items-center">
+              <span className="mr-2">{player.rank}.</span>
+              <span>{player.name}</span>
+            </div>
             <span>{player.score}</span>
           </div>
         ))}
