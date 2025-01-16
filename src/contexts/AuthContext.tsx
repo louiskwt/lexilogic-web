@@ -1,6 +1,8 @@
 import {Session, User} from "@supabase/supabase-js";
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
+import Modal from "../components/Modal";
 import SetupProfileModal from "../components/SetupProfileModal";
+import SignIn from "../components/SignIn";
 import supabase from "../supabaseClient";
 
 interface UserProfile {
@@ -17,9 +19,14 @@ type AuthContextType = {
   profile: UserProfile | null;
   session: Session | null;
   isLoading: boolean;
+  showModal: boolean;
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  closeModal: () => void;
+  openLoginModal: () => void;
+  openSignUpModal: () => void;
+  toggleModal: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -27,9 +34,14 @@ export const AuthContext = createContext<AuthContextType>({
   session: null,
   isLoading: true,
   profile: null,
+  showModal: false,
   signInWithGoogle: async () => {},
   signInWithEmail: async (email, password) => {},
   signOut: async () => {},
+  closeModal: () => {},
+  openLoginModal: () => {},
+  openSignUpModal: () => {},
+  toggleModal: () => {},
 });
 
 export const useAuthContext = () => {
@@ -44,6 +56,8 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProfileSetUpModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoginModal, setIsLoginModal] = useState(true);
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({data: {session}}) => {
@@ -92,7 +106,23 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
     window.location.reload();
   };
 
-  const closeModal = () => setIsProfileModalOpen(false);
+  const toggleModal = () => {
+    setIsLoginModal(!isLoginModal);
+  };
+
+  const openLoginModal = () => {
+    setShowModal(true);
+    setIsLoginModal(true);
+  };
+
+  const openSignUpModal = () => {
+    setShowModal(true);
+    setIsLoginModal(false);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const closeProfileSetUpModal = () => setIsProfileModalOpen(false);
 
   return (
     <AuthContext.Provider
@@ -104,9 +134,18 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
         signInWithGoogle,
         signInWithEmail,
         signOut,
+        closeModal,
+        showModal,
+        openLoginModal,
+        openSignUpModal,
+        toggleModal,
       }}>
       {children}
-      <SetupProfileModal user={user} isOpen={isProfileSetUpModalOpen} onClose={closeModal} />
+      <Modal onClose={closeModal} isOpen={showModal}>
+        <SignIn isLoginModal={isLoginModal} toggleModal={toggleModal} closeModal={closeModal} />
+      </Modal>
+
+      <SetupProfileModal user={user} isOpen={isProfileSetUpModalOpen} onClose={closeProfileSetUpModal} />
     </AuthContext.Provider>
   );
 };
