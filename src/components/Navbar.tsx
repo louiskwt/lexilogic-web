@@ -1,29 +1,9 @@
 import {useState} from "react";
 import {useAuthContext} from "../contexts/AuthContext";
-import Modal from "./Modal";
-import SignIn from "./SignIn";
 
 const Navbar = () => {
-  const {profile, signOut} = useAuthContext();
-  const [showModal, setShowModal] = useState(false);
-  const [isLoginModal, setIsLoginModal] = useState(true);
+  const {profile, signOut, openLoginModal, openSignUpModal} = useAuthContext();
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const toggleModal = () => {
-    setIsLoginModal(!isLoginModal);
-  };
-
-  const openLoginModal = () => {
-    setShowModal(true);
-    setIsLoginModal(true);
-  };
-
-  const openSignUpModal = () => {
-    setShowModal(true);
-    setIsLoginModal(false);
-  };
-
-  const closeModal = () => setShowModal(false);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -69,7 +49,6 @@ const Navbar = () => {
           </div>
         )}
       </nav>
-      <Modal onClose={closeModal} isOpen={showModal} children={<SignIn isLoginModal={isLoginModal} toggleModal={toggleModal} closeModal={closeModal} />} />
     </>
   );
 };
