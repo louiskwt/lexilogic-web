@@ -64,6 +64,12 @@ const DictatorGame: React.FC = () => {
         }}
       />
       <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
+        {isCorrect && (
+          <>
+            {" "}
+            <div className="animate-drop-bounce text-green-500 font-bold text-4xl my-6">🎉 Correct! 🎉</div>{" "}
+          </>
+        )}
         <h1 className="text-4xl font-bold mb-8">Dictator</h1>
         {currentWord ? (
           <div className="flex flex-col items-center justify-center">
@@ -103,13 +109,12 @@ const DictatorGame: React.FC = () => {
             )}
 
             {isCorrect && (
-              <>
+              <div className="mt-6">
                 {" "}
-                <div className="text-green-500 font-bold mt-4">Correct!</div>{" "}
                 <button onClick={startGame} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4">
                   Next Challenge
                 </button>
-              </>
+              </div>
             )}
           </div>
         ) : (
