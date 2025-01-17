@@ -66,7 +66,7 @@ const Keyboard = ({handleEnter, handleBackSpace, handleKeyPress, misplacedLetter
                 if (key !== "Back" && key !== "Enter") return handleKeyPress(innerText);
                 return key === "Back" ? handleBackSpace() : handleEnter();
               }}>
-              {key === "Back" ? <FontAwesomeIcon icon={faDeleteLeft} /> : key}
+              {key === "Back" ? <FontAwesomeIcon icon={faDeleteLeft} size="lg" /> : key}
             </button>
           ))}
         </div>
