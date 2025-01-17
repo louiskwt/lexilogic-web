@@ -1,6 +1,7 @@
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
-import {findVowels} from "../utils";
+import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
+import {useAuthContext} from "./AuthContext";
 import {WordHint} from "./WordleContext";
 
 interface IWord {
@@ -61,6 +62,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(false);
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
+  const {profile} = useAuthContext();
 
   const fetchDictationWord = async (): Promise<WordData | null> => {
     try {
@@ -123,6 +125,30 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     setUserInput(updatedInput);
   };
 
+  useEffect(() => {
+    console.log(profile);
+    const localProfileData = getLocalProfileData();
+    const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
+    const currentTotalXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.total_xp : 0;
+    const xp = isCorrect ? 3 : isGameOver ? 1 : 0;
+
+    if (isCorrect) {
+      if (profile) {
+        updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
+      } else {
+        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp, date: new Date()});
+      }
+    }
+
+    if (isGameOver) {
+      if (profile) {
+        updateXP(profile.id, currentTotalXP + xp, currentTotalXP + xp);
+      } else {
+        setLocalProfileData({weekly_xp: currentWeeklyXP + 3, total_xp: currentTotalXP + xp, date: new Date()});
+      }
+    }
+  }, [profile, isGameOver, isCorrect]);
+
   const playAudio = () => {
     if (currentWord) {
       const audio = new Audio(currentWord.audio);
@@ -135,21 +161,20 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   };
 
   const checkAns = () => {
-    if (
+    const hasCorrectAns =
       userInput
         .map(({character}) => character)
         .join("")
-        .toLowerCase() === currentWord?.word.toLowerCase()
-    ) {
+        .toLowerCase() === currentWord?.word.toLowerCase();
+
+    if (hasCorrectAns) {
       const updatedInput = [...userInput].map((value) => {
         return {
           character: value.character,
           correct: true,
         };
       });
-
       setUserInput(updatedInput);
-
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
