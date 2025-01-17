@@ -10,7 +10,6 @@ const RankingModalContent = () => {
     const fetchWeeklyXP = async () => {
       if (profile) {
         const {data, error} = await supabase.from("profiles").select("weekly_xp").eq("id", profile?.id).single();
-
         if (error) {
           console.error("Error fetching weekly XP:", error);
         } else {
