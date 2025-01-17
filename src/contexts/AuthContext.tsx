@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import SetupProfileModal from "../components/SetupProfileModal";
 import SignIn from "../components/SignIn";
 import supabase from "../supabaseClient";
+import {ProfileData} from "../utils";
 
 interface UserProfile {
   avatar_url: string;
@@ -16,7 +17,7 @@ interface UserProfile {
 
 type AuthContextType = {
   user: User | null;
-  profile: UserProfile | null;
+  profile: (UserProfile & ProfileData) | null;
   session: Session | null;
   isLoading: boolean;
   showModal: boolean;
