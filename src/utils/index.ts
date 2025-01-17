@@ -3,7 +3,7 @@ import supabase from "../supabaseClient";
 export interface ProfileData {
   weekly_xp: number;
   total_xp: number;
-  date: Date;
+  date?: Date;
 }
 
 export function findVowels(word: string): string[] {
@@ -25,7 +25,7 @@ export function getLocalProfileData(): ProfileData | null {
   return null;
 }
 
-export function setProfileData(data: ProfileData): void {
+export function setLocalProfileData(data: ProfileData): void {
   localStorage.setItem("profileData", JSON.stringify(data));
 }
 
@@ -42,7 +42,7 @@ export async function updateXP(profileId: string, weeklyXP: number, totalXP: num
   const {error} = await supabase.from("profiles").update({weekly_xp: weeklyXP, total_xp: totalXP}).eq("id", profileId);
 
   if (error) {
-    setProfileData({
+    setLocalProfileData({
       weekly_xp: weeklyXP,
       total_xp: totalXP,
       date: new Date(),
