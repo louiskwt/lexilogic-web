@@ -5,6 +5,13 @@ import supabase from "../supabaseClient";
 const RankingModalContent = () => {
   const {profile, openLoginModal} = useAuthContext();
   const [weeklyXP, setWeeklyXP] = useState("-");
+  const [rankingData, setRankingData] = useState([
+    {rank: 1, name: "Player 1", score: 100},
+    {rank: 2, name: "Player 2", score: 90},
+    {rank: 3, name: "Player 3", score: 80},
+    {rank: 4, name: "Player 4", score: 70},
+    {rank: 5, name: "Player 5", score: 60},
+  ]);
 
   useEffect(() => {
     const fetchWeeklyXP = async () => {
@@ -20,6 +27,23 @@ const RankingModalContent = () => {
 
     fetchWeeklyXP();
   }, [profile]);
+
+  useEffect(() => {
+    const fetchRanking = async () => {
+      const {data, error} = await supabase.from("profiles").select("username, weekly_xp").order("weekly_xp", {ascending: false}).limit(5);
+      if (!error) {
+        const rankings = data.map((d, index) => {
+          return {
+            rank: index + 1,
+            name: d.username,
+            score: d.weekly_xp,
+          };
+        });
+        setRankingData(rankings);
+      }
+    };
+    fetchRanking();
+  }, []);
 
   return (
     <>
@@ -42,13 +66,7 @@ const RankingModalContent = () => {
       )}
       <div className="border-t border-white pt-4 mt-4 ranking">
         <h3 className="text-xl font-bold mb-2">Ranking</h3>
-        {[
-          {rank: 1, name: "Player 1", score: 100},
-          {rank: 2, name: "Player 2", score: 90},
-          {rank: 3, name: "Player 3", score: 80},
-          {rank: 4, name: "Player 4", score: 70},
-          {rank: 5, name: "Player 5", score: 60},
-        ].map((player, index) => (
+        {rankingData.map((player, index) => (
           <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">
             <div className="flex items-center">
               <span className="mr-2">{player.rank}.</span>
