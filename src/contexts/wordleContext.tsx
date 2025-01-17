@@ -2,13 +2,16 @@ import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useSta
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
-import {findVowels} from "../utils";
+import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
+import {useAuthContext} from "./AuthContext";
 
 interface ISquare {
   character: string;
   correct: boolean;
   misplaced: boolean;
 }
+
+type GameState = 0 | 1 | null;
 
 export type WordHint = {
   meaning: string;
@@ -58,11 +61,14 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [gameOverTitle, setGameOverTitle] = useState<string>("");
   const [gameOverMessage, setGameOverMessage] = useState<string>("");
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(true);
+  const [gameState, setGameState] = useState<GameState>(null);
   const [wordHint, setWordHint] = useState<WordHint>({
     meaning: "",
     pos: "",
     vowels: [],
   });
+
+  const {profile} = useAuthContext();
 
   const handleKeyPress = useCallback(
     (key: string) => {
@@ -124,6 +130,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         setGameOverTitle("Oh Noo : ( Game Over");
         setGameOverMessage(`答案是 ${word}! 下次加油啊～`);
         setIsGameOverModalOpen(true);
+        setGameState(0);
       }, 1000);
     }
 
@@ -132,6 +139,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         setGameOverTitle("Yay! Correct!");
         setGameOverMessage(`你猜對了 好厲害啊👍～`);
         setIsGameOverModalOpen(true);
+        setGameState(1);
       }, 1000);
     } else {
       setCurrentRow(currentRow + 1);
@@ -179,6 +187,30 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       window.removeEventListener("keydown", handler);
     };
   }, [handleBackspace, handleEnter, handleKeyPress]);
+
+  useEffect(() => {
+    const localProfileData = getLocalProfileData();
+    const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
+    const currentTotalXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.total_xp : 0;
+    const xp = gameState === 1 ? 3 : gameState === 0 ? 1 : 0;
+    const multiplier = currentRow < 3 ? 2 : 1;
+
+    if (gameState === 0) {
+      if (profile) {
+        updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
+      } else {
+        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp * multiplier, date: new Date()});
+      }
+    }
+
+    if (gameState === 1) {
+      if (profile) {
+        updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
+      } else {
+        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp, date: new Date()});
+      }
+    }
+  }, [gameState, profile]);
 
   return (
     <WordleContext.Provider
