@@ -2,16 +2,16 @@ import {useEffect, useState} from "react";
 import {useAuthContext} from "../contexts/AuthContext";
 import supabase from "../supabaseClient";
 
+interface IRankingData {
+  rank: number;
+  name: string;
+  xp: number;
+}
+
 const RankingModalContent = () => {
   const {profile, openLoginModal} = useAuthContext();
   const [weeklyXP, setWeeklyXP] = useState("-");
-  const [rankingData, setRankingData] = useState([
-    {rank: 1, name: "Player 1", score: 100},
-    {rank: 2, name: "Player 2", score: 90},
-    {rank: 3, name: "Player 3", score: 80},
-    {rank: 4, name: "Player 4", score: 70},
-    {rank: 5, name: "Player 5", score: 60},
-  ]);
+  const [rankingData, setRankingData] = useState<IRankingData[]>([]);
 
   useEffect(() => {
     const fetchWeeklyXP = async () => {
@@ -36,7 +36,7 @@ const RankingModalContent = () => {
           return {
             rank: index + 1,
             name: d.username,
-            score: d.weekly_xp,
+            xp: d.weekly_xp,
           };
         });
         setRankingData(rankings);
@@ -65,16 +65,42 @@ const RankingModalContent = () => {
         </>
       )}
       <div className="border-t border-white pt-4 mt-4 ranking">
-        <h3 className="text-xl font-bold mb-2">Ranking</h3>
-        {rankingData.map((player, index) => (
-          <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">
-            <div className="flex items-center">
-              <span className="mr-2">{player.rank}.</span>
-              <span>{player.name}</span>
+        <h3 className="text-xl font-bold mb-2">Weekly Ranking</h3>
+        {rankingData.length > 0 ? (
+          rankingData.map((player, index) => (
+            <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">
+              <div className="flex items-center">
+                <span className="mr-2">{player.rank}.</span>
+                <span>{player.name}</span>
+              </div>
+              <span>{player.xp} xp</span>
             </div>
-            <span>{player.score}</span>
+          ))
+        ) : (
+          <div className="animate-pulse">
+            <div className="flex justify-between items-center text-white text-lg font-bold py-2">
+              <div className="flex items-center">
+                <div className="h-6 w-6 bg-slate-700 rounded mr-2"></div>
+                <div className="h-6 w-32 bg-slate-700 rounded"></div>
+              </div>
+              <div className="h-6 w-16 bg-slate-700 rounded"></div>
+            </div>
+            <div className="flex justify-between items-center text-white text-lg font-bold py-2">
+              <div className="flex items-center">
+                <div className="h-6 w-6 bg-slate-700 rounded mr-2"></div>
+                <div className="h-6 w-32 bg-slate-700 rounded"></div>
+              </div>
+              <div className="h-6 w-16 bg-slate-700 rounded"></div>
+            </div>
+            <div className="flex justify-between items-center text-white text-lg font-bold py-2">
+              <div className="flex items-center">
+                <div className="h-6 w-6 bg-slate-700 rounded mr-2"></div>
+                <div className="h-6 w-32 bg-slate-700 rounded"></div>
+              </div>
+              <div className="h-6 w-16 bg-slate-700 rounded"></div>
+            </div>
           </div>
-        ))}
+        )}
       </div>
     </>
   );
