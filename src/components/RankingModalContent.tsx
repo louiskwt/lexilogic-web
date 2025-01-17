@@ -4,7 +4,7 @@ import supabase from "../supabaseClient";
 
 const RankingModalContent = () => {
   const {profile, openLoginModal} = useAuthContext();
-  const [weeklyXP, setWeeklyXP] = useState(0);
+  const [weeklyXP, setWeeklyXP] = useState("-");
 
   useEffect(() => {
     const fetchWeeklyXP = async () => {
@@ -35,7 +35,8 @@ const RankingModalContent = () => {
           <h2 className="text-2xl font-bold mb-4">Hi {profile.username}</h2>
           <div className="flex flex-col justify-center items-center mb-4 xp-display">
             <p className="text-xl font-semibold">Your weekly XP:</p>
-            <p className="text-4xl font-bold">{weeklyXP}</p>
+            <p className="text-4xl font-bold mt-2">{weeklyXP}</p>
+            <p className="text-xl text-gray-500 font-bold mt-2">Total XP: {profile.total_xp}</p>
           </div>
         </>
       )}
