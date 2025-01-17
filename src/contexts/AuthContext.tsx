@@ -30,20 +30,7 @@ type AuthContextType = {
   toggleModal: () => void;
 };
 
-export const AuthContext = createContext<AuthContextType>({
-  user: null,
-  session: null,
-  isLoading: true,
-  profile: null,
-  showModal: false,
-  signInWithGoogle: async () => {},
-  signInWithEmail: async (email, password) => {},
-  signOut: async () => {},
-  closeModal: () => {},
-  openLoginModal: () => {},
-  openSignUpModal: () => {},
-  toggleModal: () => {},
-});
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
@@ -53,7 +40,7 @@ export const useAuthContext = () => {
 
 export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setUserProfile] = useState<UserProfile | null>(null);
+  const [profile, setUserProfile] = useState<(UserProfile & ProfileData) | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProfileSetUpModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
