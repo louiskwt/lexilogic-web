@@ -19,10 +19,10 @@ function App() {
     },
   ];
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 overflow-scroll">
       <Navbar />
       <header className="flex justify-center mb-8">
-        <div className="relative w-20 h-20 rounded-full overflow-hidden">
+        <div className="relative w-20 h-20 rounded-full">
           <img src="/logo512.png" alt="Logo" className="object-fill w-full h-full" />
         </div>
       </header>
@@ -30,7 +30,7 @@ function App() {
 
       <div className="flex flex-col space-y-5 px-8">
         {games.map((game, key) => (
-          <div className="bg-zinc-800 rounded-l border-2 overflow-hidden shadow-md " key={key}>
+          <div className="bg-zinc-800 rounded-l border-2 shadow-md " key={key}>
             <div className="p-4">
               <h2 className="text-2xl font-bold mb-2">{game.name}</h2>
               <p className="text-gray-400 mb-4">{game.desc}</p>
