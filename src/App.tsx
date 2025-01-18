@@ -19,7 +19,7 @@ function App() {
     },
   ];
   return (
-    <div className="container mx-auto py-8 overflow-scroll">
+    <div className="container mx-auto py-8 ">
       <Navbar />
       <header className="flex justify-center mb-8">
         <div className="relative w-20 h-20 rounded-full">
