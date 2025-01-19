@@ -16,12 +16,11 @@ jobs:
 
       - name: Run install
         uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
 
       - name: Install Netlify
         run: yarn global add netlify-cli
-
-      - name: Install package
-        run: yarn install
 
       - name: Build project
         run: yarn build
