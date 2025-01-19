@@ -1,8 +1,8 @@
+import {useAuthContext} from "@contexts/AuthContext";
+import {WordHint} from "@contexts/WordleContext";
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
 import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
-import {useAuthContext} from "./AuthContext";
-import {WordHint} from "./WordleContext";
 
 interface IWord {
   word: string;
