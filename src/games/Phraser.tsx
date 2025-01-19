@@ -1,3 +1,4 @@
+import EmptySquare from "../components/EmptySquare";
 import GameNav from "../components/GameNav";
 import Keyboard from "../components/Keyboard";
 import Spinner from "../components/Spinner";
@@ -48,9 +49,13 @@ const Phraser = () => {
           <div className="flex-1 flex flex-col items-center justify-center space-y-4 mt-12">
             {rows.map((row, index) => (
               <div key={index} className="flex space-x-2">
-                {row.map((square, index) => (
-                  <Square key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} />
-                ))}
+                {row.map((square, index) => {
+                  if (square.character === "-") {
+                    return <EmptySquare size={10} />;
+                  } else {
+                    return <Square key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} />;
+                  }
+                })}
               </div>
             ))}
           </div>
