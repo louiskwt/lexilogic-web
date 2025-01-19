@@ -22,9 +22,6 @@ jobs:
       - name: Install Netlify
         run: yarn global add netlify-cli
 
-      - name: Compile TypeScript
-        run: tsc -p tsconfig.app.json
-
       - name: Build project
         run: yarn build
 
