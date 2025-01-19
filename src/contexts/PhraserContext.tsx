@@ -32,7 +32,7 @@ const PhraserContext = createContext<PhraserContextValue | undefined>(undefined)
 
 export const usePhraserContext = () => {
   const context = useContext(PhraserContext);
-  if (context === undefined) throw new Error("useWordleContext must be used withint a WordlerProvder");
+  if (context === undefined) throw new Error("usePhraseContext must be used withint a PhraseProvder");
   return context;
 };
 
@@ -46,7 +46,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       })
     )
   );
-  const [word, setWord] = useState<string>("");
+  const [phrase, setPhrase] = useState<string>("");
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
@@ -67,7 +67,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const handleKeyPress = useCallback(
     (key: string) => {
-      if (currentCol < 5) {
+      if (currentCol < phrase.length) {
         const newRows = [...rows];
         newRows[currentRow][currentCol] = {
           character: key.toUpperCase(),
@@ -75,7 +75,8 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
           misplaced: false,
         };
         setRows(newRows);
-        setCurrentCol(currentCol + 1);
+        const nextStep = newRows[currentRow][currentCol + 1].character === "-" ? 2 : 1;
+        setCurrentCol(currentCol + nextStep);
       }
     },
     [rows, currentCol, currentRow]
@@ -89,10 +90,10 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       const newRows = [...rows];
 
       for (let i = 0; i < guess.length; i++) {
-        if (guess[i] === word[i]) {
+        if (guess[i] === phrase[i]) {
           correct.push(guess[i]);
           newRows[currentRow][i].correct = true;
-        } else if (word.includes(guess[i])) {
+        } else if (phrase.includes(guess[i])) {
           misplaced.push(guess[i]);
           newRows[currentRow][i].misplaced = true;
         } else {
@@ -104,9 +105,9 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       setWrongLetters(wrong);
       setRows(newRows);
 
-      return guess.join("") === word;
+      return guess.join("") === phrase;
     },
-    [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word]
+    [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, phrase]
   );
 
   const handleNextGame = () => window.location.reload();
@@ -123,7 +124,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     if (!isCorrect && currentRow === 5) {
       setTimeout(() => {
         setGameOverTitle("Oh Noo : ( Game Over");
-        setGameOverMessage(`答案是 ${word}! 下次加油啊～`);
+        setGameOverMessage(`答案是 ${phrase}! 下次加油啊～`);
         setIsGameOverModalOpen(true);
         setGameState(0);
       }, 1000);
@@ -153,16 +154,35 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
 
   useEffect(() => {
     const fetchRandomWord = async () => {
-      const {data, error} = await supabase.from("random_wordle_words").select("word, pos, meaning").limit(1).single();
+      const {data, error} = await supabase.from("random_phrases").select("phrase, en_meaning, meaning").limit(1).single();
       if (error) {
-        console.error("Error fetching word: ", error);
+        console.error("Error fetching phrase: ", error);
       } else if (data) {
-        setWord(data.word.toUpperCase());
-        console.log(data);
+        setPhrase(data.phrase.toUpperCase());
+        setRows(
+          Array.from({length: 6}).map(() => {
+            const array = data.phrase.split("").map((c: string) => {
+              if (c === "-") {
+                return {
+                  character: c,
+                  correct: false,
+                  misplaced: false,
+                };
+              } else {
+                return {
+                  character: "",
+                  correct: false,
+                  misplaced: false,
+                };
+              }
+            });
+            return array;
+          })
+        );
         setWordHint({
           meaning: data.meaning,
-          pos: data.pos,
-          vowels: findVowels(data.word),
+          pos: "",
+          vowels: findVowels(data.phrase),
         });
         setIsFetchingWord(false);
       }
