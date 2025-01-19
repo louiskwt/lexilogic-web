@@ -33,7 +33,7 @@ export type WordleContextValue = {
   handleBackspace: () => void;
 };
 
-const WordleContext = createContext<WordleContextValue | undefined>(undefined);
+export const WordleContext = createContext<WordleContextValue | undefined>(undefined);
 
 export const useWordleContext = () => {
   const context = useContext(WordleContext);
