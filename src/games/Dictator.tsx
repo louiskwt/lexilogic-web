@@ -90,7 +90,7 @@ const DictatorGame: React.FC = () => {
                   onChange={(e) => {
                     handleUserInput(e, index);
                   }}
-                  className={`bg-transparent border-b-2 border-gray-400 focus:border-lime-600 focus:outline-none w-8 md:w-12 md:h-12 text-center text-4xl ${correct ? "text-green-500" : tries === 5 || character === "" ? "text-white" : "text-red-500"}`}
+                  className={`bg-transparent border-b-2 border-gray-400 outline-none focus:border-lime-600 focus:outline-none w-8 md:w-12 md:h-12 text-center text-4xl ${correct ? "text-green-500" : tries === 5 || character === "" ? "text-white" : "text-red-500"}`}
                 />
               ))}
             </div>
