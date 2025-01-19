@@ -110,7 +110,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, phrase]
   );
 
-  const handleNextGame = () => window.location.reload();
+  const handleNextGame = () => location.reload();
 
   const handleEnter = useCallback(() => {
     if (currentCol < 4) {

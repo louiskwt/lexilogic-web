@@ -114,7 +114,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word]
   );
 
-  const handleNextGame = () => window.location.reload();
+  const handleNextGame = () => location.reload();
 
   const handleEnter = useCallback(() => {
     if (currentCol < 4) {
