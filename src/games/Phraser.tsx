@@ -51,7 +51,7 @@ const Phraser = () => {
               <div key={index} className="flex space-x-2">
                 {row.map((square, index) => {
                   if (square.character === "-") {
-                    return <EmptySquare size={10} />;
+                    return <EmptySquare size={8} />;
                   } else {
                     return <Square key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} />;
                   }
