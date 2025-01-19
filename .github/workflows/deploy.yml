@@ -20,7 +20,7 @@ jobs:
       - name: Install Netlify
         run: yarn global add netlify-cli
 
-      - name:
+      - name: Install package
         run: yarn install
 
       - name: Build project
