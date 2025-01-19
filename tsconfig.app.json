@@ -24,8 +24,7 @@
     /* Path Mapping */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@contexts/*": ["src/contexts/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src"]

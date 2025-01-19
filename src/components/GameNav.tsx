@@ -1,7 +1,7 @@
-import {WordHint} from "@contexts/WordleContext";
 import {faChartSimple, faCircleQuestion, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactNode, useState} from "react";
+import {WordHint} from "../contexts/WordleContext";
 import HintModalContent from "./HintModalContent";
 import LanguageModalContent from "./LanguageModalContent";
 import Modal from "./Modal";
