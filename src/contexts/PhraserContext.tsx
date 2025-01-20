@@ -150,7 +150,8 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       const newRows = [...rows];
       newRows[currentRow][currentCol - 1].character = " ";
       setRows(newRows);
-      setCurrentCol(currentCol - 1);
+      const next = newRows[currentRow][currentCol - 2].character === "-" ? 2 : 1;
+      setCurrentCol(currentCol - next);
     }
   }, [currentCol, rows, currentRow]);
 
