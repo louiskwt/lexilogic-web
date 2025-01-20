@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
 import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
+import {useLanguageContext} from "./LanguageContext";
 
 interface ISquare {
   character: string;
@@ -69,6 +70,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   });
 
   const {profile} = useAuthContext();
+  const {t} = useLanguageContext();
 
   const handleKeyPress = useCallback(
     (key: string) => {
@@ -127,8 +129,8 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
     if (!isCorrect && currentRow === 5) {
       setTimeout(() => {
-        setGameOverTitle("Oh Noo : ( Game Over");
-        setGameOverMessage(`答案是 ${word}! 下次加油啊～`);
+        setGameOverTitle(t("wordWonder.gameOver.title"));
+        setGameOverMessage(t("wordWonder.gameOver.message"));
         setIsGameOverModalOpen(true);
         setGameState(0);
       }, 1000);
@@ -136,8 +138,8 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
     if (isCorrect) {
       setTimeout(() => {
-        setGameOverTitle("Yay! Correct!");
-        setGameOverMessage(`你猜對了 好厲害啊👍～`);
+        setGameOverTitle(t("wordWonder.correct"));
+        setGameOverMessage(t("wordWonder.winningMessage"));
         setIsGameOverModalOpen(true);
         setGameState(1);
       }, 1000);
@@ -228,7 +230,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word} handleNewGame={handleNextGame} />} />
     </WordleContext.Provider>
   );
 };
