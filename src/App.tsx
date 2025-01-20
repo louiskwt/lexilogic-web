@@ -4,6 +4,7 @@ import {useLanguageContext} from "./contexts/LanguageContext";
 
 interface IGame {
   name: string;
+  url: string;
   desc: string;
 }
 
@@ -11,14 +12,16 @@ function App() {
   const {t} = useLanguageContext();
 
   const games: IGame[] = [
-    {name: t("dictator"), desc: t("dictatorDesc")},
+    {name: t("dictator"), desc: t("dictatorDesc"), url: "spell-genius"},
     {
       name: t("phraser"),
       desc: t("phraserDesc"),
+      url: "phrase-puzzle",
     },
     {
       name: t("wordle"),
       desc: t("wordleDesc"),
+      url: "word-wonder",
     },
   ];
   return (
@@ -36,7 +39,7 @@ function App() {
             <div className="p-4">
               <h2 className="text-2xl font-bold mb-2">{game.name}</h2>
               <p className="text-gray-400 mb-4">{game.desc}</p>
-              <Link className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 block w-full text-center" to={`/${game.name.toLowerCase()}`}>
+              <Link className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 block w-full text-center" to={`/${game.url}`}>
                 {t("play")}
               </Link>
             </div>

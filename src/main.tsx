@@ -21,7 +21,7 @@ createRoot(document.getElementById("root")!).render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route
-              path="/wordle"
+              path="/word-wonder"
               element={
                 <WordleProvider>
                   <Wordle />
@@ -29,7 +29,7 @@ createRoot(document.getElementById("root")!).render(
               }
             />
             <Route
-              path="/dictator"
+              path="/spell-genius"
               element={
                 <DictatorProvider>
                   <Dictator />
@@ -37,7 +37,7 @@ createRoot(document.getElementById("root")!).render(
               }
             />
             <Route
-              path="/phraser"
+              path="/phrase-puzzle"
               element={
                 <PhraserProvider>
                   <Phraser />
