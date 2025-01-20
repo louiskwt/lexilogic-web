@@ -77,7 +77,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
           misplaced: false,
         };
         setRows(newRows);
-        const nextStep = newRows[currentRow][currentCol + 1].character === "-" ? 2 : 1;
+        const nextStep = currentCol + 1 < phrase.length && newRows[currentRow][currentCol + 1].character === "-" ? 2 : 1;
         setCurrentCol(currentCol + nextStep);
       }
     },
