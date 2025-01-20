@@ -6,3 +6,10 @@
     transform: rotateY(360deg);
   }
 }
+
+@layer base {
+  input {
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+  }
+}
