@@ -134,8 +134,8 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
 
     if (isCorrect) {
       setTimeout(() => {
-        setGameOverTitle("Yay! Correct!");
-        setGameOverMessage(`你猜對了 好厲害啊👍～`);
+        setGameOverTitle(t("phrasePuzzle.correct"));
+        setGameOverMessage(t("phrasePuzzle.winningMessage"));
         setIsGameOverModalOpen(true);
         setGameState(1);
       }, 1000);

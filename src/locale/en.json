@@ -63,7 +63,9 @@
       "gameOver": {
         "title": "Oh! Nooo!",
         "message": "Hope you do better next time~"
-      }
+      },
+      "correct": "🎉 Correct 🎉",
+      "winningMessage": "You solved the puzzle! Amazing 👍～"
     }
   }
 }
