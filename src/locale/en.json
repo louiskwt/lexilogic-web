@@ -16,6 +16,8 @@
     "or": "OR",
     "noAccount": "Don't have an account? Sign up",
     "hasAccount": "Already have an account? Login",
+    "tryAgain": "Start Again",
+    "correctAnswer": "The correct answer is {{ ans }}",
     "dictatorGame": {
       "rules": {
         "title": "Become a Spell Genius!",

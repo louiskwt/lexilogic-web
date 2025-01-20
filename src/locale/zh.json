@@ -16,6 +16,8 @@
     "or": "或",
     "noAccount": "沒有帳戶嗎? 註冊",
     "hasAccount": "已經有帳戶了嗎? 登入",
+    "tryAgain": "開始新一個挑戰",
+    "correctAnswer": "正確答案是 {{ ans }}",
     "dictatorGame": {
       "rules": {
         "title": "成為拼字大師吧!",
