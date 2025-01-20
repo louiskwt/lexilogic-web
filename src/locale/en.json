@@ -15,6 +15,30 @@
     "googleSignIn": "Sign In With Google",
     "or": "OR",
     "noAccount": "Don't have an account? Sign up",
-    "hasAccount": "Already have an account? Login"
+    "hasAccount": "Already have an account? Login",
+    "dictatorGame": {
+      "rules": {
+        "title": "Become a Spell Genius!",
+        "description": "Put your spelling prowess to the test and become a true Spell Genius! Challenge your friends and see who can master the art of vocabulary.",
+        "message": ["1. Click 'Start Spell Genius' to begin your journey.", "2. **Listen to the word**: Hear the pronunciation of the hidden word to get a clue.", "3. **Spell the Word**: Type one letter at a time to guess the word. You have 5 chances!", "4. **Decipher the Hints**: The letters will light up to show you what's right and wrong:", "   - Green: The letter is in the correct spot.", "   - Red: The letter is in the wrong spot.", "5. **Check Your Genius**: Once you've filled in the word, click 'Check Spelling' to see if you're a Spell Genius.", "6. **Keep Practicing**: If your guess is incorrect, don't worry - you'll get another chance. Stay focused and try again!", "7. **Level Up**: If you spell the word correctly, you'll see a 'Genius!' message. Click 'Next Challenge' to take on a new word and prove your mastery."]
+      },
+      "gameOver": {
+        "message": "Try Again",
+        "title": "Oops!"
+      },
+      "loading": "Loading Genius...",
+      "gameTitle": "Spell Genius",
+      "correct": "🎉 You're correct! Genius! 🎉",
+      "playAudio": {
+        "label": "Hear the Word",
+        "icon": "volume-up"
+      },
+      "checkAnswer": {
+        "label": "Check Spelling",
+        "icon": "check"
+      },
+      "nextChallenge": "Next Challenge",
+      "startGame": " Start Game"
+    }
   }
 }
