@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import App from "./App.tsx";
 import {AuthProvider} from "./contexts/AuthContext.tsx";
 import {DictatorProvider} from "./contexts/DictatorContext.tsx";
+import {LanguageProvider} from "./contexts/LanguageContext.tsx";
 import {PhraserProvider} from "./contexts/PhraserContext.tsx";
 import {WordleProvider} from "./contexts/WordleContext.tsx";
 import Dictator from "./games/Dictator.tsx";
@@ -15,35 +16,37 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route
-            path="/wordle"
-            element={
-              <WordleProvider>
-                <Wordle />
-              </WordleProvider>
-            }
-          />
-          <Route
-            path="/dictator"
-            element={
-              <DictatorProvider>
-                <Dictator />
-              </DictatorProvider>
-            }
-          />
-          <Route
-            path="/phraser"
-            element={
-              <PhraserProvider>
-                <Phraser />
-              </PhraserProvider>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <LanguageProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route
+              path="/wordle"
+              element={
+                <WordleProvider>
+                  <Wordle />
+                </WordleProvider>
+              }
+            />
+            <Route
+              path="/dictator"
+              element={
+                <DictatorProvider>
+                  <Dictator />
+                </DictatorProvider>
+              }
+            />
+            <Route
+              path="/phraser"
+              element={
+                <PhraserProvider>
+                  <Phraser />
+                </PhraserProvider>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </LanguageProvider>
     </AuthProvider>
   </StrictMode>
 );

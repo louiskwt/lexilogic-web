@@ -1,5 +1,6 @@
 import {Link} from "react-router";
 import Navbar from "./components/Navbar";
+import {useLanguageContext} from "./contexts/LanguageContext";
 
 interface IGame {
   name: string;
@@ -7,6 +8,7 @@ interface IGame {
 }
 
 function App() {
+  const {t} = useLanguageContext();
   const games: IGame[] = [
     {name: "Dictator", desc: "Can you spell out the name pronounced by the dictator"},
     {
@@ -27,7 +29,6 @@ function App() {
         </div>
       </header>
       <h1 className="text-4xl font-bold mb-8 text-center">Lexi Game - Let's play and learn</h1>
-
       <div className="flex flex-col space-y-5 px-8">
         {games.map((game, key) => (
           <div className="bg-zinc-800 rounded-l border-2 shadow-md " key={key}>
