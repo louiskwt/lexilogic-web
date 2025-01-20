@@ -15,8 +15,8 @@ import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AuthProvider>
-      <LanguageProvider>
+    <LanguageProvider>
+      <AuthProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} />
@@ -46,7 +46,7 @@ createRoot(document.getElementById("root")!).render(
             />
           </Routes>
         </BrowserRouter>
-      </LanguageProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </LanguageProvider>
   </StrictMode>
 );
