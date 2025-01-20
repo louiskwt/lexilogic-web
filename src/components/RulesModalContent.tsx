@@ -10,8 +10,8 @@ const RulesModalContent = ({title, message, description}: IRulesModalContentProp
   return (
     <>
       <h2 className="text-2xl font-bold mb-4">{title}</h2>
-      <p className="text-xl mb-4 font-semibold">{message}</p>
-      <p className="text-xl mb-4 font-semibold">{description}</p>
+      <p className="text-md mb-4 font-semibold">{message}</p>
+      <p className="text-md mb-4 font-semibold">{description}</p>
     </>
   );
 };
