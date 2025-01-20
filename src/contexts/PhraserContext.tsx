@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
 import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
+import {useLanguageContext} from "./LanguageContext";
 import {WordHint} from "./WordleContext";
 
 interface ISquare {
@@ -62,6 +63,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     pos: "",
     vowels: [],
   });
+  const {t} = useLanguageContext();
 
   const {profile} = useAuthContext();
 
@@ -123,8 +125,8 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
 
     if (!isCorrect && currentRow === 5) {
       setTimeout(() => {
-        setGameOverTitle("Oh Noo : ( Game Over");
-        setGameOverMessage(`答案是 ${phrase}! 下次加油啊～`);
+        setGameOverTitle(t("phrasePuzzle.gameOver.title"));
+        setGameOverMessage(t("phrasePuzzle.gameOver.message"));
         setIsGameOverModalOpen(true);
         setGameState(0);
       }, 1000);
@@ -243,7 +245,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={phrase} handleNewGame={handleNextGame} />} />
     </PhraserContext.Provider>
   );
 };

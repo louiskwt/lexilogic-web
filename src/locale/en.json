@@ -58,6 +58,12 @@
       },
       "nextChallenge": "Next Challenge",
       "startGame": " Start Game"
+    },
+    "phrasePuzzle": {
+      "gameOver": {
+        "title": "Oh! Nooo!",
+        "message": "Hope you do better next time~"
+      }
     }
   }
 }

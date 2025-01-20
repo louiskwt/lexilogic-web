@@ -59,6 +59,12 @@
       },
       "nextChallenge": "下一個挑戰",
       "startGame": "開始挑戰"
+    },
+    "phrasePuzzle": {
+      "gameOver": {
+        "title": "哎呀!",
+        "message": "下次加油啊～"
+      }
     }
   }
 }
