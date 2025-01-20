@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useAuthContext} from "../contexts/AuthContext";
+import {useLanguageContext} from "../contexts/LanguageContext";
 import supabase from "../supabaseClient";
 
 interface IRankingData {
@@ -12,6 +13,7 @@ const RankingModalContent = () => {
   const {profile, openLoginModal} = useAuthContext();
   const [weeklyXP, setWeeklyXP] = useState("-");
   const [rankingData, setRankingData] = useState<IRankingData[]>([]);
+  const {t} = useLanguageContext();
 
   useEffect(() => {
     const fetchWeeklyXP = async () => {
@@ -49,23 +51,26 @@ const RankingModalContent = () => {
     <>
       {!profile ? (
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Please log in to view the rankings</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("rankingChart.loginToSeeRanking")}</h2>
           <button className="bg-lime-600 hover:bg-lime-800 text-white font-bold py-2 px-4 rounded" onClick={openLoginModal}>
-            Log In
+            {t("login")}
           </button>
         </div>
       ) : (
         <>
           <h2 className="text-2xl font-bold mb-4">Hi {profile.username}</h2>
           <div className="flex flex-col justify-center items-center mb-4 xp-display">
-            <p className="text-xl font-semibold">Your weekly XP:</p>
+            <p className="text-xl font-semibold">{t("rankingChart.yourWeeklyXp")}</p>
             <p className="text-4xl font-bold mt-2">{weeklyXP}</p>
-            <p className="text-xl text-gray-500 font-bold mt-2">Total XP: {profile.total_xp}</p>
+            <p className="text-xl text-gray-500 font-bold mt-2">
+              {t("rankingChart.totalXp")}
+              {profile.total_xp}
+            </p>
           </div>
         </>
       )}
       <div className="border-t border-white pt-4 mt-4 ranking">
-        <h3 className="text-xl font-bold mb-2">Weekly Ranking</h3>
+        <h3 className="text-xl font-bold mb-2">{t("rankingChart.weeklyRanking")}</h3>
         {rankingData.length > 0 ? (
           rankingData.map((player, index) => (
             <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">
