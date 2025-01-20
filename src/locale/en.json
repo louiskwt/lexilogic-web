@@ -3,9 +3,9 @@
     "name": "Lexigram",
     "description": "Dive into the Lexigram Adventure",
     "play": "Play Now",
-    "wordle": "WordWonders",
-    "phraser": "PhrasePuzzle",
-    "dictator": "SpellGenius",
+    "wordle": "Word Wonders",
+    "phraser": "Phrase Puzzle",
+    "dictator": "Spell Genius",
     "wordleDesc": "Start your Wondrous Word Adventure! Uncover hidden meanings, decipher cryptic clues, and unleash the magic of single words. Become a linguistic virtuoso, mastering the art of vocabulary. Dive into a world where every letter sparks a miracle. Are you ready to write your own word-powered legend?",
     "phraserDesc": "Embark on a Phrase Puzzle adventure! Assemble hidden word combinations to solve enchanted challenges. Unlock your linguistic brilliance and uncover the power of language. Dive into a world where every phrase holds the key to victory. Are you ready to master the art of word play?",
     "dictatorDesc": "Take on the Spelling Genius challenges! Unlock your linguistic prowess and conquer mystical challenges. Dive into a world where every letter holds the power to captivate. Are you ready to write your own legendary tale?",
@@ -68,6 +68,25 @@
       "winningMessage": "You solved the puzzle! Amazing 👍～",
       "rules": {
         "title": "How to solve Phrase Puzzle?",
+        "description": "Come play with your friends! Test your English skills. It's fun and can also improve your English abilities, so why not give it a try?",
+        "message1": "Enter a guess: You have six chances to guess the word. Enter one complete English word at a time.",
+        "message2": "Get a hint: After each entry, the system will highlight each letter in different colors to indicate its status:",
+        "message3": "Green: The letter is in the correct position.",
+        "message4": "Yellow: The letter is in the word, but in the wrong position.",
+        "message5": "Gray: The letter is not in the word.",
+        "message6": "Correct your answer: Based on the hints provided by the system, you can correct your next guess.",
+        "message7": "Guess the word correctly: If you guess the correct word within six chances, you win."
+      }
+    },
+    "wordWonder": {
+      "gameOver": {
+        "title": "Oh! Nooo!",
+        "message": "Hope you do better next time~"
+      },
+      "correct": "🎉 Correct 🎉",
+      "winningMessage": "You solved the puzzle! Amazing 👍～",
+      "rules": {
+        "title": "How to create your Word Wonders?",
         "description": "Come play with your friends! Test your English skills. It's fun and can also improve your English abilities, so why not give it a try?",
         "message1": "Enter a guess: You have six chances to guess the word. Enter one complete English word at a time.",
         "message2": "Get a hint: After each entry, the system will highlight each letter in different colors to indicate its status:",
