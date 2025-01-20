@@ -12,7 +12,7 @@ export const LanguageContext = createContext<LaguageContextType | null>(null);
 
 export const useLanguageContext = () => {
   const context = useContext(LanguageContext);
-  if (context === undefined) throw new Error("useLanguage must be used withint a LanguageProvider");
+  if (context === null) throw new Error("useLanguage must be used withint a LanguageProvider");
   return context;
 };
 
