@@ -18,6 +18,13 @@
     "hasAccount": "已經有帳戶了嗎? 登入",
     "tryAgain": "開始新一個挑戰",
     "correctAnswer": "正確答案是 {{ ans }}",
+    "loginToSeeRanking": "Please log in to view the rankings",
+    "rankingChart": {
+      "loginToSeeRanking": "請登入以查看排名",
+      "weeklyRanking": "每週排名榜",
+      "yourWeeklyXp": "你本週的 XP: ",
+      "totalXp": "總 XP: "
+    },
     "dictatorGame": {
       "rules": {
         "title": "成為拼字大師吧!",

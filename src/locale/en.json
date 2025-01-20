@@ -18,6 +18,12 @@
     "hasAccount": "Already have an account? Login",
     "tryAgain": "Start Again",
     "correctAnswer": "The correct answer is {{ ans }}",
+    "rankingChart": {
+      "loginToSeeRanking": "Please log in to view the rankings",
+      "weeklyRanking": "Weely Ranking",
+      "yourWeeklyXp": "Your weekly XP: ",
+      "totalXp": "Total XP: "
+    },
     "dictatorGame": {
       "rules": {
         "title": "Become a Spell Genius!",
