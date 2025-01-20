@@ -9,6 +9,7 @@ import {WordleProvider} from "./contexts/WordleContext.tsx";
 import Dictator from "./games/Dictator.tsx";
 import Phraser from "./games/Phraser.tsx";
 import Wordle from "./games/Wordle.tsx";
+import "./i18n.ts";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
