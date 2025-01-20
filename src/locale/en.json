@@ -24,6 +24,11 @@
       "yourWeeklyXp": "Your weekly XP: ",
       "totalXp": "Total XP: "
     },
+    "hintModal": {
+      "title": "Hints",
+      "meaning": "Meaning",
+      "vowels": "Vowels (A, E, I, O, U)"
+    },
     "dictatorGame": {
       "rules": {
         "title": "Become a Spell Genius!",

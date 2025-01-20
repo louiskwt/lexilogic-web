@@ -25,6 +25,11 @@
       "yourWeeklyXp": "你本週的 XP: ",
       "totalXp": "總 XP: "
     },
+    "hintModal": {
+      "title": "提示",
+      "meaning": "單詞意思",
+      "vowels": "元音 （A, E, I, O, U)"
+    },
     "dictatorGame": {
       "rules": {
         "title": "成為拼字大師吧!",
