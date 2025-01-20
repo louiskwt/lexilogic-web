@@ -1,8 +1,10 @@
 import {useState} from "react";
 import {useAuthContext} from "../contexts/AuthContext";
+import {useLanguageContext} from "../contexts/LanguageContext";
 
 const Navbar = () => {
   const {profile, signOut, openLoginModal, openSignUpModal} = useAuthContext();
+  const {t} = useLanguageContext();
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -30,7 +32,7 @@ const Navbar = () => {
               <div className="absolute right-0 mt-2 w-48 bg-zinc-800 rounded-md shadow-lg z-10">
                 <div className="py-2">
                   <button className="block w-full text-left px-4 py-2 hover:bg-zinc-700 focus:outline-none" onClick={handleSignOut}>
-                    Sign Out
+                    {t("signout")}
                   </button>
                 </div>
               </div>
@@ -41,10 +43,10 @@ const Navbar = () => {
         {!profile && (
           <div>
             <button className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 mr-2" onClick={() => openLoginModal()}>
-              Login
+              {t("login")}
             </button>
             <button className="bg-transparent hover:bg-lime-50 hover:text-gray-800 text-lime-600 font-bold py-2 px-4 rounded-md border-2 border-lime-600" onClick={openSignUpModal}>
-              Signup
+              {t("signup")}
             </button>
           </div>
         )}

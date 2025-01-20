@@ -8,6 +8,9 @@
     "dictator": "SpellGenius",
     "wordleDesc": "Start your Wondrous Word Adventure! Uncover hidden meanings, decipher cryptic clues, and unleash the magic of single words. Become a linguistic virtuoso, mastering the art of vocabulary. Dive into a world where every letter sparks a miracle. Are you ready to write your own word-powered legend?",
     "phraserDesc": "Embark on a Phrase Puzzle adventure! Assemble hidden word combinations to solve enchanted challenges. Unlock your linguistic brilliance and uncover the power of language. Dive into a world where every phrase holds the key to victory. Are you ready to master the art of word play?",
-    "dictatorDesc": "Take on the Spelling Genius challenges! Unlock your linguistic prowess and conquer mystical challenges. Dive into a world where every letter holds the power to captivate. Are you ready to write your own legendary tale?"
+    "dictatorDesc": "Take on the Spelling Genius challenges! Unlock your linguistic prowess and conquer mystical challenges. Dive into a world where every letter holds the power to captivate. Are you ready to write your own legendary tale?",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "signout": "Sign Out"
   }
 }
