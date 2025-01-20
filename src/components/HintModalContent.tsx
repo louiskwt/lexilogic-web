@@ -15,7 +15,7 @@ const HintModalContent = ({meaning, pos, vowels}: IHingModalContentProps) => {
         <p className="text-xl font-semibold">{t("hintModal.meaning")}:</p>
         <br />
         <p className="text-xl">
-          <span className="text-white">{meaning}</span> ({pos})
+          <span className="text-white">{meaning}</span> {pos && <span>({pos})</span>}
         </p>
       </div>
       <div className="border-t border-white pt-4">
