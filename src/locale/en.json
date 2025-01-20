@@ -11,6 +11,10 @@
     "dictatorDesc": "Take on the Spelling Genius challenges! Unlock your linguistic prowess and conquer mystical challenges. Dive into a world where every letter holds the power to captivate. Are you ready to write your own legendary tale?",
     "login": "Log In",
     "signup": "Sign Up",
-    "signout": "Sign Out"
+    "signout": "Sign Out",
+    "googleSignIn": "Sign In With Google",
+    "or": "OR",
+    "noAccount": "Don't have an account? Sign up",
+    "hasAccount": "Already have an account? Login"
   }
 }
