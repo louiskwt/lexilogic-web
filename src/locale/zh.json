@@ -104,7 +104,9 @@
       "notEnoughLetter": "字母不夠。請填寫所有字母😊",
       "errorTryAgain": "出現了問題，請再試一次🙏",
       "audioError": "抱歉！無法加載音頻，將很快開始另一輪🎶",
-      "missingUsername": "使用者名稱是必填的。請填寫使用者名稱😊"
+      "missingUsername": "使用者名稱是必填的。請填寫使用者名稱😊",
+      "imageSizeError": "您上傳的文件太大...請使用小於10 MB的圖片",
+      "imageError": "處理此圖片時出錯。請使用其他圖片。"
     }
   }
 }

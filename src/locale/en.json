@@ -104,7 +104,9 @@
       "notEnoughLetter": "Not enough letters. Please fill in all the letters 😊",
       "errorTryAgain": "Something went wrong, please try again 🙏",
       "audioError": "Sorry! Can't load audio, will start another round soon🎶",
-      "missingUsername": "Username is required. Please fill out a username 😊"
+      "missingUsername": "Username is required. Please fill out a username 😊",
+      "imageSizeError": "The file you uploaded is too large...Please use an image that's smaller than 10 MB",
+      "imageError": "Failed to process this image. Please use another image."
     }
   }
 }
