@@ -120,7 +120,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const handleEnter = useCallback(() => {
     if (currentCol < 4) {
-      alert("Not enough letters");
+      alert(t("warning.notEnoughLetter"));
       return;
     }
 

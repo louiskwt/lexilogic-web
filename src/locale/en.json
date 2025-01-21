@@ -96,6 +96,9 @@
         "message6": "Correct your answer: Based on the hints provided by the system, you can correct your next guess.",
         "message7": "Guess the word correctly: If you guess the correct word within six chances, you win."
       }
+    },
+    "warning": {
+      "notEnoughLetter": "Not enough letters. Please fill in all the letters 😊"
     }
   }
 }

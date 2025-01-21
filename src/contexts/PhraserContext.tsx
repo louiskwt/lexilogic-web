@@ -116,7 +116,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const handleEnter = useCallback(() => {
     if (currentCol < phrase.length) {
-      alert("Not enough letters");
+      alert(t("warning.notEnoughLetter"));
       return;
     }
 
