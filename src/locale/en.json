@@ -18,6 +18,9 @@
     "hasAccount": "Already have an account? Login",
     "tryAgain": "Start Again",
     "correctAnswer": "The correct answer is {{ ans }}",
+    "setUpProfile": "Set Up Your Profile",
+    "avatar": "Avatar (Optional)",
+    "saveProfile": "Save Profile",
     "rankingChart": {
       "loginToSeeRanking": "Please log in to view the rankings",
       "weeklyRanking": "Weely Ranking",
@@ -100,7 +103,8 @@
     "warning": {
       "notEnoughLetter": "Not enough letters. Please fill in all the letters 😊",
       "errorTryAgain": "Something went wrong, please try again 🙏",
-      "audioError": "Sorry! Can't load audio, will start another round soon🎶"
+      "audioError": "Sorry! Can't load audio, will start another round soon🎶",
+      "missingUsername": "Username is required. Please fill out a username 😊"
     }
   }
 }
