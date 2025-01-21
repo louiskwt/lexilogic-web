@@ -115,7 +115,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   const handleNextGame = () => location.reload();
 
   const handleEnter = useCallback(() => {
-    if (currentCol < 4) {
+    if (currentCol < phrase.length) {
       alert("Not enough letters");
       return;
     }
