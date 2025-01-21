@@ -9,9 +9,9 @@ interface IRulesModalContentProps {
 const RulesModalContent = ({title, message, description}: IRulesModalContentProps) => {
   return (
     <>
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
-      <p className="text-md mb-4 font-semibold">{message}</p>
-      <p className="text-md mb-4 font-semibold">{description}</p>
+      <h2 className="text-lg font-bold mb-4">{title}</h2>
+      <p className="text-sm md:text-md  mb-4 font-semibold">{message}</p>
+      <p className="text-sm md:text-md mb-4 font-semibold">{description}</p>
     </>
   );
 };

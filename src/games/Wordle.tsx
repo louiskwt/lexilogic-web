@@ -16,11 +16,11 @@ const Wordle = () => {
           title: t("wordWonder.rules.title"),
           message: (
             <>
-              <ol className="list-decimal pl-6 space-y-2 text-xl font-semibold mb-4">
+              <ol className="list-decimal pl-6 space-y-2 font-semibold mb-4">
                 <li>{t("phrasePuzzle.rules.message1")}</li>
                 <li>
                   {t("wordWonder.rules.message2")}
-                  <ul className="list-disc pl-6 text-lg space-y-2 my-2">
+                  <ul className="list-disc pl-6 space-y-2 my-2">
                     <li className="text-green-300">{t("wordWonder.rules.message3")}</li>
                     <li className="text-yellow-300">{t("wordWonder.rules.message4")}</li>
                     <li className="text-gray-300">{t("wordWonder.rules.message5")}</li>

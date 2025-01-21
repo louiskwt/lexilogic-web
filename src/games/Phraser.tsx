@@ -17,7 +17,7 @@ const Phraser = () => {
           title: t("phrasePuzzle.rules.title"),
           message: (
             <>
-              <ol className="list-decimal pl-6 space-y-2 text-xl font-semibold mb-4">
+              <ol className="list-decimal pl-6 space-y-2 font-semibold mb-4">
                 <li>{t("phrasePuzzle.rules.message1")}</li>
                 <li>
                   {t("phrasePuzzle.rules.message2")}
