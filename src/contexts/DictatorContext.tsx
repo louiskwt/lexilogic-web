@@ -2,6 +2,7 @@ import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState
 import supabase from "../supabaseClient";
 import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
+import {useLanguageContext} from "./LanguageContext";
 import {WordHint} from "./WordleContext";
 
 interface IWord {
@@ -63,6 +64,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
   const {profile} = useAuthContext();
+  const {t} = useLanguageContext();
 
   const fetchDictationWord = async (): Promise<WordData | null> => {
     try {
@@ -98,7 +100,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         vowels: findVowels(wordData.word),
       });
     } else {
-      alert("Something went wrong, please try again");
+      alert(t("warning.errorTryAgain"));
     }
 
     setIsCorrect(false);
@@ -181,7 +183,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
               audio.src = currentWord.audio;
               audio.play();
             } else {
-              alert("Sorry! Can't load audio, will start another round soon");
+              alert(t("warning.audioError"));
               startGame();
             }
           };

@@ -99,7 +99,9 @@
       }
     },
     "warning": {
-      "notEnoughLetter": "字母不夠。請填寫所有字母😊"
+      "notEnoughLetter": "字母不夠。請填寫所有字母😊",
+      "errorTryAgain": "出現了問題，請再試一次🙏",
+      "audioError": "抱歉！無法加載音頻，將很快開始另一輪🎶"
     }
   }
 }

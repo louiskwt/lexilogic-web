@@ -98,7 +98,9 @@
       }
     },
     "warning": {
-      "notEnoughLetter": "Not enough letters. Please fill in all the letters 😊"
+      "notEnoughLetter": "Not enough letters. Please fill in all the letters 😊",
+      "errorTryAgain": "Something went wrong, please try again 🙏",
+      "audioError": "Sorry! Can't load audio, will start another round soon🎶"
     }
   }
 }
