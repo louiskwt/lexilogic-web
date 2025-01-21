@@ -54,6 +54,7 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
         } else {
           console.log("User profile created:", data);
           onClose();
+          window.location.reload();
         }
       } catch (error) {
         console.error("Error creating user profile:", error);
