@@ -101,11 +101,11 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
       alert("Something went wrong, please try again");
     }
 
-    setIsFetchingWord(false);
     setIsCorrect(false);
     setIsGameOver(false);
     setTries(5);
     setCurrentIndex(0);
+    setIsFetchingWord(false);
   };
 
   useEffect(() => {
@@ -116,6 +116,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const inputValue = event.target.value;
     const updatedInput = [...userInput];
+
     if (updatedInput[index].character === "" && currentIndex + 1 !== currentWord?.word.length) {
       inputRefsArray[currentIndex + 1].current?.focus();
       setCurrentIndex(currentIndex + 1);
@@ -147,6 +148,21 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
       }
     }
   }, [profile, isGameOver, isCorrect]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Backspace" && userInput[currentIndex].character === "") {
+        const nextStep = currentIndex === 0 ? 0 : 1;
+        inputRefsArray[currentIndex - nextStep].current?.focus();
+        setCurrentIndex(currentIndex - nextStep);
+      }
+    };
+    window.addEventListener("keydown", handler, false);
+
+    return () => {
+      window.removeEventListener("keydown", handler);
+    };
+  }, [currentIndex, userInput, inputRefsArray]);
 
   const playAudio = () => {
     if (currentWord) {
