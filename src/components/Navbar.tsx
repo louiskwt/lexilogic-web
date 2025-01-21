@@ -42,7 +42,7 @@ const Navbar = () => {
               <div className="w-10 h-10 rounded-full bg-cover bg-center cursor-pointer" style={{backgroundImage: `url(${avatarUrl})`}} onClick={toggleDropdown} />
             ) : (
               <div className="w-10 h-10 rounded-full bg-lime-600 flex items-center justify-center text-white cursor-pointer" onClick={toggleDropdown}>
-                {profile?.username?.charAt(0).toUpperCase()}
+                {profile?.username?.charAt(0).toUpperCase() || "U"}
               </div>
             )}
             {showDropdown && (
