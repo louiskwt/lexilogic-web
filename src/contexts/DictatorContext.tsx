@@ -167,11 +167,31 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const playAudio = () => {
     if (currentWord) {
       const audio = new Audio(currentWord.audio);
-      audio.play();
+      audio
+        .play()
+        .catch(() => {
+          let retryAttempts = 0;
+          const maxRetryAttempts = 3;
+          const retryDelay = 500; // half second
+
+          const retryAudio = () => {
+            if (retryAttempts < maxRetryAttempts) {
+              retryAttempts++;
+              console.log("retrying");
+              audio.src = currentWord.audio;
+              audio.play();
+            } else {
+              alert("Sorry! Can't load audio, will start another round soon");
+              startGame();
+            }
+          };
+          setTimeout(retryAudio, retryDelay);
+        })
+        .then(() => {
+          inputRefsArray[currentIndex].current?.focus();
+        });
     }
-    if (inputRefsArray[0]) {
-      inputRefsArray[currentIndex].current?.focus();
-    }
+
     return;
   };
 
