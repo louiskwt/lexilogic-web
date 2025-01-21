@@ -5,6 +5,7 @@ import SetupProfileModal from "../components/SetupProfileModal";
 import SignIn from "../components/SignIn";
 import supabase from "../supabaseClient";
 import {ProfileData} from "../utils";
+import {useLanguageContext} from "./LanguageContext";
 
 interface UserProfile {
   avatar_url: string;
@@ -46,6 +47,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [isProfileSetUpModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
   const [isLoginModal, setIsLoginModal] = useState(true);
+  const {t} = useLanguageContext();
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({data: {session}}) => {
@@ -54,14 +56,17 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
       setIsLoading(false);
       // Check if the user has a profile set up
       if (session?.user) {
-        const {data, error} = await supabase.from("profiles").select("*").eq("id", session.user.id);
+        const {data, error} = await supabase.from("profiles").select("*").eq("id", session.user.id).single();
         if (error) {
           console.error("Error fetching user profile:", error);
-        } else if (data.length === 0) {
+          alert(t("authError"));
+          signOut();
+          setUser(null);
+        } else if (!data.username) {
           // User has no profile set up, open the profile setup modal
           setIsProfileModalOpen(true);
         } else {
-          setUserProfile(data[0]);
+          setUserProfile(data);
         }
       }
     });
