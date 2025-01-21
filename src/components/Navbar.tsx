@@ -1,11 +1,13 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useAuthContext} from "../contexts/AuthContext";
 import {useLanguageContext} from "../contexts/LanguageContext";
+import supabase from "../supabaseClient";
 
 const Navbar = () => {
   const {profile, signOut, openLoginModal, openSignUpModal} = useAuthContext();
   const {t} = useLanguageContext();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -16,13 +18,28 @@ const Navbar = () => {
     setShowDropdown(false);
   };
 
+  useEffect(() => {
+    const getProfileAvatarUrl = async () => {
+      try {
+        if (profile) {
+          const publicUrl = await supabase.storage.from("avatars").getPublicUrl(profile.avatar_url);
+          setAvatarUrl(publicUrl.data.publicUrl);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getProfileAvatarUrl();
+  }, [profile]);
+
   return (
     <>
       <nav className="flex justify-end items-center mb-8 px-4">
         {profile && (
           <div className="relative">
-            {profile?.avatar_url ? (
-              <div className="w-10 h-10 rounded-full bg-cover bg-center cursor-pointer" style={{backgroundImage: `url(${profile.avatar_url})`}} onClick={toggleDropdown} />
+            {avatarUrl ? (
+              <div className="w-10 h-10 rounded-full bg-cover bg-center cursor-pointer" style={{backgroundImage: `url(${avatarUrl})`}} onClick={toggleDropdown} />
             ) : (
               <div className="w-10 h-10 rounded-full bg-lime-600 flex items-center justify-center text-white cursor-pointer" onClick={toggleDropdown}>
                 {profile?.username?.charAt(0).toUpperCase()}
