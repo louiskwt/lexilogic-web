@@ -65,6 +65,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
         } else if (!data.username) {
           // User has no profile set up, open the profile setup modal
           setIsProfileModalOpen(true);
+          setUserProfile(data);
         } else {
           setUserProfile(data);
         }
