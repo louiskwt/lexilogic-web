@@ -137,7 +137,6 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
       <Modal onClose={closeModal} isOpen={showModal}>
         <SignIn isLoginModal={isLoginModal} toggleModal={toggleModal} closeModal={closeModal} />
       </Modal>
-
       <SetupProfileModal user={user} isOpen={isProfileSetUpModalOpen} onClose={closeProfileSetUpModal} />
     </AuthContext.Provider>
   );

@@ -21,7 +21,7 @@ const Navbar = () => {
   useEffect(() => {
     const getProfileAvatarUrl = async () => {
       try {
-        if (profile) {
+        if (profile?.avatar_url) {
           const publicUrl = await supabase.storage.from("avatars").getPublicUrl(profile.avatar_url);
           setAvatarUrl(publicUrl.data.publicUrl);
         }
