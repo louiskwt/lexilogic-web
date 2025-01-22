@@ -57,7 +57,7 @@ export function getLocalWords(format: string): WordData[] | null {
   return JSON.parse(words);
 }
 
-export function storeLocalWordleWords(words: WordData[], format: string) {
+export function storeLocalWords(words: WordData[], format: string) {
   localStorage.setItem(format, JSON.stringify(words));
 }
 
