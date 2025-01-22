@@ -51,14 +51,14 @@ export async function updateXP(profileId: string, weeklyXP: number, totalXP: num
   }
 }
 
-export function getLocalWords() {
-  const words = localStorage.getItem("words");
+export function getLocalWords(format: string): WordData[] | null {
+  const words = localStorage.getItem(format);
   if (!words) return null;
   return JSON.parse(words);
 }
 
-export function storeLocalWords(words: WordData[]) {
-  localStorage.setItem("words", JSON.stringify(words));
+export function storeLocalWordleWords(words: WordData[], format: string) {
+  localStorage.setItem(format, JSON.stringify(words));
 }
 
 export function getLocalPhrase() {
@@ -68,4 +68,8 @@ export function getLocalPhrase() {
 
 export function storeLocalPhrases(phrases: PhraseData[]) {
   localStorage.setItem("phrases", JSON.stringify(phrases));
+}
+
+export function generateRandomIndex(length: number): number {
+  return Math.floor(Math.random() * length);
 }
