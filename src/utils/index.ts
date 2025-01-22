@@ -1,3 +1,4 @@
+import {PhraseData, WordData} from "@/types";
 import supabase from "../supabaseClient";
 
 export interface ProfileData {
@@ -48,4 +49,23 @@ export async function updateXP(profileId: string, weeklyXP: number, totalXP: num
       date: new Date(),
     });
   }
+}
+
+export function getLocalWords() {
+  const words = localStorage.getItem("words");
+  if (!words) return null;
+  return JSON.parse(words);
+}
+
+export function storeLocalWords(words: WordData[]) {
+  localStorage.setItem("words", JSON.stringify(words));
+}
+
+export function getLocalPhrase() {
+  const phrases = localStorage.getItem("phrases");
+  return phrases;
+}
+
+export function storeLocalPhrases(phrases: PhraseData[]) {
+  localStorage.setItem("phrases", JSON.stringify(phrases));
 }
