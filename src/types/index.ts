@@ -1,7 +1,7 @@
 export type WordData = {
   word: string;
   pos: string;
-  audio: string;
+  audio?: string;
   meaning: string;
 };
 
