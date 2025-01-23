@@ -61,7 +61,7 @@ export function storeLocalWords(words: WordData[], format: string, date: Date = 
   localStorage.setItem(format, JSON.stringify({words, createdAt: date}));
 }
 
-export function getLocalPhrase() {
+export function getLocalPhrases() {
   const phrases = localStorage.getItem("phrases");
   return phrases;
 }
