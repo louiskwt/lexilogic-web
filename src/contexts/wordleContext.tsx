@@ -2,7 +2,7 @@ import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useSta
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
-import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 
@@ -160,19 +160,38 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
   useEffect(() => {
     const fetchRandomWord = async () => {
-      const {data, error} = await supabase.from("random_wordle_words").select("word, pos, meaning").limit(1).single();
-      if (error) {
-        console.error("Error fetching word: ", error);
-      } else if (data) {
-        setWord(data.word.toUpperCase());
-        console.log(data);
+      const localWords = getLocalWords("wordleWords");
+      const oneWeekBefore = localWords ? isDateOneWeekBefore(new Date(localWords.createdAt), new Date()) : false;
+      if (localWords && localWords.words.length > 10 && !oneWeekBefore) {
+        const randomIndex = generateRandomIndex(localWords.words.length);
+        const randomWordData = localWords.words[randomIndex];
+        setWord(randomWordData.word.toUpperCase());
         setWordHint({
-          meaning: data.meaning,
-          pos: data.pos,
-          vowels: findVowels(data.word),
+          meaning: randomWordData.meaning,
+          pos: randomWordData.pos,
+          vowels: findVowels(randomWordData.word),
         });
-        setIsFetchingWord(false);
+        storeLocalWords(
+          localWords.words.filter((w) => w.word !== randomWordData.word),
+          "wordleWords",
+          localWords.createdAt
+        );
+      } else {
+        const {data, error} = await supabase.from("random_wordle_words").select("word, pos, meaning").limit(100);
+        if (error) {
+          console.error("Error fetching word: ", error);
+        } else if (data) {
+          const randomIndex = generateRandomIndex(data.length);
+          setWord(data[randomIndex].word.toUpperCase());
+          setWordHint({
+            meaning: data[randomIndex].meaning,
+            pos: data[randomIndex].pos,
+            vowels: findVowels(data[randomIndex].word),
+          });
+          storeLocalWords(data, "wordleWords");
+        }
       }
+      setIsFetchingWord(false);
     };
     fetchRandomWord();
   }, []);
@@ -180,7 +199,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Backspace") handleBackspace();
-
       if (e.key === "Enter") handleEnter();
       if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)) handleKeyPress(e.key);
     };
