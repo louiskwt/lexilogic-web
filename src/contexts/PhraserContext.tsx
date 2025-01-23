@@ -2,7 +2,7 @@ import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useSta
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
-import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalPhrases, getLocalProfileData, isDateOneWeekBefore, setLocalProfileData, storeLocalPhrases, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 import {WordHint} from "./WordleContext";
@@ -157,38 +157,57 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
 
   useEffect(() => {
     const fetchRandomWord = async () => {
-      const {data, error} = await supabase.from("random_phrases").select("phrase, en_meaning, meaning").limit(1).single();
-      if (error) {
-        console.error("Error fetching phrase: ", error);
-      } else if (data) {
-        setPhrase(data.phrase.toUpperCase());
-        setRows(
-          Array.from({length: 6}).map(() => {
-            const array = data.phrase.split("").map((c: string) => {
-              if (c === "-") {
-                return {
-                  character: c,
-                  correct: false,
-                  misplaced: false,
-                };
-              } else {
-                return {
-                  character: "",
-                  correct: false,
-                  misplaced: false,
-                };
-              }
-            });
-            return array;
-          })
+      let keyPhrase = "";
+      let meaning = "";
+      const localPhrases = getLocalPhrases();
+      const oneWeekBefore = localPhrases ? isDateOneWeekBefore(new Date(localPhrases.createdAt), new Date()) : false;
+      if (localPhrases && localPhrases.phrases.length > 10 && !oneWeekBefore) {
+        const localRandomIndex = generateRandomIndex(localPhrases.phrases.length);
+        keyPhrase = localPhrases.phrases[localRandomIndex].phrase.toUpperCase();
+        meaning = localPhrases.phrases[localRandomIndex].meaning;
+        storeLocalPhrases(
+          localPhrases.phrases.filter((p) => p.phrase !== localPhrases.phrases[localRandomIndex].phrase),
+          localPhrases.createdAt
         );
-        setWordHint({
-          meaning: data.meaning,
-          pos: "",
-          vowels: findVowels(data.phrase),
-        });
-        setIsFetchingWord(false);
+      } else {
+        const {data, error} = await supabase.from("random_phrases").select("phrase, en_meaning, meaning").limit(100);
+        if (error) {
+          console.error("Error fetching phrase: ", error);
+        } else if (data) {
+          const randoomIndex = generateRandomIndex(data.length);
+          keyPhrase = data[randoomIndex].phrase.toUpperCase();
+          meaning = data[randoomIndex].meaning;
+          storeLocalPhrases(data);
+        }
       }
+
+      setPhrase(keyPhrase);
+      setRows(
+        Array.from({length: 6}).map(() => {
+          const array = keyPhrase.split("").map((c: string) => {
+            if (c === "-") {
+              return {
+                character: c,
+                correct: false,
+                misplaced: false,
+              };
+            } else {
+              return {
+                character: "",
+                correct: false,
+                misplaced: false,
+              };
+            }
+          });
+          return array;
+        })
+      );
+      setWordHint({
+        meaning,
+        pos: "",
+        vowels: findVowels(keyPhrase),
+      });
+      setIsFetchingWord(false);
     };
     fetchRandomWord();
   }, []);
