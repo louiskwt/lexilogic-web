@@ -67,8 +67,8 @@ export function getLocalPhrases(): LocalPhrases | null {
   return JSON.parse(phrases);
 }
 
-export function storeLocalPhrases(phrases: PhraseData[]) {
-  localStorage.setItem("phrases", JSON.stringify(phrases));
+export function storeLocalPhrases(phrases: PhraseData[], date: Date = new Date()) {
+  localStorage.setItem("phrases", JSON.stringify({phrases, createdAt: date}));
 }
 
 export function generateRandomIndex(length: number): number {
