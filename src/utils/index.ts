@@ -1,4 +1,4 @@
-import {PhraseData, WordData} from "@/types";
+import {LocalWords, PhraseData, WordData} from "@/types";
 import supabase from "../supabaseClient";
 
 export interface ProfileData {
@@ -51,14 +51,14 @@ export async function updateXP(profileId: string, weeklyXP: number, totalXP: num
   }
 }
 
-export function getLocalWords(format: string): WordData[] | null {
+export function getLocalWords(format: string): LocalWords | null {
   const words = localStorage.getItem(format);
   if (!words) return null;
   return JSON.parse(words);
 }
 
-export function storeLocalWords(words: WordData[], format: string) {
-  localStorage.setItem(format, JSON.stringify(words));
+export function storeLocalWords(words: WordData[], format: string, date: Date = new Date()) {
+  localStorage.setItem(format, JSON.stringify({words, createdAt: date}));
 }
 
 export function getLocalPhrase() {
