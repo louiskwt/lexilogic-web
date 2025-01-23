@@ -1,7 +1,3 @@
-type CreatedAt = {
-  createdAt: Date;
-};
-
 export type WordData = {
   word: string;
   pos: string;
@@ -9,7 +5,10 @@ export type WordData = {
   meaning: string;
 };
 
-export type LocalWords = WordData & CreatedAt;
+export type LocalWords = {
+  words: WordData[];
+  createdAt: Date;
+};
 
 export type PhraseData = {
   phrase: string;
@@ -17,4 +16,7 @@ export type PhraseData = {
   audio?: string;
 };
 
-export type LocalPhrases = PhraseData & CreatedAt;
+export type LocalPhrases = {
+  phrases: PhraseData;
+  createdAt: Date;
+};
