@@ -1,6 +1,6 @@
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
-import {findVowels, getLocalProfileData, setLocalProfileData, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 import {WordHint} from "./WordleContext";
@@ -66,9 +66,9 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const {profile} = useAuthContext();
   const {t} = useLanguageContext();
 
-  const fetchDictationWord = async (): Promise<WordData | null> => {
+  const fetchDictationWord = async (): Promise<WordData[] | null> => {
     try {
-      const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, audio").limit(1).single();
+      const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, audio").limit(100);
       if (error) throw error;
       return data;
     } catch (err) {
@@ -79,15 +79,17 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const startGame = async () => {
     setIsFetchingWord(true);
-    const wordData = await fetchDictationWord();
+    const localWords = getLocalWords("dictationWords");
+    const isOneWeekBefore = localWords ? isDateOneWeekBefore(new Date(localWords.createdAt), new Date()) : false;
+    if (localWords && localWords.words.length > 10 && !isOneWeekBefore) {
+      const localRandomIndex = generateRandomIndex(localWords.words.length);
 
-    if (wordData) {
       setCurrentWord({
-        word: wordData.word,
-        audio: wordData.audio,
+        word: localWords.words[localRandomIndex].word,
+        audio: localWords.words[localRandomIndex].audio || "",
       });
 
-      const inputs = wordData.word.split("").map(() => {
+      const inputs = localWords.words[localRandomIndex].word.split("").map(() => {
         return {
           character: "",
           correct: false,
@@ -95,12 +97,42 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
       });
       setUserInput(inputs);
       setWordHint({
-        meaning: wordData.meaning,
-        pos: wordData.pos,
-        vowels: findVowels(wordData.word),
+        meaning: localWords.words[localRandomIndex].meaning,
+        pos: localWords.words[localRandomIndex].pos,
+        vowels: findVowels(localWords.words[localRandomIndex].word),
       });
+      storeLocalWords(
+        localWords.words.filter((w) => w.word !== localWords.words[localRandomIndex].word),
+        "dictationWords",
+        localWords.createdAt
+      );
     } else {
-      alert(t("warning.errorTryAgain"));
+      const wordData = await fetchDictationWord();
+      const randomIndex = generateRandomIndex(wordData?.length || 100);
+
+      if (wordData) {
+        setCurrentWord({
+          word: wordData[randomIndex].word,
+          audio: wordData[randomIndex].audio,
+        });
+
+        const inputs = wordData[randomIndex].word.split("").map(() => {
+          return {
+            character: "",
+            correct: false,
+          };
+        });
+        setUserInput(inputs);
+        setWordHint({
+          meaning: wordData[randomIndex].meaning,
+          pos: wordData[randomIndex].pos,
+          vowels: findVowels(wordData[randomIndex].word),
+        });
+
+        storeLocalWords(wordData, "dictationWords");
+      } else {
+        alert(t("warning.errorTryAgain"));
+      }
     }
 
     setIsCorrect(false);
