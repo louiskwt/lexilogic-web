@@ -1,4 +1,4 @@
-import {LocalWords, PhraseData, WordData} from "@/types";
+import {LocalPhrases, LocalWords, PhraseData, WordData} from "@/types";
 import supabase from "../supabaseClient";
 
 export interface ProfileData {
@@ -61,7 +61,7 @@ export function storeLocalWords(words: WordData[], format: string, date: Date = 
   localStorage.setItem(format, JSON.stringify({words, createdAt: date}));
 }
 
-export function getLocalPhrases() {
+export function getLocalPhrases(): LocalPhrases | null {
   const phrases = localStorage.getItem("phrases");
   return phrases;
 }
