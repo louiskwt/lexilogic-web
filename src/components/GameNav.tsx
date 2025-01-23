@@ -21,7 +21,7 @@ interface INavbarProps {
 }
 
 const GameNav = ({wordHint, rules}: INavbarProps) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<"en-US" | "en-UK">("en-US");
   const [modalType, setModalType] = useState<"language" | "rules" | "rankings" | "hints">("rules");
