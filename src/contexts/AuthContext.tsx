@@ -24,6 +24,7 @@ type AuthContextType = {
   showModal: boolean;
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
+  signUpWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   closeModal: () => void;
   openLoginModal: () => void;
@@ -82,6 +83,25 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const signUpWithEmail = async (email: string, password: string) => {
+    try {
+      const {data, error} = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        setUser(data.user);
+        // Additional actions, such as storing the user in the context or local storage
+      }
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
+  };
+
   const signInWithGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -133,6 +153,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
         openLoginModal,
         openSignUpModal,
         toggleModal,
+        signUpWithEmail,
       }}>
       {children}
       <Modal onClose={closeModal} isOpen={showModal}>

@@ -1,5 +1,6 @@
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useState} from "react";
 import {useAuthContext} from "../contexts/AuthContext";
 import {useLanguageContext} from "../contexts/LanguageContext";
 
@@ -10,12 +11,30 @@ interface ISignInProps {
 }
 
 const SignIn = ({isLoginModal, toggleModal, closeModal}: ISignInProps) => {
-  const {signInWithGoogle} = useAuthContext();
+  const {signInWithGoogle, signInWithEmail, signUpWithEmail} = useAuthContext();
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
   const {t} = useLanguageContext();
 
   const handleGoogleSignIn = async () => {
     await signInWithGoogle();
     closeModal();
+  };
+
+  const handleEmailSignIn = async () => {
+    if (email && password) {
+      await signInWithEmail(email, password);
+      closeModal();
+      window.location.reload();
+    }
+  };
+
+  const handleEmailSignUp = async () => {
+    if (email && password) {
+      await signUpWithEmail(email, password);
+      closeModal();
+      window.location.reload();
+    }
   };
 
   return (
@@ -32,9 +51,11 @@ const SignIn = ({isLoginModal, toggleModal, closeModal}: ISignInProps) => {
             <span className="flex-shrink mx-4 text-gray-400">{t("or")}</span>
             <div className="flex-grow border-t border-gray-400"></div>
           </div>
-          <input type="email" placeholder="Email" autoComplete="off" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
-          <input type="password" placeholder="Password" autoComplete="off" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
-          <button className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4">{isLoginModal ? t("login") : t("signup")}</button>
+          <input type="email" placeholder="Email" autoComplete="off" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" onChange={(e) => setEmail(e.target.value)} />
+          <input type="password" placeholder="Password" autoComplete="off" className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" onChange={(e) => setPassword(e.target.value)} />
+          <button className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4" onClick={isLoginModal ? handleEmailSignIn : handleEmailSignUp}>
+            {isLoginModal ? t("login") : t("signup")}
+          </button>
           <button onClick={toggleModal} className="text-gray-400 hover:text-gray-200 font-medium">
             {isLoginModal ? t("noAccount") : t("hasAccount")}
           </button>
