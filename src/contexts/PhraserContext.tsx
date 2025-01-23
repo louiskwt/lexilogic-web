@@ -148,9 +148,10 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   const handleBackspace = useCallback(() => {
     if (currentCol > 0) {
       const newRows = [...rows];
-      newRows[currentRow][currentCol - 1].character = " ";
+      const prevCharacter = newRows[currentRow][currentCol - 1].character;
+      const next = prevCharacter === "-" ? 2 : 1;
+      newRows[currentRow][currentCol - next].character = " ";
       setRows(newRows);
-      const next = newRows[currentRow][currentCol - 2].character === "-" ? 2 : 1;
       setCurrentCol(currentCol - next);
     }
   }, [currentCol, rows, currentRow]);
