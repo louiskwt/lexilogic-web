@@ -17,6 +17,6 @@ export type PhraseData = {
 };
 
 export type LocalPhrases = {
-  phrases: PhraseData;
+  phrases: PhraseData[];
   createdAt: Date;
 };
