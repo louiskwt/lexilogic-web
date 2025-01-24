@@ -13,7 +13,7 @@ const DictatorGame: React.FC = () => {
   if (isGameOver) {
     return (
       <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
-        <GameOverDisplay message={t("dictatorGame.gameOver.message")} title={t("dictatorGame.gameOver.title")} handleNewGame={startGame} answer={currentWord?.word || ""} />
+        <GameOverDisplay message={t("dictatorGame.gameOver.message")} title={t("dictatorGame.gameOver.title")} handleNewGame={startGame} answer={currentWord?.word || ""} pos={wordHint.pos} meaning={wordHint.meaning} />
       </div>
     );
   }
