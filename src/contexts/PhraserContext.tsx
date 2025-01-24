@@ -266,7 +266,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={phrase} handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={phrase.toLowerCase()} meaning={wordHint.meaning} pos="exp" handleNewGame={handleNextGame} />} />
     </PhraserContext.Provider>
   );
 };
