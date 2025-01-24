@@ -42,7 +42,7 @@ const Wordle = () => {
             {rows.map((row, index: number) => (
               <div key={index} className="flex space-x-2">
                 {row.map((square, index) => (
-                  <Square key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} size={12} />
+                  <Square key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} size={8} />
                 ))}
               </div>
             ))}
