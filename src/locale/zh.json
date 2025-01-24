@@ -17,7 +17,7 @@
     "noAccount": "沒有帳戶嗎? 註冊",
     "hasAccount": "已經有帳戶了嗎? 登入",
     "tryAgain": "開始新一個挑戰",
-    "correctAnswer": "正確答案是 {{ ans }}",
+    "correctAnswer": "正確答案是 {{ ans }} ({{ pos }}) -- {{ meaning }}",
     "setUpProfile": "設置您的個人資料",
     "avatar": "頭像（選填）",
     "saveProfile": "保存個人資料",

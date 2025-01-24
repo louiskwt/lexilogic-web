@@ -17,7 +17,7 @@
     "noAccount": "Don't have an account? Sign up",
     "hasAccount": "Already have an account? Login",
     "tryAgain": "Start Again",
-    "correctAnswer": "The correct answer is {{ ans }}",
+    "correctAnswer": "The correct answer is {{ ans }} ({{ pos }}) -- {{ meaning }}",
     "setUpProfile": "Set Up Your Profile",
     "avatar": "Avatar (Optional)",
     "saveProfile": "Save Profile",
