@@ -119,7 +119,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const handleNextGame = () => location.reload();
 
   const handleEnter = useCallback(() => {
-    if (currentCol < 4) {
+    if (currentCol < 5) {
       alert(t("warning.notEnoughLetter"));
       return;
     }
