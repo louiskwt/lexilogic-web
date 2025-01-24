@@ -248,7 +248,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word} handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word} pos={wordHint.pos} meaning={wordHint.meaning} handleNewGame={handleNextGame} />} />
     </WordleContext.Provider>
   );
 };
