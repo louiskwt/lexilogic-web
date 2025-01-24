@@ -39,14 +39,14 @@ const Phraser = () => {
         <Spinner size="lg" />
       ) : (
         <>
-          <div className="flex-1 flex flex-col items-center justify-center space-y-4 mt-12">
+          <div className="flex-1 flex flex-col items-center justify-center space-y-2 md:space-y-4 mt-4">
             {rows.map((row, rowIndex) => (
               <div key={rowIndex} className="flex space-x-2">
                 {row.map((square, index) => {
                   if (square.character === "-") {
                     return <EmptySquare key={index} size={6} />;
                   } else {
-                    return <Square key={index} size={8} char={square.character} misplaced={square.misplaced} correct={square.correct} />;
+                    return <Square key={index} size={6} char={square.character} misplaced={square.misplaced} correct={square.correct} />;
                   }
                 })}
               </div>
