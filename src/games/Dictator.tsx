@@ -54,7 +54,7 @@ const DictatorGame: React.FC = () => {
         {isCorrect && (
           <>
             {" "}
-            <div className="animate-drop-bounce text-green-500 font-bold text-4xl my-6">{t("dictatorGame.correct")}</div>{" "}
+            <div className="animate-drop-bounce text-green-500 font-bold text-4xl my-6 text-center">{t("dictatorGame.correct")}</div>{" "}
           </>
         )}
         <h1 className="text-4xl font-bold mb-8">{t("dictator")}</h1>
