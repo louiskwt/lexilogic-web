@@ -206,7 +206,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       setWordHint({
         meaning,
         pos: "",
-        vowels: findVowels(keyPhrase),
+        vowels: findVowels(keyPhrase.toLowerCase()),
       });
       setIsFetchingWord(false);
     };
