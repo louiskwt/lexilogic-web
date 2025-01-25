@@ -15,7 +15,7 @@ export function findVowels(word: string): string[] {
       foundVowels.push(word[i]);
     }
   }
-  return foundVowels;
+  return Array.from(new Set(foundVowels));
 }
 
 export function getLocalProfileData(): ProfileData | null {
