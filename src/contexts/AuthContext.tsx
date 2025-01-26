@@ -22,9 +22,11 @@ type AuthContextType = {
   session: Session | null;
   isLoading: boolean;
   showModal: boolean;
+  isProfileSetUpModalOpen: boolean;
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signUpWithEmail: (email: string, password: string) => Promise<void>;
+  setIsProfileModalOpen: (state: boolean) => void;
   signOut: () => Promise<void>;
   closeModal: () => void;
   openLoginModal: () => void;
@@ -154,6 +156,8 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
         openSignUpModal,
         toggleModal,
         signUpWithEmail,
+        isProfileSetUpModalOpen,
+        setIsProfileModalOpen,
       }}>
       {children}
       <Modal onClose={closeModal} isOpen={showModal}>

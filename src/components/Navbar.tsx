@@ -4,7 +4,7 @@ import {useLanguageContext} from "../contexts/LanguageContext";
 import supabase from "../supabaseClient";
 
 const Navbar = () => {
-  const {profile, signOut, openLoginModal, openSignUpModal} = useAuthContext();
+  const {profile, signOut, openLoginModal, openSignUpModal, setIsProfileModalOpen} = useAuthContext();
   const {t} = useLanguageContext();
   const [showDropdown, setShowDropdown] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -16,6 +16,10 @@ const Navbar = () => {
   const handleSignOut = async () => {
     await signOut();
     setShowDropdown(false);
+  };
+
+  const handleProfileModal = () => {
+    setIsProfileModalOpen(true);
   };
 
   useEffect(() => {
@@ -47,6 +51,11 @@ const Navbar = () => {
             )}
             {showDropdown && (
               <div className="absolute right-0 mt-2 w-48 bg-zinc-800 rounded-md shadow-lg z-10">
+                <div className="py-2">
+                  <button className="block w-full text-left px-4 py-2 hover:bg-zinc-700 focus:outline-none" onClick={handleProfileModal}>
+                    {t("profile")}
+                  </button>
+                </div>
                 <div className="py-2">
                   <button className="block w-full text-left px-4 py-2 hover:bg-zinc-700 focus:outline-none" onClick={handleSignOut}>
                     {t("signout")}
