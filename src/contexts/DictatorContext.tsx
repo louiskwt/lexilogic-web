@@ -166,26 +166,22 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     const currentTotalXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.total_xp : 0;
     const xp = isCorrect ? 3 : isGameOver ? 1 : 0;
 
-    if (isCorrect) {
-      if (profile) {
-        updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
-      } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp, date: new Date()});
-      }
+    if (isCorrect || isGameOver) {
+      if (profile) updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
     }
 
-    if (isGameOver) {
-      if (profile) {
-        updateXP(profile.id, currentTotalXP + xp, currentTotalXP + xp);
-      } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + 3, total_xp: currentTotalXP + xp, date: new Date()});
-      }
+    if (profile) {
+      const updatedProfile = profile;
+      updatedProfile.total_xp = currentTotalXP + xp;
+      updatedProfile.weekly_xp = currentWeeklyXP + xp;
+      handleProfileUpdate(updatedProfile);
+    } else {
+      setLocalProfileData({
+        weekly_xp: currentWeeklyXP + xp,
+        total_xp: currentTotalXP + xp,
+        meaning_lang: "zh",
+      });
     }
-    handleProfileUpdate({
-      ...profile,
-      weekly_xp: currentWeeklyXP + xp,
-      total_xp: currentTotalXP + xp,
-    });
   }, [isGameOver, isCorrect]);
 
   useEffect(() => {
