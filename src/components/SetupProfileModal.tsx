@@ -14,17 +14,20 @@ interface SetupProfileModalProps {
 
 const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onClose}) => {
   const [username, setUsername] = useState("");
-  const [language, setLanguage] = useState("zh");
+  const [language, setLanguage] = useState<"zh" | "en">("zh");
   const [avatar, setAvatar] = useState<File | Blob | null>(null);
   const {t} = useLanguageContext();
   const {signOut, profile} = useAuthContext();
 
-  const handleLanguageChange = (lang: string) => {
+  const handleLanguageChange = (lang: "zh" | "en") => {
     setLanguage(lang);
   };
 
   useEffect(() => {
-    if (profile) setUsername(profile.username);
+    if (profile) {
+      setLanguage(profile.meaning_lang);
+      setUsername(profile.username);
+    }
   }, [profile]);
 
   const handleSubmit = async () => {
@@ -52,6 +55,7 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
             {
               username,
               avatar_url: avatar ? await uploadAvatar(avatar) : null,
+              meaning_lang: language,
             },
           ])
           .eq("id", user.id);
