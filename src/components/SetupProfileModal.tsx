@@ -1,6 +1,6 @@
 import {User} from "@supabase/supabase-js";
 import Compressor from "compressorjs";
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {useAuthContext} from "../contexts/AuthContext";
 import {useLanguageContext} from "../contexts/LanguageContext";
 import supabase from "../supabaseClient";
@@ -16,7 +16,11 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState<File | Blob | null>(null);
   const {t} = useLanguageContext();
-  const {signOut} = useAuthContext();
+  const {signOut, profile} = useAuthContext();
+
+  useEffect(() => {
+    if (profile) setUsername(profile.username);
+  }, [profile]);
 
   const handleSubmit = async () => {
     if (username === "") {
@@ -110,16 +114,14 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="bg-zinc-800 rounded-lg p-6 shadow-md w-full max-w-md">
+      <div className="bg-zinc-800 d-flex justify-center rounded-lg p-6 shadow-md w-full max-w-md items-center">
         <h2 className="text-2xl font-bold mb-4">{t("setUpProfile")}</h2>
         <div className="flex flex-col space-y-4">
           <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
-          <div>
-            <label className="block text-gray-400 mb-2" htmlFor="avatar">
-              {t("avatar")}
-            </label>
-            <input type="file" id="avatar" onChange={(e) => handleAvatarImage(e)} className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
-          </div>
+          <label className="block text-gray-400 mb-2" htmlFor="avatar">
+            {t("avatar")}
+          </label>
+          <input type="file" id="avatar" onChange={(e) => handleAvatarImage(e)} className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
           <button onClick={handleSubmit} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4">
             {t("saveProfile")}
           </button>
