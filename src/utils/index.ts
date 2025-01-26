@@ -48,6 +48,7 @@ export async function updateXP(profileId: string, weeklyXP: number, totalXP: num
       weekly_xp: weeklyXP,
       total_xp: totalXP,
       date: new Date(),
+      meaning_lang: "zh",
     });
   }
 }
