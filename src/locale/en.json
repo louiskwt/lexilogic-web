@@ -13,6 +13,8 @@
     "signup": "Sign Up",
     "signout": "Sign Out",
     "profile": "Profile",
+    "username": "Username",
+    "meaning_lang": "Word Meaning Language",
     "googleSignIn": "Sign In With Google",
     "or": "OR",
     "noAccount": "Don't have an account? Sign up",
@@ -110,6 +112,10 @@
       "imageError": "Failed to process this image. Please use another image.",
       "authError": "Sorry, failed to Authenticate! Please try again later.",
       "usernameTaken": "Sorry, the username has already been taken. Please use another one!"
+    },
+    "lang_code": {
+      "en": "English",
+      "zh": "Chinese"
     }
   }
 }

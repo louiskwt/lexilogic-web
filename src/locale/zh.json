@@ -13,6 +13,8 @@
     "signup": "註冊",
     "signout": "登出",
     "profile": "個人資料",
+    "username": "用户名",
+    "meaning_lang": "單詞意思語言",
     "googleSignIn": "使用 Google 登入",
     "or": "或",
     "noAccount": "沒有帳戶嗎? 註冊",
@@ -110,6 +112,10 @@
       "imageError": "處理此圖片時出錯。請使用其他圖片。",
       "authError": "抱歉，身份驗證失敗！請稍後再試。",
       "usernameTaken": "抱歉，該使用者名稱已被使用。請使用其他名稱！"
+    },
+    "lang_code": {
+      "en": "英文",
+      "zh": "中文"
     }
   }
 }
