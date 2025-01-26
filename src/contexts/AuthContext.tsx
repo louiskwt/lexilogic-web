@@ -32,6 +32,7 @@ type AuthContextType = {
   openLoginModal: () => void;
   openSignUpModal: () => void;
   toggleModal: () => void;
+  handleProfileUpdate: (p: ProfileData & UserProfile) => void;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -54,6 +55,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({data: {session}}) => {
+      console.log("hehe");
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
@@ -139,6 +141,9 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   const closeModal = () => setShowModal(false);
 
   const closeProfileSetUpModal = () => setIsProfileModalOpen(false);
+  const handleProfileUpdate = (p: UserProfile & ProfileData) => {
+    setUserProfile(p);
+  };
 
   return (
     <AuthContext.Provider
@@ -158,6 +163,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
         signUpWithEmail,
         isProfileSetUpModalOpen,
         setIsProfileModalOpen,
+        handleProfileUpdate,
       }}>
       {children}
       <Modal onClose={closeModal} isOpen={showModal}>

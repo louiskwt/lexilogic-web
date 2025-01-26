@@ -63,7 +63,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(false);
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
-  const {profile} = useAuthContext();
+  const {profile, handleProfileUpdate} = useAuthContext();
   const {t} = useLanguageContext();
 
   const fetchDictationWord = async (): Promise<WordData[] | null> => {
@@ -181,7 +181,12 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         setLocalProfileData({weekly_xp: currentWeeklyXP + 3, total_xp: currentTotalXP + xp, date: new Date()});
       }
     }
-  }, [profile, isGameOver, isCorrect]);
+    handleProfileUpdate({
+      ...profile,
+      weekly_xp: currentWeeklyXP + xp,
+      total_xp: currentTotalXP + xp,
+    });
+  }, [isGameOver, isCorrect]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
