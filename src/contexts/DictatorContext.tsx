@@ -179,6 +179,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
       setLocalProfileData({
         weekly_xp: currentWeeklyXP + xp,
         total_xp: currentTotalXP + xp,
+        date: new Date(),
         meaning_lang: "zh",
       });
     }
