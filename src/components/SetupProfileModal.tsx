@@ -14,9 +14,14 @@ interface SetupProfileModalProps {
 
 const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onClose}) => {
   const [username, setUsername] = useState("");
+  const [language, setLanguage] = useState("zh");
   const [avatar, setAvatar] = useState<File | Blob | null>(null);
   const {t} = useLanguageContext();
   const {signOut, profile} = useAuthContext();
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
+  };
 
   useEffect(() => {
     if (profile) setUsername(profile.username);
@@ -117,7 +122,23 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
       <div className="bg-zinc-800 d-flex justify-center rounded-lg p-6 shadow-md w-full max-w-md items-center">
         <h2 className="text-2xl font-bold mb-4">{t("setUpProfile")}</h2>
         <div className="flex flex-col space-y-4">
+          <label className="block text-gray-400" htmlFor="avatar">
+            {t("username")}
+          </label>
           <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 focus:outline-none focus:border-lime-600" />
+          <div className="flex flex-col">
+            <label className="block text-gray-400 mr-4 mb-4" htmlFor="language">
+              {t("meaning_lang")}
+            </label>
+            <div className="flex">
+              <button type="button" onClick={() => handleLanguageChange("en")} className={`px-4 py-2 rounded-l-md ${language === "en" ? "bg-lime-600 text-white" : "bg-zinc-700 text-gray-400 hover:bg-zinc-600"}`}>
+                {t("lang_code.en")}
+              </button>
+              <button type="button" onClick={() => handleLanguageChange("zh")} className={`px-4 py-2 rounded-r-md ${language === "zh" ? "bg-lime-600 text-white" : "bg-zinc-700 text-gray-400 hover:bg-zinc-600"}`}>
+                {t("lang_code.zh")}
+              </button>
+            </div>
+          </div>
           <label className="block text-gray-400 mb-2" htmlFor="avatar">
             {t("avatar")}
           </label>
