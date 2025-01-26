@@ -240,13 +240,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     if (gameState === 1) {
       if (profile) updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
     }
-    if (profile) {
-      const updatedProfile = profile;
-      updatedProfile.total_xp = currentTotalXP + xp;
-      updatedProfile.weekly_xp = currentWeeklyXP + xp;
-      profile.date = new Date();
-      setLocalProfileData(updatedProfile);
-    }
+    if (!profile) setLocalProfileData({weekly_xp: currentWeeklyXP + xp * multiplier, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "en"});
   }, [gameState, profile]);
 
   return (

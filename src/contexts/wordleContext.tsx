@@ -216,20 +216,13 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     const multiplier = currentRow < 3 ? 2 : 1;
 
     if (gameState === 0) {
-      if (profile) {
-        updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
-      } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "zh"});
-      }
+      if (profile) updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
     }
 
     if (gameState === 1) {
-      if (profile) {
-        updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
-      } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp, date: new Date(), meaning_lang: "zh"});
-      }
+      if (profile) updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
     }
+    if (!profile) setLocalProfileData({weekly_xp: currentWeeklyXP + xp * multiplier, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "en"});
   }, [gameState, profile]);
 
   return (
