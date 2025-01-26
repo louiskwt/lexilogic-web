@@ -234,19 +234,18 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     const multiplier = currentRow < 3 ? 2 : 1;
 
     if (gameState === 0) {
-      if (profile) {
-        updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
-      } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp * multiplier, date: new Date()});
-      }
+      if (profile) updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
     }
 
     if (gameState === 1) {
-      if (profile) {
-        updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
-      } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp, date: new Date()});
-      }
+      if (profile) updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
+    }
+    if (profile) {
+      const updatedProfile = profile;
+      updatedProfile.total_xp = currentTotalXP + xp;
+      updatedProfile.weekly_xp = currentWeeklyXP + xp;
+      profile.date = new Date();
+      setLocalProfileData(updatedProfile);
     }
   }, [gameState, profile]);
 

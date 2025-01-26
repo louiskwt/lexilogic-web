@@ -219,7 +219,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       if (profile) {
         updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
       } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp * multiplier, date: new Date()});
+        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "zh"});
       }
     }
 
@@ -227,7 +227,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       if (profile) {
         updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
       } else {
-        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp, date: new Date()});
+        setLocalProfileData({weekly_xp: currentWeeklyXP + xp, total_xp: currentTotalXP + xp, date: new Date(), meaning_lang: "zh"});
       }
     }
   }, [gameState, profile]);
