@@ -5,6 +5,7 @@ export interface ProfileData {
   weekly_xp: number;
   total_xp: number;
   date?: Date;
+  meaning_lang: "zh" | "en";
 }
 
 export function findVowels(word: string): string[] {
