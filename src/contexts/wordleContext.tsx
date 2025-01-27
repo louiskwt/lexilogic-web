@@ -1,8 +1,9 @@
+import {WordData} from "@/types";
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 
@@ -161,36 +162,35 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   useEffect(() => {
     const fetchRandomWord = async () => {
       const localWords = getLocalWords("wordleWords");
+      const hasEnMeaning = localWords?.words.every((w) => "en_meaning" in w) || false; // temporary measure; can remove after a while
       const oneWeekBefore = localWords ? isDateOneWeekBefore(new Date(localWords.createdAt), new Date()) : false;
-      if (localWords && localWords.words.length > 10 && !oneWeekBefore) {
+      let randomWordData: WordData = {meaning: "", pos: "", word: "", en_meaning: ""};
+
+      if (localWords && localWords.words.length > 10 && !oneWeekBefore && hasEnMeaning) {
         const randomIndex = generateRandomIndex(localWords.words.length);
-        const randomWordData = localWords.words[randomIndex];
-        setWord(randomWordData.word.toUpperCase());
-        setWordHint({
-          meaning: randomWordData.meaning,
-          pos: randomWordData.pos,
-          vowels: findVowels(randomWordData.word),
-        });
+        randomWordData = localWords.words[randomIndex];
         storeLocalWords(
           localWords.words.filter((w) => w.word !== randomWordData.word),
           "wordleWords",
           localWords.createdAt
         );
       } else {
-        const {data, error} = await supabase.from("random_wordle_words").select("word, pos, meaning").limit(100);
+        const {data, error} = await supabase.from("random_wordle_words").select("word, pos, meaning, en_meaning").limit(100);
         if (error) {
           console.error("Error fetching word: ", error);
         } else if (data) {
           const randomIndex = generateRandomIndex(data.length);
-          setWord(data[randomIndex].word.toUpperCase());
-          setWordHint({
-            meaning: data[randomIndex].meaning,
-            pos: data[randomIndex].pos,
-            vowels: findVowels(data[randomIndex].word),
-          });
+          randomWordData = data[randomIndex];
           storeLocalWords(data, "wordleWords");
         }
       }
+      const meaningLangPreference = getMeaningLangPreference();
+      setWord(randomWordData.word.toUpperCase());
+      setWordHint({
+        meaning: meaningLangPreference === "en" ? randomWordData.en_meaning : randomWordData.meaning,
+        pos: randomWordData.pos,
+        vowels: findVowels(randomWordData.word),
+      });
       setIsFetchingWord(false);
     };
     fetchRandomWord();

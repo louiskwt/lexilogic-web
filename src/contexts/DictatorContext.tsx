@@ -1,6 +1,7 @@
+import {WordData} from "@/types";
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 import {WordHint} from "./WordleContext";
@@ -9,8 +10,6 @@ interface IWord {
   word: string;
   audio: string;
 }
-
-type WordData = IWord & {pos: string; meaning: string};
 
 interface IUserInput {
   character: string;
@@ -68,7 +67,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const fetchDictationWord = async (): Promise<WordData[] | null> => {
     try {
-      const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, audio").limit(100);
+      const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, en_meaning, audio").limit(100);
       if (error) throw error;
       return data;
     } catch (err) {
@@ -81,59 +80,55 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     setIsFetchingWord(true);
     const localWords = getLocalWords("dictationWords");
     const isOneWeekBefore = localWords ? isDateOneWeekBefore(new Date(localWords.createdAt), new Date()) : false;
-    if (localWords && localWords.words.length > 10 && !isOneWeekBefore) {
+    const hasEnMeaning = localWords?.words.every((w) => "en_meaning" in w) || false;
+    const meaningLangPreference = getMeaningLangPreference();
+    let inputs: IUserInput[] = [{character: "", correct: false}];
+    let wordData: WordData = {word: "", meaning: "", audio: "", en_meaning: "", pos: ""};
+
+    if (localWords && localWords.words.length > 10 && !isOneWeekBefore && hasEnMeaning) {
       const localRandomIndex = generateRandomIndex(localWords.words.length);
-
-      setCurrentWord({
-        word: localWords.words[localRandomIndex].word,
-        audio: localWords.words[localRandomIndex].audio || "",
-      });
-
-      const inputs = localWords.words[localRandomIndex].word.split("").map(() => {
+      wordData = localWords.words[localRandomIndex];
+      inputs = wordData.word.split("").map(() => {
         return {
           character: "",
           correct: false,
         };
       });
-      setUserInput(inputs);
-      setWordHint({
-        meaning: localWords.words[localRandomIndex].meaning,
-        pos: localWords.words[localRandomIndex].pos,
-        vowels: findVowels(localWords.words[localRandomIndex].word),
-      });
+
       storeLocalWords(
         localWords.words.filter((w) => w.word !== localWords.words[localRandomIndex].word),
         "dictationWords",
         localWords.createdAt
       );
     } else {
-      const wordData = await fetchDictationWord();
-      const randomIndex = generateRandomIndex(wordData?.length || 100);
+      const words = await fetchDictationWord();
+      const randomIndex = generateRandomIndex(words?.length || 100);
+      if (words) {
+        wordData = words[randomIndex];
 
-      if (wordData) {
-        setCurrentWord({
-          word: wordData[randomIndex].word,
-          audio: wordData[randomIndex].audio,
-        });
-
-        const inputs = wordData[randomIndex].word.split("").map(() => {
+        inputs = wordData.word.split("").map(() => {
           return {
             character: "",
             correct: false,
           };
         });
-        setUserInput(inputs);
-        setWordHint({
-          meaning: wordData[randomIndex].meaning,
-          pos: wordData[randomIndex].pos,
-          vowels: findVowels(wordData[randomIndex].word),
-        });
 
-        storeLocalWords(wordData, "dictationWords");
+        storeLocalWords(words, "dictationWords");
       } else {
         alert(t("warning.errorTryAgain"));
       }
     }
+
+    setCurrentWord({
+      word: wordData.word,
+      audio: wordData.audio || "",
+    });
+    setUserInput(inputs);
+    setWordHint({
+      meaning: meaningLangPreference === "en" ? wordData.en_meaning : wordData.meaning,
+      pos: wordData.pos,
+      vowels: findVowels(wordData.word),
+    });
 
     setIsCorrect(false);
     setIsGameOver(false);

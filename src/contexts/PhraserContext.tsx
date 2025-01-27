@@ -2,7 +2,7 @@ import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useSta
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalPhrases, getLocalProfileData, isDateOneWeekBefore, setLocalProfileData, storeLocalPhrases, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalPhrases, getLocalProfileData, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalPhrases, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 import {WordHint} from "./WordleContext";
@@ -162,10 +162,12 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       let meaning = "";
       const localPhrases = getLocalPhrases();
       const oneWeekBefore = localPhrases ? isDateOneWeekBefore(new Date(localPhrases.createdAt), new Date()) : false;
-      if (localPhrases && localPhrases.phrases.length > 10 && !oneWeekBefore) {
+      const hasEnMeaning = localPhrases?.phrases.every((p) => "en_meaning" in p) || false; // temporary measure; can remove after a while
+      const meaningLangPreference = getMeaningLangPreference();
+      if (localPhrases && localPhrases.phrases.length > 10 && !oneWeekBefore && !hasEnMeaning) {
         const localRandomIndex = generateRandomIndex(localPhrases.phrases.length);
         keyPhrase = localPhrases.phrases[localRandomIndex].phrase.toUpperCase();
-        meaning = localPhrases.phrases[localRandomIndex].meaning;
+        meaning = meaningLangPreference === "en" ? localPhrases.phrases[localRandomIndex].en_meaning : localPhrases.phrases[localRandomIndex].meaning;
         storeLocalPhrases(
           localPhrases.phrases.filter((p) => p.phrase !== localPhrases.phrases[localRandomIndex].phrase),
           localPhrases.createdAt
@@ -177,7 +179,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         } else if (data) {
           const randoomIndex = generateRandomIndex(data.length);
           keyPhrase = data[randoomIndex].phrase.toUpperCase();
-          meaning = data[randoomIndex].meaning;
+          meaning = meaningLangPreference === "en" ? data[randoomIndex].en_meaning : data[randoomIndex].meaning;
           storeLocalPhrases(data);
         }
       }
