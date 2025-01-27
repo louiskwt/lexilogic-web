@@ -4,7 +4,7 @@ import Modal from "../components/Modal";
 import SetupProfileModal from "../components/SetupProfileModal";
 import SignIn from "../components/SignIn";
 import supabase from "../supabaseClient";
-import {ProfileData} from "../utils";
+import {ProfileData, storeMeaningLangPreference} from "../utils";
 import {useLanguageContext} from "./LanguageContext";
 
 interface UserProfile {
@@ -55,7 +55,6 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({data: {session}}) => {
-      console.log("hehe");
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
@@ -67,12 +66,12 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
           alert(t("authError"));
           signOut();
           setUser(null);
-        } else if (!data.username) {
-          // User has no profile set up, open the profile setup modal
-          setIsProfileModalOpen(true);
+          return;
+        }
+        if (data) {
+          if (!data.username) setIsProfileModalOpen(true);
           setUserProfile(data);
-        } else {
-          setUserProfile(data);
+          storeMeaningLangPreference(data.meaning_lang || "zh");
         }
       }
     });

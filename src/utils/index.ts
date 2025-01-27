@@ -76,3 +76,14 @@ export function storeLocalPhrases(phrases: PhraseData[], date: Date = new Date()
 export function generateRandomIndex(length: number): number {
   return Math.floor(Math.random() * length);
 }
+
+export function storeMeaningLangPreference(pref: "zh" | "en") {
+  const storedPref = localStorage.getItem("meaning_lang");
+  if (!storedPref || storedPref !== pref) {
+    localStorage.setItem("meaning_lang", pref);
+  }
+}
+
+export function getMeaningLangPreference(): "zh" | "en" {
+  return (localStorage.getItem("meaning_lang") as "zh" | "en") || "zh";
+}
