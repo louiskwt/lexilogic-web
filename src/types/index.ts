@@ -3,6 +3,7 @@ export type WordData = {
   pos: string;
   audio?: string;
   meaning: string;
+  en_meaning: string;
 };
 
 export type LocalWords = {
