@@ -229,7 +229,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   useEffect(() => {
     const localProfileData = getLocalProfileData();
     const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
-    const currentTotalXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.total_xp : 0;
+    const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
     const xp = gameState === 1 ? 3 : gameState === 0 ? 1 : 0;
     const multiplier = currentRow < 3 ? 2 : 1;
 

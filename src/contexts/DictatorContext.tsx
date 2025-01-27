@@ -163,7 +163,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   useEffect(() => {
     const localProfileData = getLocalProfileData();
     const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
-    const currentTotalXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.total_xp : 0;
+    const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
     const xp = isCorrect ? 3 : isGameOver ? 1 : 0;
 
     if (isCorrect || isGameOver) {
