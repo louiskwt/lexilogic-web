@@ -15,6 +15,7 @@ export type PhraseData = {
   phrase: string;
   meaning: string;
   audio?: string;
+  en_meaning: string;
 };
 
 export type LocalPhrases = {
