@@ -24,6 +24,7 @@
     "setUpProfile": "Set Up Your Profile",
     "avatar": "Avatar (Optional)",
     "saveProfile": "Save Profile",
+    "profileSaved": "Profile Saved Successfully ✅",
     "rankingChart": {
       "loginToSeeRanking": "Please log in to view the rankings",
       "weeklyRanking": "Weely Ranking",
