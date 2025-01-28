@@ -1,4 +1,4 @@
-import {WordData} from "@/types";
+import {GameState, ISquare, WordData, WordHint} from "@/types";
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
@@ -6,20 +6,6 @@ import supabase from "../supabaseClient";
 import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
-
-interface ISquare {
-  character: string;
-  correct: boolean;
-  misplaced: boolean;
-}
-
-type GameState = 0 | 1 | null;
-
-export type WordHint = {
-  meaning: string;
-  pos: string;
-  vowels: string[];
-};
 
 export type WordleContextValue = {
   rows: ISquare[][];

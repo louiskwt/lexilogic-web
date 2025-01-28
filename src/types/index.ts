@@ -22,3 +22,27 @@ export type LocalPhrases = {
   phrases: PhraseData[];
   createdAt: Date;
 };
+
+export interface ISquare {
+  character: string;
+  correct: boolean;
+  misplaced: boolean;
+}
+
+export type GameState = 0 | 1 | null;
+
+export type WordHint = {
+  meaning: string;
+  pos: string;
+  vowels: string[];
+};
+
+export interface IWord {
+  word: string;
+  audio: string;
+}
+
+export interface IUserInput {
+  character: string;
+  correct: boolean;
+}

@@ -1,20 +1,9 @@
-import {WordData} from "@/types";
+import {IUserInput, IWord, WordData, WordHint} from "@/types";
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
 import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
-import {WordHint} from "./WordleContext";
-
-interface IWord {
-  word: string;
-  audio: string;
-}
-
-interface IUserInput {
-  character: string;
-  correct: boolean;
-}
 
 export type DictatorContextValue = {
   currentWord: IWord | null;
