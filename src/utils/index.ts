@@ -84,6 +84,10 @@ export function storeMeaningLangPreference(pref: "zh" | "en") {
   }
 }
 
+export function getDefaultLangPreference(): "zh" | "en" {
+  return (localStorage.getItem("i18nextLng") as "zh" | "en") === "zh" ? "zh" : "en";
+}
+
 export function getMeaningLangPreference(): "zh" | "en" {
-  return (localStorage.getItem("meaning_lang") as "zh" | "en") || "zh";
+  return (localStorage.getItem("meaning_lang") as "zh" | "en") || getDefaultLangPreference();
 }
