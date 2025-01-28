@@ -18,7 +18,6 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
   const [avatar, setAvatar] = useState<File | Blob | null>(null);
   const {t} = useLanguageContext();
   const {signOut, profile} = useAuthContext();
-
   const handleLanguageChange = (lang: "zh" | "en") => {
     setLanguage(lang);
   };
@@ -36,29 +35,27 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
       return;
     }
 
-    const {data: userData, error: profileError} = await supabase.from("profiles").select("username").eq("username", username).limit(1).maybeSingle();
-    if (userData) {
-      alert(t("warning.usernameTaken"));
-      return;
-    }
-    if (profileError) {
-      alert(t("warning.authError"));
-      signOut();
-      return;
+    if (profile?.username !== username) {
+      const {data: userData, error: profileError} = await supabase.from("profiles").select("username").eq("username", username).limit(1).maybeSingle();
+      if (userData) {
+        alert(t("warning.usernameTaken"));
+        return;
+      }
+      if (profileError) {
+        alert(t("warning.authError"));
+        signOut();
+        return;
+      }
     }
 
     if (user) {
       try {
-        const {data, error} = await supabase
-          .from("profiles")
-          .update([
-            {
-              username,
-              avatar_url: avatar ? await uploadAvatar(avatar) : null,
-              meaning_lang: language,
-            },
-          ])
-          .eq("id", user.id);
+        const payload = {
+          ...(username === profile?.username ? {username} : {}),
+          avatar_url: avatar ? await uploadAvatar(avatar) : null,
+          meaning_lang: language,
+        };
+        const {data, error} = await supabase.from("profiles").update([payload]).eq("id", user.id);
 
         if (error) {
           console.error("Error creating user profile:", error);
