@@ -51,7 +51,7 @@ const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onCl
     if (user) {
       try {
         const payload = {
-          ...(username === profile?.username ? {username} : {}),
+          ...(username !== profile?.username ? {username} : {}),
           avatar_url: avatar ? await uploadAvatar(avatar) : null,
           meaning_lang: language,
         };
