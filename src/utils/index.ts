@@ -40,6 +40,15 @@ export function isDateOneWeekBefore(currentDate: Date, referenceDate: Date) {
   return timeDiffInMilliseconds >= oneWeekInMilliseconds && timeDiffInMilliseconds < 2 * oneWeekInMilliseconds;
 }
 
+export function isDateOneDayBefore(currentDate: Date, referenceDate: Date) {
+  // Calculate the difference in milliseconds between the two dates
+  const oneDayInMilliseconds = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+  const timeDiffInMilliseconds = currentDate.getTime() - referenceDate.getTime();
+
+  // Check if the time difference is within 24 hours
+  return timeDiffInMilliseconds >= oneDayInMilliseconds && timeDiffInMilliseconds < 2 * oneDayInMilliseconds;
+}
+
 export async function updateXP(profileId: string, weeklyXP: number, totalXP: number) {
   const {error} = await supabase.from("profiles").update({weekly_xp: weeklyXP, total_xp: totalXP}).eq("id", profileId);
 
