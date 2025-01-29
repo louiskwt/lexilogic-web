@@ -37,16 +37,14 @@ export function isDateOneWeekBefore(currentDate: Date, referenceDate: Date) {
   const timeDiffInMilliseconds = currentDate.getTime() - referenceDate.getTime();
 
   // Check if the time difference is within one week
-  return timeDiffInMilliseconds >= oneWeekInMilliseconds && timeDiffInMilliseconds < 2 * oneWeekInMilliseconds;
+  return timeDiffInMilliseconds >= oneWeekInMilliseconds;
 }
 
 export function isDateOneDayBefore(currentDate: Date, referenceDate: Date) {
   // Calculate the difference in milliseconds between the two dates
   const oneDayInMilliseconds = 24 * 60 * 60 * 1000; // 1 day in milliseconds
   const timeDiffInMilliseconds = currentDate.getTime() - referenceDate.getTime();
-
-  // Check if the time difference is within 24 hours
-  return timeDiffInMilliseconds >= oneDayInMilliseconds && timeDiffInMilliseconds < 2 * oneDayInMilliseconds;
+  return timeDiffInMilliseconds >= oneDayInMilliseconds;
 }
 
 export async function updateXP(profileId: string, weeklyXP: number, totalXP: number) {
