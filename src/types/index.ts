@@ -1,4 +1,5 @@
 export type WordData = {
+  id?: number | null;
   word: string;
   pos: string;
   audio?: string;
