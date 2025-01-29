@@ -1,4 +1,5 @@
 import {Component, ErrorInfo, ReactNode} from "react";
+import ErrorPage from "./ErrorPage";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -28,7 +29,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   render() {
     if (this.state.hasError) {
       // Navigate to the error page
-      return <h1>Something went wrong.</h1>;
+      return <ErrorPage />;
     }
 
     return this.props.children;
