@@ -47,3 +47,9 @@ export interface IUserInput {
   character: string;
   correct: boolean;
 }
+
+export type LearnedWordPayload = {
+  word_id: number | null;
+  profile_id: string;
+  latest_correct: boolean;
+};

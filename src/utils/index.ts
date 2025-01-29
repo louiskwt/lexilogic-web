@@ -1,4 +1,4 @@
-import {LocalPhrases, LocalWords, PhraseData, WordData} from "@/types";
+import {LearnedWordPayload, LocalPhrases, LocalWords, PhraseData, WordData} from "@/types";
 import supabase from "../supabaseClient";
 
 export interface ProfileData {
@@ -99,4 +99,15 @@ export function getDefaultLangPreference(): "zh" | "en" {
 
 export function getMeaningLangPreference(): "zh" | "en" {
   return (localStorage.getItem("meaning_lang") as "zh" | "en") || getDefaultLangPreference();
+}
+
+export async function upsertLearnedWords(payload: LearnedWordPayload) {
+  try {
+    if (payload.word_id) {
+      const {error} = await supabase.from("learned_words").upsert(payload).select();
+      if (error) throw error;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
