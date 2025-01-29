@@ -3,7 +3,7 @@ import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useSta
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
 import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneDayBefore, setLocalProfileData, storeLocalWords, updateXP, upsertLearnedWords} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 
@@ -40,6 +40,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     )
   );
   const [word, setWord] = useState<string>("");
+  const [wordId, setWordId] = useState<number | null>(null);
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
@@ -149,10 +150,10 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     const fetchRandomWord = async () => {
       const localWords = getLocalWords("wordleWords");
       const hasEnMeaning = localWords?.words.every((w) => "en_meaning" in w) || false; // temporary measure; can remove after a while
-      const oneWeekBefore = localWords ? isDateOneWeekBefore(new Date(localWords.createdAt), new Date()) : false;
-      let randomWordData: WordData = {meaning: "", pos: "", word: "", en_meaning: ""};
+      const oneDayBefore = localWords ? isDateOneDayBefore(new Date(), new Date(localWords.createdAt)) : false;
+      let randomWordData: WordData = {id: null, meaning: "", pos: "", word: "", en_meaning: ""};
 
-      if (localWords && localWords.words.length > 10 && !oneWeekBefore && hasEnMeaning) {
+      if (localWords && localWords.words.length > 10 && !oneDayBefore && hasEnMeaning) {
         const randomIndex = generateRandomIndex(localWords.words.length);
         randomWordData = localWords.words[randomIndex];
         storeLocalWords(
@@ -161,7 +162,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
           localWords.createdAt
         );
       } else {
-        const {data, error} = await supabase.from("random_wordle_words").select("word, pos, meaning, en_meaning").limit(100);
+        const {data, error} = await supabase.from("random_wordle_words").select("id, word, pos, meaning, en_meaning").limit(100);
         if (error) {
           console.error("Error fetching word: ", error);
         } else if (data) {
@@ -171,7 +172,9 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         }
       }
       const meaningLangPreference = getMeaningLangPreference();
+      const randomWordId = "id" in randomWordData && typeof randomWordData.id === "number" ? randomWordData.id : null;
       setWord(randomWordData.word.toUpperCase());
+      setWordId(randomWordId);
       setWordHint({
         meaning: meaningLangPreference === "en" ? randomWordData.en_meaning : randomWordData.meaning,
         pos: randomWordData.pos,
@@ -209,6 +212,16 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       if (profile) updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
     }
     if (!profile) setLocalProfileData({weekly_xp: currentWeeklyXP + xp * multiplier, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "en"});
+
+    if (gameState !== null && profile) {
+      // upsert learned word
+      const learnedWordPayload = {
+        profile_id: profile.id,
+        word_id: wordId,
+        latest_correct: gameState === 1 ? true : false,
+      };
+      upsertLearnedWords(learnedWordPayload);
+    }
   }, [gameState, profile]);
 
   return (
