@@ -1,10 +1,11 @@
+import {ProfileData} from "@/types";
 import {Session, User} from "@supabase/supabase-js";
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import Modal from "../components/Modal";
 import SetupProfileModal from "../components/SetupProfileModal";
 import SignIn from "../components/SignIn";
 import supabase from "../supabaseClient";
-import {ProfileData, storeMeaningLangPreference} from "../utils";
+import {storeMeaningLangPreference} from "../utils";
 import {useLanguageContext} from "./LanguageContext";
 
 interface UserProfile {
