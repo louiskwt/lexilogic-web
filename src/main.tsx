@@ -3,7 +3,7 @@ import {createRoot} from "react-dom/client";
 import {BrowserRouter, Route, Routes} from "react-router";
 import App from "./App.tsx";
 import ErrorBoundary from "./components/ErrorBoundry.tsx";
-import ErrorPage from "./components/ErrorPage.tsx";
+import NoMatchPage from "./components/NoMatchPage.tsx";
 import {AuthProvider} from "./contexts/AuthContext.tsx";
 import {DictatorProvider} from "./contexts/DictatorContext.tsx";
 import {LanguageProvider} from "./contexts/LanguageContext.tsx";
@@ -47,7 +47,7 @@ createRoot(document.getElementById("root")!).render(
                   </PhraserProvider>
                 }
               />
-              <Route path="/error" element={<ErrorPage />} />
+              <Route path="*" element={<NoMatchPage />} />
             </Routes>
           </BrowserRouter>
         </AuthProvider>
