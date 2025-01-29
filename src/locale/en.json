@@ -27,6 +27,7 @@
     "profileSaved": "Profile Saved Successfully ✅",
     "pageNotFound": "Page Not Found",
     "noMatchPageMessage": "Oops, the page you're looking for doesn't exist.",
+    "back": "Back to Home Page",
     "rankingChart": {
       "loginToSeeRanking": "Please log in to view the rankings",
       "weeklyRanking": "Weely Ranking",

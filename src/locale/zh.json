@@ -26,7 +26,8 @@
     "saveProfile": "保存個人資料",
     "profileSaved": "個人資料保存成功 ✅",
     "pageNotFound": "找不到頁面",
-    "noMatchPageMessage": "哎呀,您要找的頁面不存在哦。",
+    "noMatchPageMessage": "哎呀,您要找的頁面不存在哦～",
+    "back": "返回主頁",
     "rankingChart": {
       "loginToSeeRanking": "請登入以查看排名",
       "weeklyRanking": "每週排名榜",
