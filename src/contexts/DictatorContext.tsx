@@ -1,7 +1,7 @@
 import {IUserInput, IWord, WordData, WordHint} from "@/types";
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalWords, updateXP} from "../utils";
+import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneDayBefore, setLocalProfileData, storeLocalWords, updateXP, upsertLearnedWords} from "../utils";
 import {useAuthContext} from "./AuthContext";
 import {useLanguageContext} from "./LanguageContext";
 
@@ -32,6 +32,7 @@ export const useDictatorContext = () => {
 
 export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentWord, setCurrentWord] = useState<IWord | null>(null);
+  const [wordId, setWordId] = useState<number | null>(null);
   const [wordHint, setWordHint] = useState<WordHint>({
     meaning: "",
     pos: "",
@@ -56,7 +57,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const fetchDictationWord = async (): Promise<WordData[] | null> => {
     try {
-      const {data, error} = await supabase.from("random_dictation_words").select("word, pos, meaning, en_meaning, audio").limit(100);
+      const {data, error} = await supabase.from("random_dictation_words").select("id, word, pos, meaning, en_meaning, audio").limit(100);
       if (error) throw error;
       return data;
     } catch (err) {
@@ -68,13 +69,12 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const startGame = async () => {
     setIsFetchingWord(true);
     const localWords = getLocalWords("dictationWords");
-    const isOneWeekBefore = localWords ? isDateOneWeekBefore(new Date(localWords.createdAt), new Date()) : false;
+    const isOneDayBefore = localWords ? isDateOneDayBefore(new Date(), new Date(localWords.createdAt)) : false;
     const hasEnMeaning = localWords?.words.every((w) => "en_meaning" in w) || false;
     const meaningLangPreference = getMeaningLangPreference();
     let inputs: IUserInput[] = [{character: "", correct: false}];
-    let wordData: WordData = {word: "", meaning: "", audio: "", en_meaning: "", pos: ""};
-
-    if (localWords && localWords.words.length > 10 && !isOneWeekBefore && hasEnMeaning) {
+    let wordData: WordData = {id: null, word: "", meaning: "", audio: "", en_meaning: "", pos: ""};
+    if (localWords && localWords.words.length > 10 && !isOneDayBefore && hasEnMeaning) {
       const localRandomIndex = generateRandomIndex(localWords.words.length);
       wordData = localWords.words[localRandomIndex];
       inputs = wordData.word.split("").map(() => {
@@ -107,7 +107,8 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         alert(t("warning.errorTryAgain"));
       }
     }
-
+    const randomWordId = "id" in wordData && typeof wordData.id === "number" ? wordData.id : null;
+    setWordId(randomWordId);
     setCurrentWord({
       word: wordData.word,
       audio: wordData.audio || "",
@@ -165,6 +166,14 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
         total_xp: currentTotalXP + xp,
         date: new Date(),
         meaning_lang: "zh",
+      });
+    }
+
+    if (profile && (isCorrect || isGameOver)) {
+      upsertLearnedWords({
+        profile_id: profile.id,
+        word_id: wordId,
+        latest_correct: isCorrect,
       });
     }
   }, [isGameOver, isCorrect]);
