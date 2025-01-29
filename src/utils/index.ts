@@ -1,12 +1,5 @@
-import {LearnedWordPayload, LocalPhrases, LocalWords, PhraseData, WordData} from "@/types";
+import {LearnedWordPayload, LocalPhrases, LocalWords, PhraseData, ProfileData, WordData} from "@/types";
 import supabase from "../supabaseClient";
-
-export interface ProfileData {
-  weekly_xp: number;
-  total_xp: number;
-  date?: Date;
-  meaning_lang: "zh" | "en";
-}
 
 export function findVowels(word: string): string[] {
   const vowels = ["a", "e", "i", "o", "u"];

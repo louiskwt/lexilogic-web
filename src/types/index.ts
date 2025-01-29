@@ -53,3 +53,10 @@ export type LearnedWordPayload = {
   profile_id: string;
   latest_correct: boolean;
 };
+
+export interface ProfileData {
+  weekly_xp: number;
+  total_xp: number;
+  date?: Date;
+  meaning_lang: "zh" | "en";
+}
