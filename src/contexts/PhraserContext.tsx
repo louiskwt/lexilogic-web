@@ -153,7 +153,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       let keyPhrase = "";
       let meaning = "";
       const localPhrases = getLocalPhrases();
-      const oneWeekBefore = localPhrases ? isDateOneWeekBefore(new Date(localPhrases.createdAt), new Date()) : false;
+      const oneWeekBefore = localPhrases ? isDateOneWeekBefore(new Date(), new Date(localPhrases.createdAt)) : false;
       const hasEnMeaning = localPhrases?.phrases.every((p) => "en_meaning" in p) || false; // temporary measure; can remove after a while
       const meaningLangPreference = getMeaningLangPreference();
       if (localPhrases && localPhrases.phrases.length > 10 && !oneWeekBefore && !hasEnMeaning) {
@@ -210,7 +210,6 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Backspace") handleBackspace();
-
       if (e.key === "Enter") handleEnter();
       if (e.key.length === 1 && /^[a-zA-Z]$/.test(e.key)) handleKeyPress(e.key);
     };
