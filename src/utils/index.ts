@@ -9,7 +9,7 @@ export function findVowels(word: string): string[] {
       foundVowels.push(word[i]);
     }
   }
-  return Array.from(new Set(foundVowels));
+  return Array.from(new Set(foundVowels)).sort((a, b) => vowels.indexOf(a) - vowels.indexOf(b));
 }
 
 export function getLocalProfileData(): ProfileData | null {
