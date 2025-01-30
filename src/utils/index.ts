@@ -29,10 +29,10 @@ export function setLocalProfileData(data: ProfileData): void {
 export function isDateOneWeekBefore(currentDate: Date, referenceDate: Date) {
   // Calculate the difference in milliseconds between the two dates
   const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 1 week in milliseconds
-  const timeDiffInMilliseconds = currentDate.getTime() - referenceDate.getTime();
+  const timeDiffInMilliseconds = referenceDate.getTime() - currentDate.getTime();
 
   // Check if the time difference is within one week
-  return timeDiffInMilliseconds >= oneWeekInMilliseconds;
+  return timeDiffInMilliseconds >= oneWeekInMilliseconds && timeDiffInMilliseconds < 2 * oneWeekInMilliseconds;
 }
 
 export function isDateOneDayBefore(currentDate: Date, referenceDate: Date) {
