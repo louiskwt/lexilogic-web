@@ -2,11 +2,13 @@ import {LearnedWordPayload, LocalPhrases, LocalWords, PhraseData, ProfileData, W
 import supabase from "../supabaseClient";
 
 export function findVowels(word: string): string[] {
+  if (!word) return [];
   const vowels = ["a", "e", "i", "o", "u"];
   const foundVowels = [];
   for (let i = 0; i < word.length; i++) {
-    if (vowels.includes(word[i])) {
-      foundVowels.push(word[i]);
+    const letter = word[i].toLowerCase();
+    if (vowels.includes(letter)) {
+      foundVowels.push(letter);
     }
   }
   return Array.from(new Set(foundVowels)).sort((a, b) => vowels.indexOf(a) - vowels.indexOf(b));
