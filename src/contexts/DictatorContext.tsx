@@ -10,7 +10,7 @@ export type DictatorContextValue = {
   userInput: IUserInput[];
   isCorrect: boolean;
   currentIndex: number;
-  inputRefsArray: React.RefObject<HTMLInputElement>[];
+  inputRefsArray: React.RefObject<HTMLInputElement | null>[];
   tries: number;
   isGameOver: boolean;
   wordHint: WordHint;
@@ -48,7 +48,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [tries, setTries] = useState<number>(5);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   // create a array of refs
-  const [inputRefsArray, setInputRefsArray] = useState<React.RefObject<HTMLInputElement>[]>([]);
+  const [inputRefsArray, setInputRefsArray] = useState<React.RefObject<HTMLInputElement | null>[]>([]);
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(false);
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
