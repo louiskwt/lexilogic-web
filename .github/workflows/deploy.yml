@@ -19,12 +19,11 @@ jobs:
         with:
           cmd: install # will run `yarn install` command
 
+      - name: Install Netlify
+        run: yarn global add netlify-cli
 
-      # - name: Install Netlify
-      #   run: yarn global add netlify-cli
-
-      # - name: Build project
-      #   run: yarn build
+      - name: Build project
+        run: yarn build
 
       # - name: Deploy to Netlify
       #   id: netlify_deploy
