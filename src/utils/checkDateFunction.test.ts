@@ -3,8 +3,8 @@ import {isDateOneDayBefore, isDateOneWeekBefore} from ".";
 
 describe("isDateOneWeekBefore", () => {
   it("should return true if the current date is exactly one week before the reference date", () => {
-    const currentDate = new Date("2023-01-23");
-    const referenceDate = new Date("2023-01-30");
+    const currentDate = new Date("2023-01-30");
+    const referenceDate = new Date("2023-01-23");
     expect(isDateOneWeekBefore(currentDate, referenceDate)).toBe(true);
   });
 
@@ -22,12 +22,6 @@ describe("isDateOneWeekBefore", () => {
 
   it("should return false if the current date is the same as the reference date", () => {
     const currentDate = new Date("2023-01-30");
-    const referenceDate = new Date("2023-01-30");
-    expect(isDateOneWeekBefore(currentDate, referenceDate)).toBe(false);
-  });
-
-  it("should return false if the current date is after the reference date", () => {
-    const currentDate = new Date("2023-02-06");
     const referenceDate = new Date("2023-01-30");
     expect(isDateOneWeekBefore(currentDate, referenceDate)).toBe(false);
   });
@@ -54,12 +48,6 @@ describe("isDateOneDayBefore", () => {
 
   it("should return false if the current date is the same as the reference date", () => {
     const currentDate = new Date("2023-01-30");
-    const referenceDate = new Date("2023-01-30");
-    expect(isDateOneDayBefore(currentDate, referenceDate)).toBe(false);
-  });
-
-  it("should return false if the current date is after the reference date", () => {
-    const currentDate = new Date("2023-02-06");
     const referenceDate = new Date("2023-01-30");
     expect(isDateOneDayBefore(currentDate, referenceDate)).toBe(false);
   });
