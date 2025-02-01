@@ -1,6 +1,9 @@
 # Lexigram - Web App
 
-This is a web grame created for students to learn English vocabulary through mini games.
+This is a web grame created for students to learn English vocabulary through mini games. The game will remain free to play and ads-free forever.
+
+It can be accessed [here](https://lexigramapp.com)
+
 Currently, it's powered by [Supabase](https://supabase.com/) and under active devlopment.
 
 This project also leveraged the following frontend tech:
