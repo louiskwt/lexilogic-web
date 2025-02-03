@@ -20,5 +20,7 @@ describe("App", () => {
 
     // Assert that the expected elements are rendered
     expect(screen.getByRole("img", {name: "Logo"})).toBeDefined();
+    expect(screen.getByText("Lexigram")).toBeDefined();
+    expect(screen.getAllByRole("link")).toBeDefined();
   });
 });
