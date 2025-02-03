@@ -1,3 +1,4 @@
+import {LangaugeOptions} from "@/types";
 import {TFunction} from "i18next";
 import React, {createContext, useCallback, useContext, useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
@@ -5,7 +6,7 @@ import {useTranslation} from "react-i18next";
 type LaguageContextType = {
   t: TFunction<"translation", undefined>;
   handleChangeLanguage: () => void;
-  currentLanguage: "zh" | "en";
+  currentLanguage: LangaugeOptions;
 };
 
 export const LanguageContext = createContext<LaguageContextType | null>(null);
@@ -22,7 +23,7 @@ export const LanguageProvider: React.FC<{children: React.ReactNode}> = ({childre
     i18n: {changeLanguage},
   } = useTranslation();
 
-  const [currentLanguage, setCurrentLanguage] = useState<"zh" | "en">("en");
+  const [currentLanguage, setCurrentLanguage] = useState<LangaugeOptions>("en");
   const handleChangeLanguage = useCallback(() => {
     const newLanguage = currentLanguage === "en" ? "zh" : "en";
     setCurrentLanguage(newLanguage);
