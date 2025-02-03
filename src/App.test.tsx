@@ -4,6 +4,7 @@ import {describe, expect, it} from "vitest";
 import App from "./App";
 import {AuthProvider} from "./contexts/AuthContext";
 import {LanguageProvider} from "./contexts/LanguageContext";
+import "./i18n.ts";
 
 describe("App", () => {
   it("should render the App component correctly", () => {
