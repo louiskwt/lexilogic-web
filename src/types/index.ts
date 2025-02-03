@@ -60,3 +60,5 @@ export interface ProfileData {
   date?: Date;
   meaning_lang: "zh" | "en";
 }
+
+export type LangaugeOptions = "zh" | "en";
