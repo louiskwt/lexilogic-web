@@ -1,4 +1,4 @@
-import {LearnedWordPayload, LocalPhrases, LocalWords, PhraseData, ProfileData, WordData} from "@/types";
+import {LangaugeOptions, LearnedWordPayload, LocalPhrases, LocalWords, PhraseData, ProfileData, WordData} from "@/types";
 import supabase from "../supabaseClient";
 
 export function findVowels(word: string): string[] {
@@ -79,19 +79,19 @@ export function generateRandomIndex(length: number): number {
   return Math.floor(Math.random() * length);
 }
 
-export function storeMeaningLangPreference(pref: "zh" | "en") {
+export function storeMeaningLangPreference(pref: LangaugeOptions) {
   const storedPref = localStorage.getItem("meaning_lang");
   if (!storedPref || storedPref !== pref) {
     localStorage.setItem("meaning_lang", pref);
   }
 }
 
-export function getDefaultLangPreference(): "zh" | "en" {
-  return (localStorage.getItem("i18nextLng") as "zh" | "en") === "zh" ? "zh" : "en";
+export function getDefaultLangPreference(): LangaugeOptions {
+  return (localStorage.getItem("i18nextLng") as LangaugeOptions) === "zh" ? "zh" : "en";
 }
 
-export function getMeaningLangPreference(): "zh" | "en" {
-  return (localStorage.getItem("meaning_lang") as "zh" | "en") || getDefaultLangPreference();
+export function getMeaningLangPreference(): LangaugeOptions {
+  return (localStorage.getItem("meaning_lang") as LangaugeOptions) || getDefaultLangPreference();
 }
 
 export async function upsertLearnedWords(payload: LearnedWordPayload) {
