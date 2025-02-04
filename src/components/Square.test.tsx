@@ -9,4 +9,22 @@ describe("Square", () => {
     expect(square).toBeDefined();
     expect(square.textContent).toEqual("A");
   });
+
+  it("should render the correct styles for a correct letter", () => {
+    render(<Square char="A" correct={true} misplaced={false} testId="correct-square" />);
+    const square = screen.getByTestId("correct-square");
+    expect(square).toBeDefined();
+    expect(square.textContent).toEqual("A");
+    expect(square.parentElement?.classList).toContain("rotate-y");
+    expect(square.parentElement?.firstChild?.classList).toContain("bg-green-500");
+  });
+
+  it("should render the correct styles for a misplaced letter", () => {
+    render(<Square char="A" correct={false} misplaced={true} testId="misplaced-square" />);
+    const square = screen.getByTestId("misplaced-square");
+    expect(square).toBeDefined();
+    expect(square.textContent).toEqual("A");
+    expect(square.parentElement?.classList).toContain("rotate-y");
+    expect(square.parentElement?.firstChild?.classList).toContain("bg-yellow-500");
+  });
 });
