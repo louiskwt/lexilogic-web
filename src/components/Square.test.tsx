@@ -4,7 +4,7 @@ import Square from "./Square";
 
 describe("Square", () => {
   it("should render the correct character", () => {
-    render(<Square char="A" correct={false} misplaced={false} />);
+    render(<Square char="A" correct={false} misplaced={false} testId="square-text" />);
     const square = screen.getByTestId("square-text");
     expect(square).toBeDefined();
     expect(square.textContent).toEqual("A");
