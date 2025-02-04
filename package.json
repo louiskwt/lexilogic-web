@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest --environment jsdom"
+    "test": "vitest --environment jsdom",
+    "coverage": "vitest run --coverage jsdom"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
