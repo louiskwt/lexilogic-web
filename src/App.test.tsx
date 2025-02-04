@@ -22,5 +22,8 @@ describe("App", () => {
     expect(screen.getByRole("img", {name: "Logo"})).toBeDefined();
     expect(screen.getByText("Lexigram")).toBeDefined();
     expect(screen.getAllByRole("link")).toBeDefined();
+    expect(screen.getAllByText("Word Wonders")).toBeDefined();
+    expect(screen.getAllByText("Phrase Puzzle")).toBeDefined();
+    expect(screen.getAllByText("Spell Genius")).toBeDefined();
   });
 });
