@@ -16,7 +16,7 @@ describe("Square", () => {
     expect(square).toBeDefined();
     expect(square.textContent).toEqual("A");
     expect(square.parentElement?.classList).toContain("rotate-y");
-    expect(square.parentElement?.firstChild?.classList).toContain("bg-green-500");
+    expect(square.parentElement?.firstElementChild?.classList).toContain("bg-green-500");
   });
 
   it("should render the correct styles for a misplaced letter", () => {
@@ -25,7 +25,7 @@ describe("Square", () => {
     expect(square).toBeDefined();
     expect(square.textContent).toEqual("A");
     expect(square.parentElement?.classList).toContain("rotate-y");
-    expect(square.parentElement?.firstChild?.classList).toContain("bg-yellow-500");
+    expect(square.parentElement?.firstElementChild?.classList).toContain("bg-yellow-500");
   });
 
   it("should render the correct styles for an incorrect letter", () => {
@@ -33,6 +33,6 @@ describe("Square", () => {
     const square = screen.getByTestId("incorrect-square");
     expect(square).toBeDefined();
     expect(square.textContent).toEqual("A");
-    expect(square.parentElement?.firstChild?.classList).toContain("bg-gray-700");
+    expect(square.parentElement?.firstElementChild?.classList).toContain("bg-gray-700");
   });
 });
