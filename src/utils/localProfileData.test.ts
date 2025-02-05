@@ -1,6 +1,6 @@
 import {ProfileData} from "@/types";
 import {describe, expect, it, vi} from "vitest";
-import {getLocalProfileData} from ".";
+import {getLocalProfileData, setLocalProfileData} from ".";
 
 describe("getLocalProfileData", () => {
   it("should return null if no profile data is stored in localStorage", () => {
@@ -17,5 +17,15 @@ describe("getLocalProfileData", () => {
     vi.spyOn(Storage.prototype, "getItem").mockReturnValue(JSON.stringify(mockProfileData));
     const profileData = getLocalProfileData();
     expect(profileData).toEqual(mockProfileData);
+  });
+});
+
+describe("setLocalProfileData", () => {
+  it("should store the profile data in localStorage", () => {
+    const mockProfileData: ProfileData = {weekly_xp: 28, total_xp: 123, meaning_lang: "zh"};
+    const storageSpy = vi.spyOn(Storage.prototype, "setItem");
+    // Check that the localStorage.setItem method was called with the correct data
+    setLocalProfileData(mockProfileData);
+    expect(storageSpy).toHaveBeenCalledWith("profileData", JSON.stringify(mockProfileData));
   });
 });
