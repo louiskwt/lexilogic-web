@@ -55,7 +55,7 @@ export async function updateXP(profileId: string, weeklyXP: number, totalXP: num
   }
 }
 
-export function getLocalWords(format: string): LocalWords | null {
+export function getLocalWords(format: "dictationWords" | "wordleWords"): LocalWords | null {
   const words = localStorage.getItem(format);
   if (!words) return null;
   return JSON.parse(words);
