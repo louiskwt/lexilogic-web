@@ -61,7 +61,7 @@ export function getLocalWords(format: "dictationWords" | "wordleWords"): LocalWo
   return JSON.parse(words);
 }
 
-export function storeLocalWords(words: WordData[], format: string, date: Date = new Date()) {
+export function storeLocalWords(words: WordData[], format: string, date: Date | string = new Date()) {
   localStorage.setItem(format, JSON.stringify({words, createdAt: date}));
 }
 
