@@ -9,7 +9,7 @@ export type WordData = {
 
 export type LocalWords = {
   words: WordData[];
-  createdAt: Date;
+  createdAt: Date | string;
 };
 
 export type PhraseData = {
