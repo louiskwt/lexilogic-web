@@ -23,6 +23,14 @@ yarn test
 
 This will execute all the tests in the project and display the results in the console.
 
+To show test coverage, use the following command:
+
+```
+yarn coverage
+```
+
+Currently, the test coverage is very low, so it should be a priority to increase it by adding more tests before developing further features.
+
 ## Want to contribute?
 
 I welcome any contributions to make this app better. Currently, the app can be improved by the following:
