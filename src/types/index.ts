@@ -21,7 +21,7 @@ export type PhraseData = {
 
 export type LocalPhrases = {
   phrases: PhraseData[];
-  createdAt: Date;
+  createdAt: Date | string;
 };
 
 export interface ISquare {

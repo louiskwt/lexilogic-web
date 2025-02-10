@@ -71,7 +71,7 @@ export function getLocalPhrases(): LocalPhrases | null {
   return JSON.parse(phrases);
 }
 
-export function storeLocalPhrases(phrases: PhraseData[], date: Date = new Date()) {
+export function storeLocalPhrases(phrases: PhraseData[], date: Date | string = new Date()) {
   localStorage.setItem("phrases", JSON.stringify({phrases, createdAt: date}));
 }
 
