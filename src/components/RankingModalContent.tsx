@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {truncateString} from "..//utils";
 import {useAuthContext} from "../contexts/AuthContext";
 import {useLanguageContext} from "../contexts/LanguageContext";
 import supabase from "../supabaseClient";
@@ -37,7 +38,7 @@ const RankingModalContent = () => {
         const rankings = data.map((d, index) => {
           return {
             rank: index + 1,
-            name: d.username,
+            name: truncateString(d.username, 10),
             xp: d.weekly_xp,
           };
         });
