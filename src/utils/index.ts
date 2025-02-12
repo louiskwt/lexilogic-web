@@ -104,3 +104,12 @@ export async function upsertLearnedWords(payload: LearnedWordPayload) {
     console.log(error);
   }
 }
+
+export function truncateString(s: string, max: number | null = null): string {
+  if (!max) return s;
+  if (s.length > max) {
+    return s.slice(0, max) + "...";
+  } else {
+    return s;
+  }
+}
