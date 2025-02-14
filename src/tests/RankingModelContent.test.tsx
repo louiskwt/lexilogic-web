@@ -69,5 +69,6 @@ describe("Ranking Model Content", () => {
 
     // Assert that the expected elements are rendered
     expect(screen.getAllByText("Hi testinguser")).toBeDefined();
+    expect(screen.getAllByText("Total XP: 1223")).toBeDefined();
   });
 });
