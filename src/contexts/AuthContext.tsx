@@ -40,7 +40,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) throw new Error("useAtuh must be used withint a WordlerProvder");
+  if (context === undefined) throw new Error("useAtuh must be used withint a AuthProvder");
   return context;
 };
 
