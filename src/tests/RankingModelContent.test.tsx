@@ -2,7 +2,7 @@ import {render, screen} from "@testing-library/react";
 import {MemoryRouter} from "react-router";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 import RankingModalContent from "../components/RankingModalContent.tsx";
-import {AuthProvider} from "../contexts/AuthContext";
+import {AuthContext, AuthProvider} from "../contexts/AuthContext";
 import {LanguageProvider} from "../contexts/LanguageContext";
 import "../i18n.ts";
 
@@ -27,47 +27,47 @@ describe("Ranking Model Content", () => {
     expect(screen.getAllByText("Log In")).toBeDefined();
   });
 
-  //   it("should render Ranking Model Content and display user info properly", () => {
-  //     vi.mocked(useAuthContext).mockReturnValue({
-  //       user: null,
-  //       profile: {
-  //         avatar_url: "url",
-  //         full_name: "testing",
-  //         id: "21234",
-  //         updated_at: "2023-12-23",
-  //         username: "testinguser",
-  //         website: "",
-  //         weekly_xp: 123,
-  //         total_xp: 1223,
-  //         meaning_lang: "en",
-  //       },
-  //       session: null,
-  //       isLoading: false,
-  //       signInWithGoogle: vi.fn(),
-  //       signInWithEmail: vi.fn(),
-  //       signOut: vi.fn(),
-  //       closeModal: vi.fn(),
-  //       showModal: false,
-  //       openLoginModal: vi.fn(),
-  //       openSignUpModal: vi.fn(),
-  //       toggleModal: vi.fn(),
-  //       signUpWithEmail: vi.fn(),
-  //       isProfileSetUpModalOpen: false,
-  //       setIsProfileModalOpen: vi.fn(),
-  //       handleProfileUpdate: vi.fn(),
-  //     });
+  it("should render Ranking Model Content and display user info properly", () => {
+    const mockAuthValue = {
+      user: null,
+      profile: {
+        avatar_url: "url",
+        full_name: "testing",
+        id: "21234",
+        updated_at: "2023-12-23",
+        username: "testinguser",
+        website: "",
+        weekly_xp: 123,
+        total_xp: 1223,
+        meaning_lang: "en",
+      },
+      session: null,
+      isLoading: false,
+      signInWithGoogle: vi.fn(),
+      signInWithEmail: vi.fn(),
+      signOut: vi.fn(),
+      closeModal: vi.fn(),
+      showModal: false,
+      openLoginModal: vi.fn(),
+      openSignUpModal: vi.fn(),
+      toggleModal: vi.fn(),
+      signUpWithEmail: vi.fn(),
+      isProfileSetUpModalOpen: false,
+      setIsProfileModalOpen: vi.fn(),
+      handleProfileUpdate: vi.fn(),
+    };
 
-  //     render(
-  //       <MemoryRouter>
-  //         <LanguageProvider>
-  //           <AuthProvider>
-  //             <RankingModalContent />
-  //           </AuthProvider>
-  //         </LanguageProvider>
-  //       </MemoryRouter>
-  //     );
+    render(
+      <MemoryRouter>
+        <LanguageProvider>
+          <AuthContext.Provider value={mockAuthValue}>
+            <RankingModalContent />
+          </AuthContext.Provider>
+        </LanguageProvider>
+      </MemoryRouter>
+    );
 
-  //     // Assert that the expected elements are rendered
-  //     expect(screen.getAllByText("Hi testinguser")).toBeDefined();
-  //   });
+    // Assert that the expected elements are rendered
+    expect(screen.getAllByText("Hi testinguser")).toBeDefined();
+  });
 });
