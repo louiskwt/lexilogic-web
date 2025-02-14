@@ -1,3 +1,4 @@
+import {LangaugeOptions} from "@/types/index.ts";
 import {render, screen} from "@testing-library/react";
 import {MemoryRouter} from "react-router";
 import {beforeEach, describe, expect, it, vi} from "vitest";
@@ -39,7 +40,7 @@ describe("Ranking Model Content", () => {
         website: "",
         weekly_xp: 123,
         total_xp: 1223,
-        meaning_lang: "en",
+        meaning_lang: "en" as LangaugeOptions,
       },
       session: null,
       isLoading: false,
