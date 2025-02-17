@@ -37,3 +37,7 @@ I welcome any contributions to make this app better. Currently, the app can be i
 
 - increased test coverage
 - better documentation
+
+## License
+
+This project is licensed under the terms of the MIT license.
