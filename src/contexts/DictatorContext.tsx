@@ -22,7 +22,7 @@ export type DictatorContextValue = {
   checkAns: () => void;
 };
 
-const DictatorContext = createContext<DictatorContextValue | undefined>(undefined);
+export const DictatorContext = createContext<DictatorContextValue | undefined>(undefined);
 
 export const useDictatorContext = () => {
   const context = useContext(DictatorContext);
