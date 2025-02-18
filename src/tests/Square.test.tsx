@@ -1,6 +1,6 @@
 import {render, screen} from "@testing-library/react";
 import {describe, expect, it} from "vitest";
-import Square from "./Square";
+import Square from "../components/Square";
 
 describe("Square", () => {
   it("should render the correct character", () => {
