@@ -16,7 +16,6 @@ describe("Spinner Test", () => {
       expect(spinnerElement.classList).toContain("h-8");
       expect(spinnerElement.classList).toContain("border-zinc-300");
     });
-    return;
   });
 
   it("should render a medium spinner by defualt when lg size is provided", async () => {
