@@ -1,4 +1,5 @@
 import {IUserInput, IWord, WordHint} from "@/types/index.ts";
+import "@testing-library/jest-dom/vitest";
 import {cleanup, render, screen} from "@testing-library/react";
 import {MemoryRouter} from "react-router";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
@@ -40,7 +41,7 @@ describe("DictatorGame", () => {
     cleanup();
   });
 
-  it("should render the start game page when not fetching word and not game over", () => {
+  it("should render the start game page when not fetching word and not game over", async () => {
     render(
       <MemoryRouter>
         <LanguageProvider>
@@ -53,7 +54,7 @@ describe("DictatorGame", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getAllByText("Start Game")).toBeDefined();
+    expect(await screen.findByText("Start Game")).toBeInTheDocument();
   });
 
   it("should render the game over page when game is over", () => {
