@@ -57,7 +57,7 @@ describe("DictatorGame", () => {
     expect(await screen.findByText("Start Game")).toBeInTheDocument();
   });
 
-  it("should render the game over page when game is over", () => {
+  it("should render the game over page when game is over", async () => {
     render(
       <MemoryRouter>
         <LanguageProvider>
@@ -70,7 +70,7 @@ describe("DictatorGame", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getAllByText("Oops!")).toBeDefined();
-    expect(screen.getAllByText("Try Again")).toBeDefined();
+    expect(await screen.findByText("Oops!")).toBeInTheDocument();
+    expect(await screen.findByText("Try Again")).toBeInTheDocument();
   });
 });
