@@ -1,6 +1,6 @@
 # Lexigram - Web App
 
-This is a web grame created for students to learn English vocabulary through mini games. The game will remain free to play and ads-free forever.
+This is a web grame created for students to learn English vocabulary through mini games. The game will remain free to play and ad-free forever.
 
 It can be accessed [here](https://lexigramapp.com)
 
@@ -35,9 +35,11 @@ Currently, the test coverage is very low, so it should be a priority to increase
 
 I welcome any contributions to make this app better. Currently, the app can be improved by the following:
 
-- increased test coverage
-- better documentation
+- add more tests to increase test coverage
+- help documenting the code
 
 ## License
 
 This project is licensed under the terms of the MIT license.
+
+You can feel free to use the code or adapt it.
