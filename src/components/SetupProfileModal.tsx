@@ -1,3 +1,4 @@
+import {LangaugeOptions} from "@/types";
 import {User} from "@supabase/supabase-js";
 import Compressor from "compressorjs";
 import {ChangeEvent, useEffect, useState} from "react";
@@ -14,11 +15,11 @@ interface SetupProfileModalProps {
 
 const SetupProfileModal: React.FC<SetupProfileModalProps> = ({user, isOpen, onClose}) => {
   const [username, setUsername] = useState("");
-  const [language, setLanguage] = useState<"zh" | "en">("zh");
+  const [language, setLanguage] = useState<LangaugeOptions>("zh");
   const [avatar, setAvatar] = useState<File | Blob | null>(null);
   const {t} = useLanguageContext();
   const {signOut, profile} = useAuthContext();
-  const handleLanguageChange = (lang: "zh" | "en") => {
+  const handleLanguageChange = (lang: LangaugeOptions) => {
     setLanguage(lang);
   };
 
