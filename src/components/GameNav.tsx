@@ -1,7 +1,7 @@
 import {WordHint} from "@/types";
 import {faChartSimple, faCircleQuestion, faHouse, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {ReactNode, useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import {useNavigate} from "react-router";
 import {hasPlayedBefore} from "../utils";
 import HintModalContent from "./HintModalContent";
@@ -39,10 +39,13 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
     rankings: <RankingModalContent />,
   };
 
-  if (!hasPlayedBefore(name)) {
-    setIsModalOpen(true);
-    setModalType("rules");
-  }
+  useEffect(() => {
+    const playedBefore = hasPlayedBefore(name);
+    if (!playedBefore) {
+      setIsModalOpen(true);
+      setModalType("rules");
+    }
+  }, []);
 
   return (
     <>
