@@ -34,6 +34,7 @@ const DictatorGame: React.FC = () => {
     <>
       <GameNav
         wordHint={wordHint}
+        name="Dictator"
         rules={{
           title: t("dictatorGame.rules.title"),
           description: t("dictatorGame.rules.description"),
