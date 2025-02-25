@@ -25,6 +25,11 @@ const DictatorGame: React.FC = () => {
     );
   }
 
+  const pickRandomCorrectMessage = (): string => {
+    const number = tries === 1 ? 5 : Math.floor(Math.random() * 4) + 1;
+    return `dictatorGame.correct.${number.toString()}`;
+  };
+
   return (
     <>
       <GameNav
@@ -53,7 +58,7 @@ const DictatorGame: React.FC = () => {
         {isCorrect && (
           <>
             {" "}
-            <div className="animate-drop-bounce text-green-500 font-bold text-2xl my-6 text-center">{t("dictatorGame.correct")}</div>{" "}
+            <div className="animate-drop-bounce text-green-500 font-bold text-2xl my-6 text-center">{t(pickRandomCorrectMessage())}</div>{" "}
           </>
         )}
         <h1 className="text-4xl font-bold mb-8">{t("dictator")}</h1>
