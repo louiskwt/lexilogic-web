@@ -13,6 +13,7 @@ const Phraser = () => {
     <>
       <GameNav
         wordHint={wordHint}
+        name="Phraser"
         rules={{
           title: t("phrasePuzzle.rules.title"),
           message: (
