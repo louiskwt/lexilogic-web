@@ -40,8 +40,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
   };
 
   useEffect(() => {
-    const playedBefore = hasPlayedBefore(name);
-    if (!playedBefore) {
+    if (!hasPlayedBefore(name)) {
       setIsModalOpen(true);
       setModalType("rules");
     }
