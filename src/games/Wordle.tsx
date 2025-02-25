@@ -11,6 +11,7 @@ const Wordle = () => {
   return (
     <>
       <GameNav
+        name="Wordle"
         wordHint={wordHint}
         rules={{
           title: t("wordWonder.rules.title"),
