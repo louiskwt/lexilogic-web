@@ -57,7 +57,13 @@
       },
       "loading": "Loading Genius...",
       "gameTitle": "Spell Genius",
-      "correct": "🎉 You're correct! Genius! 🎉",
+      "correct": {
+        "1": "🎉 You're correct! Genius! 🎉",
+        "2": "🎉 Amazing! You are a pro among dictators! 🎉",
+        "3": "🎉 Wow, your vocabulary is great! Keep it up! 🎉",
+        "4": "🎉 You are so amazing! Perfect spelling! 🎉",
+        "5": "🎉 I knew you could do it! 🎉"
+      },
       "playAudio": {
         "label": "Hear the Word",
         "icon": "volume-up"
