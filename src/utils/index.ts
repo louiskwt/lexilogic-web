@@ -113,3 +113,12 @@ export function truncateString(s: string, max: number | null = null): string {
     return s;
   }
 }
+
+export function hasPlayedBefore(): boolean {
+  const playedBefore = localStorage.getItem("playedBefore") === "true";
+  if (!playedBefore) {
+    localStorage.setItem("playedBefore", "true");
+    return playedBefore;
+  }
+  return playedBefore;
+}
