@@ -1,4 +1,3 @@
-// DictatorGame.tsx
 import {faCheck, faHeart, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import GameNav from "../components/GameNav";
