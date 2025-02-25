@@ -1,4 +1,5 @@
 import {WordHint} from "@/types";
+import {hasPlayedBefore} from "@/utils";
 import {faChartSimple, faCircleQuestion, faHouse, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactNode, useState} from "react";
@@ -18,9 +19,10 @@ interface IRules {
 interface INavbarProps {
   wordHint: WordHint;
   rules: IRules;
+  name: "Dictator" | "Wordle" | "Phraser";
 }
 
-const GameNav = ({wordHint, rules}: INavbarProps) => {
+const GameNav = ({wordHint, rules, name}: INavbarProps) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<"en-US" | "en-UK">("en-US");
@@ -36,6 +38,11 @@ const GameNav = ({wordHint, rules}: INavbarProps) => {
     hints: <HintModalContent meaning={wordHint.meaning} pos={wordHint.pos} vowels={wordHint.vowels} />,
     rankings: <RankingModalContent />,
   };
+
+  if (!hasPlayedBefore(name)) {
+    setIsModalOpen(true);
+    setModalType("rules");
+  }
 
   return (
     <>
