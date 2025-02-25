@@ -1,9 +1,9 @@
 import {WordHint} from "@/types";
-import {hasPlayedBefore} from "@/utils";
 import {faChartSimple, faCircleQuestion, faHouse, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactNode, useState} from "react";
 import {useNavigate} from "react-router";
+import {hasPlayedBefore} from "../utils";
 import HintModalContent from "./HintModalContent";
 import LanguageModalContent from "./LanguageModalContent";
 import Modal from "./Modal";
