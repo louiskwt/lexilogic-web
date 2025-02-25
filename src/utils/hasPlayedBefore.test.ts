@@ -8,12 +8,12 @@ describe("hasPlayedBefore", () => {
   });
 
   it("should return false if playedBefore is not set but calling hasPlayedBefore again will be true", () => {
-    expect(hasPlayedBefore()).toBeFalsy();
-    expect(hasPlayedBefore()).toBeTruthy();
+    expect(hasPlayedBefore("Dictator")).toBeFalsy();
+    expect(hasPlayedBefore("Dictator")).toBeTruthy();
   });
 
   it("should return true if playedBefore is set to 'true'", () => {
-    localStorage.setItem("hasPlayedBefore", "true");
-    expect(hasPlayedBefore()).toBeTruthy();
+    localStorage.setItem("playedWordleBefore", "true");
+    expect(hasPlayedBefore("Wordle")).toBeTruthy();
   });
 });

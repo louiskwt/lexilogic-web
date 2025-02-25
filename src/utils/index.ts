@@ -114,10 +114,10 @@ export function truncateString(s: string, max: number | null = null): string {
   }
 }
 
-export function hasPlayedBefore(): boolean {
-  const playedBefore = localStorage.getItem("playedBefore") === "true";
+export function hasPlayedBefore(game: "Dictator" | "Wordle" | "Phraser"): boolean {
+  const playedBefore = localStorage.getItem(`played${game}Before`) === "true";
   if (!playedBefore) {
-    localStorage.setItem("playedBefore", "true");
+    localStorage.setItem(`played${game}Before`, "true");
     return playedBefore;
   }
   return playedBefore;
