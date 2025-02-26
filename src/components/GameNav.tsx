@@ -29,7 +29,6 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
   const [modalType, setModalType] = useState<"language" | "rules" | "rankings" | "hints">("rules");
   const handleLanguageChange = (newLanguage: "en-US" | "en-UK") => {
     setLanguage(newLanguage);
-    // Implement any additional logic to update the app's language
   };
 
   const modalContent = {
