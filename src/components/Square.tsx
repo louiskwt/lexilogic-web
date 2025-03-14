@@ -1,10 +1,4 @@
-interface SquareProps {
-  char: string;
-  correct: boolean;
-  misplaced: boolean;
-  size?: number;
-  testId?: string;
-}
+import {SquareProps} from "@/types";
 
 const Square = ({char, correct, misplaced, size = 10, testId = ""}: SquareProps) => {
   return (
