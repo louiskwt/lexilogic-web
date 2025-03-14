@@ -39,7 +39,7 @@ const Wordle = () => {
         <Spinner size="lg" />
       ) : (
         <>
-          <div className="flex-1 flex flex-col items-center justify-center space-y-2 md:space-y-6 mt-4">
+          <div className="flex-1 flex flex-col items-center justify-center h-80 space-y-6 mt-4">
             {rows.map((row, index: number) => (
               <div key={index} className="flex space-x-2">
                 {row.map((square, index) => (

@@ -40,7 +40,7 @@ const Phraser = () => {
         <Spinner size="lg" />
       ) : (
         <>
-          <div className="flex-1 flex flex-col items-center justify-center space-y-2 md:space-y-4 mt-4">
+          <div className="flex-1 flex flex-col items-center justify-center space-y-6 mt-4">
             {rows.map((row, rowIndex) => (
               <div key={rowIndex} className="flex space-x-2">
                 {row.map((square, index) => {
