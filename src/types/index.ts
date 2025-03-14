@@ -62,3 +62,11 @@ export interface ProfileData {
   date?: Date;
   meaning_lang: LangaugeOptions;
 }
+
+export interface SquareProps {
+  char: string;
+  correct: boolean;
+  misplaced: boolean;
+  size?: number;
+  testId?: string;
+}
