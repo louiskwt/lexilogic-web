@@ -1,7 +1,7 @@
 import GameNav from "../components/GameNav";
 import Keyboard from "../components/Keyboard";
+import ResponsiveSquare from "../components/ResponsiveSquare";
 import Spinner from "../components/Spinner";
-import Square from "../components/Square";
 import {useLanguageContext} from "../contexts/LanguageContext";
 import {useWordleContext} from "../contexts/WordleContext";
 
@@ -43,7 +43,7 @@ const Wordle = () => {
             {rows.map((row, index: number) => (
               <div key={index} className="flex space-x-2">
                 {row.map((square, index) => (
-                  <Square key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} size={8} />
+                  <ResponsiveSquare key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} />
                 ))}
               </div>
             ))}
