@@ -27,12 +27,12 @@ const GameOverDisplay = ({handleNewGame, title, message, answer = "", pos = "", 
           },
         })}
       </p>
-      <div className="mt-8">
+      <div className="mt-8 flex flex-col">
         <button className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded" onClick={handleNewGame}>
           {t("tryAgain")}
         </button>
         {!user && (
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-8" onClick={openSignUpModal}>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={openSignUpModal}>
             {t("callToRegister")}
           </button>
         )}
