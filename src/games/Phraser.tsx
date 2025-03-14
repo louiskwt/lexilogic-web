@@ -1,8 +1,8 @@
 import EmptySquare from "../components/EmptySquare";
 import GameNav from "../components/GameNav";
 import Keyboard from "../components/Keyboard";
+import ResponsiveSquare from "../components/ResponsiveSquare";
 import Spinner from "../components/Spinner";
-import Square from "../components/Square";
 import {useLanguageContext} from "../contexts/LanguageContext";
 import {usePhraserContext} from "../contexts/PhraserContext";
 
@@ -47,7 +47,7 @@ const Phraser = () => {
                   if (square.character === "-") {
                     return <EmptySquare key={index} size={4} />;
                   } else {
-                    return <Square key={index} size={8} char={square.character} misplaced={square.misplaced} correct={square.correct} />;
+                    return <ResponsiveSquare key={index} size={8} char={square.character} misplaced={square.misplaced} correct={square.correct} />;
                   }
                 })}
               </div>
