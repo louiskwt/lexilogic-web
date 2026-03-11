@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 Lexigram
+Copyright (c) 2026 Lexigram by Square One Software Comapny
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
