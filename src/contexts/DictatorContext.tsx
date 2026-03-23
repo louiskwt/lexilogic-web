@@ -1,8 +1,6 @@
-import {IUserInput, IWord, WordData, WordHint} from "@/types";
+import {IUserInput, IWord, WordHint} from "@/types";
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
-import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneDayBefore, setLocalProfileData, storeLocalWords, updateXP, upsertLearnedWords} from "../utils";
-import {useAuthContext} from "./AuthContext";
+import {findVowels, getWord} from "../utils";
 import {useLanguageContext} from "./LanguageContext";
 
 export type DictatorContextValue = {
@@ -32,7 +30,8 @@ export const useDictatorContext = () => {
 
 export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentWord, setCurrentWord] = useState<IWord | null>(null);
-  const [wordId, setWordId] = useState<number | null>(null);
+  const [currentFrequency, setCurrentFrequency] = useState<number>(Infinity);
+  const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
   const [wordHint, setWordHint] = useState<WordHint>({
     meaning: "",
     pos: "",
@@ -52,73 +51,35 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(false);
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
-  const {profile, handleProfileUpdate} = useAuthContext();
+  const profile = null;
   const {t} = useLanguageContext();
-
-  const fetchDictationWord = async (): Promise<WordData[] | null> => {
-    try {
-      const {data, error} = await supabase.from("random_dictation_words").select("id, word, pos, meaning, en_meaning, audio").limit(100);
-      if (error) throw error;
-      return data;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  };
 
   const startGame = async () => {
     setIsFetchingWord(true);
-    const localWords = getLocalWords("dictationWords");
-    const isOneDayBefore = localWords ? isDateOneDayBefore(new Date(), new Date(localWords.createdAt)) : false;
-    const hasEnMeaning = localWords?.words.every((w) => "en_meaning" in w) || false;
-    const meaningLangPreference = getMeaningLangPreference();
     let inputs: IUserInput[] = [{character: "", correct: false}];
-    let wordData: WordData = {id: null, word: "", meaning: "", audio: "", en_meaning: "", pos: ""};
-    if (localWords && localWords.words.length > 10 && !isOneDayBefore && hasEnMeaning) {
-      const localRandomIndex = generateRandomIndex(localWords.words.length);
-      wordData = localWords.words[localRandomIndex];
-      inputs = wordData.word.split("").map(() => {
+
+    const wordData = await getWord(Infinity, currentFrequency, usedWords);
+    if (wordData?.picked) {
+      setCurrentWord({
+        word: wordData.picked.word,
+        audio: "",
+      });
+      inputs = wordData.picked.word.split("").map(() => {
         return {
           character: "",
           correct: false,
         };
       });
-
-      storeLocalWords(
-        localWords.words.filter((w) => w.word !== localWords.words[localRandomIndex].word),
-        "dictationWords",
-        localWords.createdAt
-      );
-    } else {
-      const words = await fetchDictationWord();
-      const randomIndex = generateRandomIndex(words?.length || 100);
-      if (words) {
-        wordData = words[randomIndex];
-
-        inputs = wordData.word.split("").map(() => {
-          return {
-            character: "",
-            correct: false,
-          };
-        });
-
-        storeLocalWords(words, "dictationWords");
-      } else {
-        alert(t("warning.errorTryAgain"));
-      }
+      setWordHint({
+        meaning: wordData.picked.meaning,
+        pos: wordData.picked.pos,
+        vowels: findVowels(wordData.picked.word),
+      });
+      setCurrentFrequency(wordData.nextFrequency);
+      setUsedWords(usedWords.add(wordData.picked.word));
     }
-    const randomWordId = "id" in wordData && typeof wordData.id === "number" ? wordData.id : null;
-    setWordId(randomWordId);
-    setCurrentWord({
-      word: wordData.word,
-      audio: wordData.audio || "",
-    });
+
     setUserInput(inputs);
-    setWordHint({
-      meaning: meaningLangPreference === "en" ? wordData.en_meaning : wordData.meaning,
-      pos: wordData.pos,
-      vowels: findVowels(wordData.word),
-    });
 
     setIsCorrect(false);
     setIsGameOver(false);
@@ -145,38 +106,12 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     setUserInput(updatedInput);
   };
 
-  useEffect(() => {
-    const localProfileData = getLocalProfileData();
-    const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
-    const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
-    const xp = isCorrect ? 3 : isGameOver ? 1 : 0;
-
-    if (isCorrect || isGameOver) {
-      if (profile) updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
-    }
-
-    if (profile) {
-      const updatedProfile = profile;
-      updatedProfile.total_xp = currentTotalXP + xp;
-      updatedProfile.weekly_xp = currentWeeklyXP + xp;
-      handleProfileUpdate(updatedProfile);
-    } else {
-      setLocalProfileData({
-        weekly_xp: currentWeeklyXP + xp,
-        total_xp: currentTotalXP + xp,
-        date: new Date(),
-        meaning_lang: "zh",
-      });
-    }
-
-    if (profile && (isCorrect || isGameOver)) {
-      upsertLearnedWords({
-        profile_id: profile.id,
-        word_id: wordId,
-        latest_correct: isCorrect,
-      });
-    }
-  }, [isGameOver, isCorrect]);
+  // useEffect(() => {
+  //   const localProfileData = getLocalProfileData();
+  //   const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
+  //   const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
+  //   const xp = isCorrect ? 3 : isGameOver ? 1 : 0;
+  // }, [isGameOver, isCorrect]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -195,32 +130,11 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
 
   const playAudio = () => {
     if (currentWord) {
-      const audio = new Audio(currentWord.audio);
-      audio
-        .play()
-        .catch(() => {
-          let retryAttempts = 0;
-          const maxRetryAttempts = 3;
-          const retryDelay = 500; // half second
-
-          const retryAudio = () => {
-            if (retryAttempts < maxRetryAttempts) {
-              retryAttempts++;
-              console.log("retrying");
-              audio.src = currentWord.audio;
-              audio.play();
-            } else {
-              alert(t("warning.audioError"));
-              startGame();
-            }
-          };
-          setTimeout(retryAudio, retryDelay);
-        })
-        .then(() => {
-          inputRefsArray[currentIndex].current?.focus();
-        });
+      const synth = window.speechSynthesis;
+      const utterThis = new SpeechSynthesisUtterance(currentWord.word);
+      synth.speak(utterThis);
     }
-
+    inputRefsArray[currentIndex].current?.focus();
     return;
   };
 
