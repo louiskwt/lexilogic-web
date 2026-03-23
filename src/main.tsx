@@ -4,7 +4,6 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import App from "./App.tsx";
 import ErrorBoundary from "./components/ErrorBoundry.tsx";
 import NoMatchPage from "./components/NoMatchPage.tsx";
-import {AuthProvider} from "./contexts/AuthContext.tsx";
 import {DeviceProvider} from "./contexts/DeviceContext.tsx";
 import {DictatorProvider} from "./contexts/DictatorContext.tsx";
 import {LanguageProvider} from "./contexts/LanguageContext.tsx";
@@ -21,40 +20,38 @@ createRoot(document.getElementById("root")!).render(
     <ErrorBoundary>
       <DeviceProvider>
         <LanguageProvider>
-          <AuthProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<App />} />
-                <Route
-                  path="/word-wonder"
-                  element={
-                    <WordleProvider>
-                      <Wordle />
-                    </WordleProvider>
-                  }
-                />
-                <Route
-                  path="/spell-genius"
-                  element={
-                    <DictatorProvider>
-                      <Dictator />
-                    </DictatorProvider>
-                  }
-                />
-                <Route
-                  path="/phrase-puzzle"
-                  element={
-                    <PhraserProvider>
-                      <Phraser />
-                    </PhraserProvider>
-                  }
-                />
-                <Route path="*" element={<NoMatchPage />} />
-              </Routes>
-            </BrowserRouter>
-          </AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route
+                path="/word-wonder"
+                element={
+                  <WordleProvider>
+                    <Wordle />
+                  </WordleProvider>
+                }
+              />
+              <Route
+                path="/spell-genius"
+                element={
+                  <DictatorProvider>
+                    <Dictator />
+                  </DictatorProvider>
+                }
+              />
+              <Route
+                path="/phrase-puzzle"
+                element={
+                  <PhraserProvider>
+                    <Phraser />
+                  </PhraserProvider>
+                }
+              />
+              <Route path="*" element={<NoMatchPage />} />
+            </Routes>
+          </BrowserRouter>
         </LanguageProvider>
       </DeviceProvider>
     </ErrorBoundary>
-  </StrictMode>
+  </StrictMode>,
 );
