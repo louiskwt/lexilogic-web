@@ -79,7 +79,7 @@ export function getWord(length = 5, currentFrequency = Infinity, usedWords = new
 }
 
 export function pickWord(words: WordData[], length: number = 5, currentFrequency: number = Infinity, usedWords = new Set(), poolRatio = 0.2): PickedWord {
-  const candidates = words.filter((w) => w.word.length === length && w.frequency <= currentFrequency && !usedWords.has(w)).sort((a, b) => b.frequency - a.frequency);
+  const candidates = words.filter((w) => (length === 5 ? w.word.length === length : true) && w.frequency <= currentFrequency && !usedWords.has(w)).sort((a, b) => b.frequency - a.frequency);
 
   if (candidates.length === 0) return {picked: null, nextFrequency: 1, usedWords};
 
