@@ -1,5 +1,5 @@
 import {WordHint} from "@/types";
-import {faChartSimple, faCircleQuestion, faHouse, faLightbulb} from "@fortawesome/free-solid-svg-icons";
+import {faCircleQuestion, faHouse, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactNode, useEffect, useState} from "react";
 import {useNavigate} from "react-router";
@@ -80,7 +80,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
               <FontAwesomeIcon icon={faLightbulb} />
             </button>
           </div>
-          <div className="mr-4">
+          {/* <div className="mr-4">
             <button
               className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded"
               onClick={() => {
@@ -89,7 +89,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
               }}>
               <FontAwesomeIcon icon={faChartSimple} />
             </button>
-          </div>
+          </div> */}
           <div>
             <button
               className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded"
