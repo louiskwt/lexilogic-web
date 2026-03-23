@@ -4,7 +4,14 @@ export type WordData = {
   pos: string;
   audio?: string;
   meaning: string;
-  en_meaning: string;
+  en_meaning?: string;
+  frequency: number;
+};
+
+export type PickedWord = {
+  picked: WordData | null;
+  nextFrequency: number;
+  usedWords: Set<string> | Set<unknown>;
 };
 
 export type LocalWords = {
