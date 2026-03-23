@@ -2,9 +2,7 @@ import {GameState, ISquare, WordHint} from "@/types";
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
-import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalPhrases, getLocalProfileData, getMeaningLangPreference, isDateOneWeekBefore, setLocalProfileData, storeLocalPhrases, updateXP} from "../utils";
-import {useAuthContext} from "./AuthContext";
+import {findVowels, getLocalProfileData, getWord, setLocalProfileData} from "../utils";
 import {useLanguageContext} from "./LanguageContext";
 
 export type PhraserContextValue = {
@@ -36,10 +34,12 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         character: " ",
         correct: false,
         misplaced: false,
-      })
-    )
+      }),
+    ),
   );
-  const [phrase, setPhrase] = useState<string>("");
+  const [word, setWord] = useState<string>("");
+  const [currentFrequency, setCurrentFrequency] = useState<number>(Infinity);
+  const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
@@ -57,11 +57,10 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   });
   const {t} = useLanguageContext();
 
-  const {profile} = useAuthContext();
-
+  const profile = null;
   const handleKeyPress = useCallback(
     (key: string) => {
-      if (currentCol < phrase.length) {
+      if (currentCol < word.length) {
         const newRows = [...rows];
         newRows[currentRow][currentCol] = {
           character: key.toUpperCase(),
@@ -69,11 +68,11 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
           misplaced: false,
         };
         setRows(newRows);
-        const nextStep = currentCol + 1 < phrase.length && newRows[currentRow][currentCol + 1].character === "-" ? 2 : 1;
+        const nextStep = currentCol + 1 < word.length && newRows[currentRow][currentCol + 1].character === "-" ? 2 : 1;
         setCurrentCol(currentCol + nextStep);
       }
     },
-    [rows, currentCol, currentRow]
+    [rows, currentCol, currentRow],
   );
 
   const handleChecking = useCallback(
@@ -84,10 +83,10 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       const newRows = [...rows];
 
       for (let i = 0; i < guess.length; i++) {
-        if (guess[i] === phrase[i]) {
+        if (guess[i] === word[i]) {
           correct.push(guess[i]);
           newRows[currentRow][i].correct = true;
-        } else if (phrase.includes(guess[i])) {
+        } else if (word.includes(guess[i])) {
           misplaced.push(guess[i]);
           newRows[currentRow][i].misplaced = true;
         } else {
@@ -99,15 +98,15 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       setWrongLetters(wrong);
       setRows(newRows);
 
-      return guess.join("") === phrase;
+      return guess.join("") === word;
     },
-    [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, phrase]
+    [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word],
   );
 
   const handleNextGame = () => location.reload();
 
   const handleEnter = useCallback(() => {
-    if (currentCol < phrase.length) {
+    if (currentCol < word.length) {
       alert(t("warning.notEnoughLetter"));
       return;
     }
@@ -149,63 +148,43 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   }, [currentCol, rows, currentRow]);
 
   useEffect(() => {
-    const fetchRandomWord = async () => {
-      let keyPhrase = "";
-      let meaning = "";
-      const localPhrases = getLocalPhrases();
-      const oneWeekBefore = localPhrases ? isDateOneWeekBefore(new Date(), new Date(localPhrases.createdAt)) : false;
-      const hasEnMeaning = localPhrases?.phrases.every((p) => "en_meaning" in p) || false; // temporary measure; can remove after a while
-      const meaningLangPreference = getMeaningLangPreference();
-      if (localPhrases && localPhrases.phrases.length > 10 && !oneWeekBefore && !hasEnMeaning) {
-        const localRandomIndex = generateRandomIndex(localPhrases.phrases.length);
-        keyPhrase = localPhrases.phrases[localRandomIndex].phrase.toUpperCase();
-        meaning = meaningLangPreference === "en" ? localPhrases.phrases[localRandomIndex].en_meaning : localPhrases.phrases[localRandomIndex].meaning;
-        storeLocalPhrases(
-          localPhrases.phrases.filter((p) => p.phrase !== localPhrases.phrases[localRandomIndex].phrase),
-          localPhrases.createdAt
-        );
-      } else {
-        const {data, error} = await supabase.from("random_phrases").select("phrase, en_meaning, meaning").limit(100);
-        if (error) {
-          console.error("Error fetching phrase: ", error);
-        } else if (data) {
-          const randoomIndex = generateRandomIndex(data.length);
-          keyPhrase = data[randoomIndex].phrase.toUpperCase();
-          meaning = meaningLangPreference === "en" ? data[randoomIndex].en_meaning : data[randoomIndex].meaning;
-          storeLocalPhrases(data);
-        }
-      }
+    if (!isFetchingWord) return;
+    let cancelled = false;
 
-      setPhrase(keyPhrase);
-      setRows(
-        Array.from({length: 6}).map(() => {
-          const array = keyPhrase.split("").map((c: string) => {
-            if (c === "-") {
-              return {
-                character: c,
-                correct: false,
-                misplaced: false,
-              };
-            } else {
-              return {
-                character: "",
-                correct: false,
-                misplaced: false,
-              };
-            }
+    const fetchRandomWord = async () => {
+      try {
+        const wordData = await getWord(Infinity, currentFrequency, usedWords);
+        if (cancelled) return;
+        if (wordData?.picked) {
+          setWord(wordData.picked.word.toUpperCase());
+          setWordHint({
+            meaning: wordData.picked.meaning,
+            pos: wordData.picked.pos,
+            vowels: findVowels(wordData.picked.word),
           });
-          return array;
-        })
-      );
-      setWordHint({
-        meaning,
-        pos: "",
-        vowels: findVowels(keyPhrase.toLowerCase()),
-      });
-      setIsFetchingWord(false);
+          setCurrentFrequency(wordData.nextFrequency);
+          setUsedWords(new Set(wordData.usedWords));
+          setRows(
+            Array.from({length: 6}).map(() =>
+              Array(wordData.picked?.word.length).fill({
+                character: " ",
+                correct: false,
+                misplaced: false,
+              }),
+            ),
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        if (!cancelled) setIsFetchingWord(false);
+      }
     };
     fetchRandomWord();
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [isFetchingWord]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -226,13 +205,6 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     const xp = gameState === 1 ? 3 : gameState === 0 ? 1 : 0;
     const multiplier = currentRow < 3 ? 2 : 1;
 
-    if (gameState === 0) {
-      if (profile) updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
-    }
-
-    if (gameState === 1) {
-      if (profile) updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
-    }
     if (!profile) setLocalProfileData({weekly_xp: currentWeeklyXP + xp * multiplier, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "en"});
   }, [gameState, profile]);
 
@@ -252,7 +224,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={phrase.toLowerCase()} meaning={wordHint.meaning} pos="exp" handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word.toLowerCase()} meaning={wordHint.meaning} pos="exp" handleNewGame={handleNextGame} />} />
     </PhraserContext.Provider>
   );
 };

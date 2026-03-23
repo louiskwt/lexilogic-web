@@ -1,10 +1,8 @@
-import {GameState, ISquare, WordData, WordHint} from "@/types";
+import {GameState, ISquare, WordHint} from "@/types";
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
-import supabase from "../supabaseClient";
-import {findVowels, generateRandomIndex, getLocalProfileData, getLocalWords, getMeaningLangPreference, isDateOneDayBefore, setLocalProfileData, storeLocalWords, updateXP, upsertLearnedWords} from "../utils";
-import {useAuthContext} from "./AuthContext";
+import {findVowels, getWord} from "../utils";
 import {useLanguageContext} from "./LanguageContext";
 
 export type WordleContextValue = {
@@ -36,11 +34,12 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         character: " ",
         correct: false,
         misplaced: false,
-      })
-    )
+      }),
+    ),
   );
   const [word, setWord] = useState<string>("");
-  const [wordId, setWordId] = useState<number | null>(null);
+  const [currenFrequency, setCurrentFrequency] = useState<number>(Infinity);
+  const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [misplacedLetters, setMisplacedLetters] = useState<string[]>([]);
@@ -57,7 +56,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     vowels: [],
   });
 
-  const {profile} = useAuthContext();
   const {t} = useLanguageContext();
 
   const handleKeyPress = useCallback(
@@ -73,7 +71,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         setCurrentCol(currentCol + 1);
       }
     },
-    [rows, currentCol, currentRow]
+    [rows, currentCol, currentRow],
   );
 
   const handleChecking = useCallback(
@@ -101,7 +99,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
 
       return guess.join("") === word;
     },
-    [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word]
+    [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word],
   );
 
   const handleNextGame = () => location.reload();
@@ -147,43 +145,38 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   }, [currentCol, rows, currentRow]);
 
   useEffect(() => {
-    const fetchRandomWord = async () => {
-      const localWords = getLocalWords("wordleWords");
-      const hasEnMeaning = localWords?.words.every((w) => "en_meaning" in w) || false; // temporary measure; can remove after a while
-      const oneDayBefore = localWords ? isDateOneDayBefore(new Date(), new Date(localWords.createdAt)) : false;
-      let randomWordData: WordData = {id: null, meaning: "", pos: "", word: "", en_meaning: ""};
-
-      if (localWords && localWords.words.length > 10 && !oneDayBefore && hasEnMeaning) {
-        const randomIndex = generateRandomIndex(localWords.words.length);
-        randomWordData = localWords.words[randomIndex];
-        storeLocalWords(
-          localWords.words.filter((w) => w.word !== randomWordData.word),
-          "wordleWords",
-          localWords.createdAt
-        );
-      } else {
-        const {data, error} = await supabase.from("random_wordle_words").select("id, word, pos, meaning, en_meaning").limit(100);
-        if (error) {
-          console.error("Error fetching word: ", error);
-        } else if (data) {
-          const randomIndex = generateRandomIndex(data.length);
-          randomWordData = data[randomIndex];
-          storeLocalWords(data, "wordleWords");
+    if (!isFetchingWord) return;
+    let cancelled = false;
+    if (isFetchingWord) {
+      const fetchRandomWord = async () => {
+        try {
+          const wordData = await getWord(5, currenFrequency, usedWords);
+          if (cancelled) return;
+          if (wordData?.picked) {
+            setWordHint({
+              meaning: wordData.picked.meaning,
+              pos: wordData.picked.pos,
+              vowels: findVowels(wordData.picked.word),
+            });
+            console.log(wordData.picked.word);
+            setWord(wordData.picked.word.toUpperCase());
+            setCurrentFrequency(wordData.nextFrequency);
+            setUsedWords(usedWords.add(wordData.picked.word));
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          if (!cancelled) setIsFetchingWord(false);
         }
-      }
-      const meaningLangPreference = getMeaningLangPreference();
-      const randomWordId = "id" in randomWordData && typeof randomWordData.id === "number" ? randomWordData.id : null;
-      setWord(randomWordData.word.toUpperCase());
-      setWordId(randomWordId);
-      setWordHint({
-        meaning: meaningLangPreference === "en" ? randomWordData.en_meaning : randomWordData.meaning,
-        pos: randomWordData.pos,
-        vowels: findVowels(randomWordData.word),
-      });
-      setIsFetchingWord(false);
+
+        setIsFetchingWord(false);
+      };
+      fetchRandomWord();
+    }
+    return () => {
+      cancelled = true;
     };
-    fetchRandomWord();
-  }, []);
+  }, [isFetchingWord]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -196,33 +189,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       window.removeEventListener("keydown", handler);
     };
   }, [handleBackspace, handleEnter, handleKeyPress]);
-
-  useEffect(() => {
-    const localProfileData = getLocalProfileData();
-    const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
-    const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
-    const xp = gameState === 1 ? 3 : gameState === 0 ? 1 : 0;
-    const multiplier = currentRow < 3 ? 2 : 1;
-
-    if (gameState === 0) {
-      if (profile) updateXP(profile.id, currentWeeklyXP + xp, currentTotalXP + xp);
-    }
-
-    if (gameState === 1) {
-      if (profile) updateXP(profile.id, currentWeeklyXP + xp * multiplier, currentTotalXP + xp * multiplier);
-    }
-    if (!profile) setLocalProfileData({weekly_xp: currentWeeklyXP + xp * multiplier, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "en"});
-
-    if (gameState !== null && profile) {
-      // upsert learned word
-      const learnedWordPayload = {
-        profile_id: profile.id,
-        word_id: wordId,
-        latest_correct: gameState === 1 ? true : false,
-      };
-      upsertLearnedWords(learnedWordPayload);
-    }
-  }, [gameState, profile]);
 
   return (
     <WordleContext.Provider
