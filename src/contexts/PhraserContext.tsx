@@ -1,8 +1,8 @@
-import {GameState, ISquare, WordHint} from "@/types";
+import {ISquare, WordHint} from "@/types";
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
-import {findVowels, getLocalProfileData, getWord, setLocalProfileData} from "../utils";
+import {findVowels, getWord} from "../utils";
 import {useLanguageContext} from "./LanguageContext";
 
 export type PhraserContextValue = {
@@ -49,7 +49,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   const [gameOverTitle, setGameOverTitle] = useState<string>("");
   const [gameOverMessage, setGameOverMessage] = useState<string>("");
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(true);
-  const [gameState, setGameState] = useState<GameState>(null);
+  // const [gameState, setGameState] = useState<GameState>(null);
   const [wordHint, setWordHint] = useState<WordHint>({
     meaning: "",
     pos: "",
@@ -57,7 +57,6 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   });
   const {t} = useLanguageContext();
 
-  const profile = null;
   const handleKeyPress = useCallback(
     (key: string) => {
       if (currentCol < word.length) {
@@ -119,7 +118,6 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         setGameOverTitle(t("phrasePuzzle.gameOver.title"));
         setGameOverMessage(t("phrasePuzzle.gameOver.message"));
         setIsGameOverModalOpen(true);
-        setGameState(0);
       }, 1000);
     }
 
@@ -128,7 +126,6 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         setGameOverTitle(t("phrasePuzzle.correct"));
         setGameOverMessage(t("phrasePuzzle.winningMessage"));
         setIsGameOverModalOpen(true);
-        setGameState(1);
       }, 1000);
     } else {
       setCurrentRow(currentRow + 1);
@@ -198,15 +195,15 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     };
   }, [handleBackspace, handleEnter, handleKeyPress]);
 
-  useEffect(() => {
-    const localProfileData = getLocalProfileData();
-    const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
-    const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
-    const xp = gameState === 1 ? 3 : gameState === 0 ? 1 : 0;
-    const multiplier = currentRow < 3 ? 2 : 1;
+  // useEffect(() => {
+  //   const localProfileData = getLocalProfileData();
+  //   const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
+  //   const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
+  //   const xp = gameState === 1 ? 3 : gameState === 0 ? 1 : 0;
+  //   const multiplier = currentRow < 3 ? 2 : 1;
 
-    if (!profile) setLocalProfileData({weekly_xp: currentWeeklyXP + xp * multiplier, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "en"});
-  }, [gameState, profile]);
+  //   if (!profile) setLocalProfileData({weekly_xp: currentWeeklyXP + xp * multiplier, total_xp: currentTotalXP + xp * multiplier, date: new Date(), meaning_lang: "en"});
+  // }, [gameState, profile]);
 
   return (
     <PhraserContext.Provider

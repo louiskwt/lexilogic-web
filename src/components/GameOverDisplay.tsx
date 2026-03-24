@@ -11,7 +11,6 @@ interface IGameOverDisplayProps {
 
 const GameOverDisplay = ({handleNewGame, title, message, answer = "", pos = "", meaning = ""}: IGameOverDisplayProps) => {
   const {t} = useLanguageContext();
-  const user = null;
 
   return (
     <>

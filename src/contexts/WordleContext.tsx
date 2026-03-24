@@ -1,4 +1,4 @@
-import {GameState, ISquare, WordHint} from "@/types";
+import {ISquare, WordHint} from "@/types";
 import {createContext, FC, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import GameOverDisplay from "../components/GameOverDisplay";
 import Modal from "../components/Modal";
@@ -49,7 +49,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   const [gameOverTitle, setGameOverTitle] = useState<string>("");
   const [gameOverMessage, setGameOverMessage] = useState<string>("");
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(true);
-  const [gameState, setGameState] = useState<GameState>(null);
   const [wordHint, setWordHint] = useState<WordHint>({
     meaning: "",
     pos: "",
@@ -118,7 +117,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         setGameOverTitle(t("wordWonder.gameOver.title"));
         setGameOverMessage(t("wordWonder.gameOver.message"));
         setIsGameOverModalOpen(true);
-        setGameState(0);
       }, 1000);
     }
 
@@ -127,7 +125,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         setGameOverTitle(t("wordWonder.correct"));
         setGameOverMessage(t("wordWonder.winningMessage"));
         setIsGameOverModalOpen(true);
-        setGameState(1);
       }, 1000);
     } else {
       setCurrentRow(currentRow + 1);

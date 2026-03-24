@@ -1,7 +1,6 @@
 import {IUserInput, IWord, WordHint} from "@/types";
 import {createContext, createRef, FC, ReactNode, useContext, useEffect, useState} from "react";
 import {findVowels, getWord} from "../utils";
-import {useLanguageContext} from "./LanguageContext";
 
 export type DictatorContextValue = {
   currentWord: IWord | null;
@@ -51,8 +50,8 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [isFetchingWord, setIsFetchingWord] = useState<boolean>(false);
   // state for current input index
   const [currentIndex, setCurrentIndex] = useState(0);
-  const profile = null;
-  const {t} = useLanguageContext();
+  // const profile = null;
+  // const {t} = useLanguageContext();
 
   const startGame = async () => {
     setIsFetchingWord(true);

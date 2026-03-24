@@ -7,7 +7,7 @@ import {hasPlayedBefore} from "../utils";
 import HintModalContent from "./HintModalContent";
 import LanguageModalContent from "./LanguageModalContent";
 import Modal from "./Modal";
-import RankingModalContent from "./RankingModalContent";
+// import RankingModalContent from "./RankingModalContent";
 import RulesModalContent from "./RulesModalContent";
 
 interface IRules {
@@ -26,7 +26,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<"en-US" | "en-UK">("en-US");
-  const [modalType, setModalType] = useState<"language" | "rules" | "rankings" | "hints">("rules");
+  const [modalType, setModalType] = useState<"language" | "rules" | "hints">("rules");
   const handleLanguageChange = (newLanguage: "en-US" | "en-UK") => {
     setLanguage(newLanguage);
   };
@@ -35,7 +35,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
     rules: <RulesModalContent title={rules.title} description={rules.description} message={rules.message} />,
     language: <LanguageModalContent language={language} handleLanguageChange={handleLanguageChange} />,
     hints: <HintModalContent meaning={wordHint.meaning} pos={wordHint.pos} vowels={wordHint.vowels} />,
-    rankings: <RankingModalContent />,
+    // rankings: <RankingModalContent />,
   };
 
   useEffect(() => {
