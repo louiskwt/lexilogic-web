@@ -38,6 +38,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     ),
   );
   const [word, setWord] = useState<string>("");
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [currentFrequency, setCurrentFrequency] = useState<number>(Infinity);
   const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
   const [currentRow, setCurrentRow] = useState<number>(0);
@@ -111,9 +112,9 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     }
 
     const guess = rows[currentRow].map((col) => col.character);
-    const isCorrect = handleChecking(guess);
+    const correct = handleChecking(guess);
 
-    if (!isCorrect && currentRow === 5) {
+    if (!correct && currentRow === 5) {
       setTimeout(() => {
         setGameOverTitle(t("phrasePuzzle.gameOver.title"));
         setGameOverMessage(t("phrasePuzzle.gameOver.message"));
@@ -121,11 +122,12 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       }, 1000);
     }
 
-    if (isCorrect) {
+    if (correct) {
       setTimeout(() => {
         setGameOverTitle(t("phrasePuzzle.correct"));
         setGameOverMessage(t("phrasePuzzle.winningMessage"));
         setIsGameOverModalOpen(true);
+        setIsCorrect(correct);
       }, 1000);
     } else {
       setCurrentRow(currentRow + 1);
@@ -221,7 +223,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word.toLowerCase()} meaning={wordHint.meaning} pos="exp" handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word.toLowerCase()} isCorrect={isCorrect} meaning={wordHint.meaning} pos="exp" handleNewGame={handleNextGame} />} />
     </PhraserContext.Provider>
   );
 };

@@ -38,6 +38,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     ),
   );
   const [word, setWord] = useState<string>("");
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [currenFrequency, setCurrentFrequency] = useState<number>(Infinity);
   const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
   const [currentRow, setCurrentRow] = useState<number>(0);
@@ -110,9 +111,9 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     }
 
     const guess = rows[currentRow].map((col) => col.character);
-    const isCorrect = handleChecking(guess);
+    const correct = handleChecking(guess);
 
-    if (!isCorrect && currentRow === 5) {
+    if (!correct && currentRow === 5) {
       setTimeout(() => {
         setGameOverTitle(t("wordWonder.gameOver.title"));
         setGameOverMessage(t("wordWonder.gameOver.message"));
@@ -120,11 +121,12 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
       }, 1000);
     }
 
-    if (isCorrect) {
+    if (correct) {
       setTimeout(() => {
         setGameOverTitle(t("wordWonder.correct"));
         setGameOverMessage(t("wordWonder.winningMessage"));
         setIsGameOverModalOpen(true);
+        setIsCorrect(correct);
       }, 1000);
     } else {
       setCurrentRow(currentRow + 1);
@@ -203,7 +205,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         handleBackspace,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word.toLowerCase()} pos={wordHint.pos} meaning={wordHint.meaning} handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} isCorrect={isCorrect} answer={word.toLowerCase()} pos={wordHint.pos} meaning={wordHint.meaning} handleNewGame={handleNextGame} />} />
     </WordleContext.Provider>
   );
 };
