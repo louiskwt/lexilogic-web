@@ -1,5 +1,6 @@
 import {faCheck, faHeart, faVolumeUp} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Confetti from "react-confetti-boom";
 import GameNav from "../components/GameNav";
 import GameOverDisplay from "../components/GameOverDisplay";
 import Spinner from "../components/Spinner";
@@ -12,7 +13,7 @@ const DictatorGame: React.FC = () => {
   if (isGameOver) {
     return (
       <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
-        <GameOverDisplay message={t("dictatorGame.gameOver.message")} title={t("dictatorGame.gameOver.title")} handleNewGame={startGame} answer={currentWord?.word || ""} pos={wordHint.pos} meaning={wordHint.meaning} />
+        <GameOverDisplay message={t("dictatorGame.gameOver.message")} title={t("dictatorGame.gameOver.title")} isCorrect={isCorrect} handleNewGame={startGame} answer={currentWord?.word || ""} pos={wordHint.pos} meaning={wordHint.meaning} />
       </div>
     );
   }
@@ -59,7 +60,8 @@ const DictatorGame: React.FC = () => {
         {isCorrect && (
           <>
             {" "}
-            <div className="animate-drop-bounce text-green-500 font-bold text-2xl my-6 text-center">{t(pickRandomCorrectMessage())}</div>{" "}
+            <div className="animate-drop-bounce text-green-500 font-bold text-2xl my-6 text-center">{t(pickRandomCorrectMessage())}</div>
+            <Confetti mode="boom" particleCount={120} effectCount={2} effectInterval={2000} colors={["#ff577f", "#ff884b"]} />
           </>
         )}
         <h1 className="text-4xl font-bold mb-8">{t("dictator")}</h1>
