@@ -1,5 +1,5 @@
 import {WordHint} from "@/types";
-import {faCircleQuestion, faHouse, faLightbulb} from "@fortawesome/free-solid-svg-icons";
+import {faChartSimple, faCircleQuestion, faHouse, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReactNode, useEffect, useState} from "react";
 import {useNavigate} from "react-router";
@@ -8,6 +8,7 @@ import HintModalContent from "./HintModalContent";
 import LanguageModalContent from "./LanguageModalContent";
 import Modal from "./Modal";
 // import RankingModalContent from "./RankingModalContent";
+import RankingModalContent from "./RankingModalContent";
 import RulesModalContent from "./RulesModalContent";
 
 interface IRules {
@@ -26,7 +27,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<"en-US" | "en-UK">("en-US");
-  const [modalType, setModalType] = useState<"language" | "rules" | "hints">("rules");
+  const [modalType, setModalType] = useState<"language" | "rules" | "hints" | "rankings">("rules");
   const handleLanguageChange = (newLanguage: "en-US" | "en-UK") => {
     setLanguage(newLanguage);
   };
@@ -35,7 +36,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
     rules: <RulesModalContent title={rules.title} description={rules.description} message={rules.message} />,
     language: <LanguageModalContent language={language} handleLanguageChange={handleLanguageChange} />,
     hints: <HintModalContent meaning={wordHint.meaning} pos={wordHint.pos} vowels={wordHint.vowels} />,
-    // rankings: <RankingModalContent />,
+    rankings: <RankingModalContent />,
   };
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
               <FontAwesomeIcon icon={faLightbulb} />
             </button>
           </div>
-          {/* <div className="mr-4">
+          <div className="mr-4">
             <button
               className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded"
               onClick={() => {
@@ -89,7 +90,7 @@ const GameNav = ({wordHint, rules, name}: INavbarProps) => {
               }}>
               <FontAwesomeIcon icon={faChartSimple} />
             </button>
-          </div> */}
+          </div>
           <div>
             <button
               className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded"
