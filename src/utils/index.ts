@@ -1,6 +1,23 @@
 import {LangaugeOptions, LocalPhrases, PhraseData, PickedWord, ProfileData, WordData} from "@/types";
 import PublicGoogleSheetsParser from "public-google-sheets-parser";
 
+const SCRIPT_URL = import.meta.env.VITE_SCORES_SCRIPT_URL;
+
+// Submit a score
+export async function submitScore(name: string, score: string) {
+  await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({name, score}),
+  });
+}
+
+// Fetch leaderboard
+export async function getScores() {
+  const res = await fetch(SCRIPT_URL);
+  const data = await res.json();
+  return data;
+}
+
 export function findVowels(word: string): string[] {
   if (!word) return [];
   const vowels = ["a", "e", "i", "o", "u"];
