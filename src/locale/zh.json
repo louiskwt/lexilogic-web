@@ -31,7 +31,7 @@
     "back": "返回主頁",
     "rankingChart": {
       "loginToSeeRanking": "請登入以查看排名",
-      "weeklyRanking": "每週排名榜",
+      "ranking": "排名榜",
       "yourWeeklyXp": "你本週的 XP: ",
       "totalXp": "總 XP: "
     },

@@ -33,8 +33,7 @@ const RankingModalContent = () => {
   return (
     <>
       <div className="">
-        <h3 className="text-xl font-bold mb-2">{t("rankingChart.weeklyRanking")}</h3>
-
+        <h3 className="text-xl font-bold mb-2">{t("rankingChart.ranking")}</h3>
         {rankingData && rankingData.length > 0 ? (
           rankingData.map((player, index) => (
             <div key={index} className="flex justify-between items-center text-white text-lg font-bold py-2">

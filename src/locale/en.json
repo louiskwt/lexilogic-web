@@ -31,7 +31,7 @@
     "back": "Back to Home Page",
     "rankingChart": {
       "loginToSeeRanking": "Please log in to view the rankings",
-      "weeklyRanking": "Weely Ranking",
+      "ranking": "Ranking",
       "yourWeeklyXp": "Your weekly XP: ",
       "totalXp": "Total XP: "
     },
