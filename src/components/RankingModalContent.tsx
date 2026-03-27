@@ -32,7 +32,7 @@ const RankingModalContent = () => {
 
   return (
     <>
-      <div className="flex flex-col max-h-[60vh]">
+      <div className="flex flex-col max-h-[60vh] max-w-[90vw]">
         <h3 className="text-2xl font-bold mb-4">{t("rankingChart.ranking")}</h3>
 
         {rankingData && rankingData.length > 0 ? (
