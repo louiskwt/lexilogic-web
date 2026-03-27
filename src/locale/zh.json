@@ -40,6 +40,9 @@
       "meaning": "單詞意思",
       "vowels": "元音 （A, E, I, O, U)"
     },
+    "save": "輸入名字去儲存你的分數",
+    "score": "目前分數",
+    "saveBtn": "儲存",
     "dictatorGame": {
       "rules": {
         "title": "成為拼字大師吧!",
@@ -54,7 +57,10 @@
       },
       "gameOver": {
         "message": "再試一次",
-        "title": "哎呀!"
+        "title": "哎呀!",
+        "save": "輸入名字去儲存你的分數",
+        "score": "目前分數",
+        "saveBtn": "儲存"
       },
       "loading": "加載天賦中...",
       "gameTitle": "拼字天賦",

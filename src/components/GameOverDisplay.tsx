@@ -25,7 +25,7 @@ const GameOverDisplay = ({handleNewGame, title, message, answer = "", pos = "", 
     <>
       <h2 className="text-2xl font-bold mb-4">{title}</h2>
       <p className="mb-4">{message}</p>
-      <p className="mb-4">{`Your score: ${score}`}</p>
+      <p className="mb-4">{`${t("score")}: ${score}`}</p>
       <p className="mb-4">
         {t("correctAnswer", {
           ans: answer,
@@ -42,11 +42,11 @@ const GameOverDisplay = ({handleNewGame, title, message, answer = "", pos = "", 
           <div className="center">
             {" "}
             <label className="block text-gray-400" htmlFor="avatar">
-              Enter a name to save your score
+              {t("save")}
             </label>
             <input type="text" placeholder="Enter a name" value={name} onChange={(e) => setName(e.target.value)} className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 mb-4 focus:outline-none focus:border-lime-600" />
             <button className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-4 rounded" onClick={handleSaveScore}>
-              save
+              {t("saveBtn")}
             </button>
           </div>
         )}

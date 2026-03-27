@@ -29,6 +29,9 @@
     "pageNotFound": "Page Not Found",
     "noMatchPageMessage": "Oops, the page you're looking for doesn't exist.",
     "back": "Back to Home Page",
+    "save": "Enter a name to save your score!",
+    "score": "Your score",
+    "saveBtn": "Save",
     "rankingChart": {
       "loginToSeeRanking": "Please log in to view the rankings",
       "ranking": "Ranking",
