@@ -5,10 +5,15 @@ const SCRIPT_URL = import.meta.env.VITE_SCORES_SCRIPT_URL;
 
 // Submit a score
 export async function submitScore(name: string, score: string) {
-  await fetch(SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({name, score}),
-  });
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({name, score}),
+    });
+    return res.status === 200;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Fetch leaderboard
