@@ -9,6 +9,7 @@ export type PhraserContextValue = {
   rows: ISquare[][];
   currentRow: number;
   currentCol: number;
+  score: number;
   misplacedLetters: string[];
   correctLetters: string[];
   wrongLetters: string[];
@@ -38,6 +39,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     ),
   );
   const [word, setWord] = useState<string>("");
+  const [score, setScore] = useState<number>(0);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [currentFrequency, setCurrentFrequency] = useState<number>(Infinity);
   const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
@@ -72,7 +74,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         setCurrentCol(currentCol + nextStep);
       }
     },
-    [rows, currentCol, currentRow],
+    [rows, currentCol, currentRow, word],
   );
 
   const handleChecking = useCallback(
@@ -103,7 +105,24 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word],
   );
 
-  const handleNextGame = () => location.reload();
+  const handleNextGame = () => {
+    setRows(
+      Array.from({length: 6}).map(() =>
+        Array(5).fill({
+          character: " ",
+          correct: false,
+          misplaced: false,
+        }),
+      ),
+    );
+    setMisplacedLetters([]);
+    setCorrectLetters([]);
+    setWrongLetters([]);
+    setCurrentCol(0);
+    setCurrentRow(0);
+    setIsGameOverModalOpen(false);
+    setIsFetchingWord(true);
+  };
 
   const handleEnter = useCallback(() => {
     if (currentCol < word.length) {
@@ -123,6 +142,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
     }
 
     if (correct) {
+      setScore(score + 1);
       setTimeout(() => {
         setGameOverTitle(t("phrasePuzzle.correct"));
         setGameOverMessage(t("phrasePuzzle.winningMessage"));
@@ -163,6 +183,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
           });
           setCurrentFrequency(wordData.nextFrequency);
           setUsedWords(new Set(wordData.usedWords));
+          console.log("setting row", wordData.picked);
           setRows(
             Array.from({length: 6}).map(() =>
               Array(wordData.picked?.word.length).fill({
@@ -221,9 +242,10 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
         handleKeyPress,
         handleEnter,
         handleBackspace,
+        score,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word.toLowerCase()} isCorrect={isCorrect} meaning={wordHint.meaning} pos="exp" handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} answer={word.toLowerCase()} isCorrect={isCorrect} meaning={wordHint.meaning} pos="exp" handleNewGame={handleNextGame} score={score} />} />
     </PhraserContext.Provider>
   );
 };

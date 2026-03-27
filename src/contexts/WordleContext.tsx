@@ -9,6 +9,7 @@ export type WordleContextValue = {
   rows: ISquare[][];
   currentRow: number;
   currentCol: number;
+  score: number;
   misplacedLetters: string[];
   correctLetters: string[];
   wrongLetters: string[];
@@ -38,6 +39,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     ),
   );
   const [word, setWord] = useState<string>("");
+  const [score, setScore] = useState<number>(0);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [currenFrequency, setCurrentFrequency] = useState<number>(Infinity);
   const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
@@ -102,7 +104,24 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     [setRows, setCorrectLetters, setMisplacedLetters, currentRow, rows, word],
   );
 
-  const handleNextGame = () => location.reload();
+  const handleNextGame = () => {
+    setRows(
+      Array.from({length: 6}).map(() =>
+        Array(5).fill({
+          character: " ",
+          correct: false,
+          misplaced: false,
+        }),
+      ),
+    );
+    setMisplacedLetters([]);
+    setCorrectLetters([]);
+    setWrongLetters([]);
+    setCurrentCol(0);
+    setCurrentRow(0);
+    setIsGameOverModalOpen(false);
+    setIsFetchingWord(true);
+  };
 
   const handleEnter = useCallback(() => {
     if (currentCol < 5) {
@@ -122,6 +141,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     }
 
     if (correct) {
+      setScore(score + 1);
       setTimeout(() => {
         setGameOverTitle(t("wordWonder.correct"));
         setGameOverMessage(t("wordWonder.winningMessage"));
@@ -203,9 +223,10 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         handleKeyPress,
         handleEnter,
         handleBackspace,
+        score,
       }}>
       {children}
-      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} isCorrect={isCorrect} answer={word.toLowerCase()} pos={wordHint.pos} meaning={wordHint.meaning} handleNewGame={handleNextGame} />} />
+      <Modal isOpen={isGameOverModalOpen} onClose={() => setIsGameOverModalOpen(false)} children={<GameOverDisplay title={gameOverTitle} message={gameOverMessage} isCorrect={isCorrect} answer={word.toLowerCase()} pos={wordHint.pos} meaning={wordHint.meaning} handleNewGame={handleNextGame} score={score} />} />
     </WordleContext.Provider>
   );
 };
