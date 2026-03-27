@@ -25,7 +25,7 @@
     "setUpProfile": "設置您的個人資料",
     "avatar": "頭像（選填）",
     "saveProfile": "保存個人資料",
-    "profileSaved": "個人資料保存成功 ✅",
+    "saved": "保存成功 ✅",
     "pageNotFound": "找不到頁面",
     "noMatchPageMessage": "哎呀,您要找的頁面不存在哦～",
     "back": "返回主頁",
