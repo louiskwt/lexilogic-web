@@ -8,12 +8,12 @@ import {useDictatorContext} from "../contexts/DictatorContext";
 import {useLanguageContext} from "../contexts/LanguageContext";
 
 const DictatorGame: React.FC = () => {
-  const {currentWord, userInput, isCorrect, inputRefsArray, tries, isGameOver, wordHint, isFetchingWord, handleUserInput, setCurrentIndex, playAudio, startGame, checkAns} = useDictatorContext();
+  const {currentWord, userInput, isCorrect, inputRefsArray, tries, isGameOver, wordHint, isFetchingWord, handleUserInput, setCurrentIndex, playAudio, startGame, checkAns, score} = useDictatorContext();
   const {t} = useLanguageContext();
   if (isGameOver) {
     return (
       <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
-        <GameOverDisplay message={t("dictatorGame.gameOver.message")} title={t("dictatorGame.gameOver.title")} isCorrect={isCorrect} handleNewGame={startGame} answer={currentWord?.word || ""} pos={wordHint.pos} meaning={wordHint.meaning} />
+        <GameOverDisplay message={t("dictatorGame.gameOver.message")} title={t("dictatorGame.gameOver.title")} isCorrect={isCorrect} handleNewGame={startGame} answer={currentWord?.word || ""} pos={wordHint.pos} meaning={wordHint.meaning} score={score} />
       </div>
     );
   }
