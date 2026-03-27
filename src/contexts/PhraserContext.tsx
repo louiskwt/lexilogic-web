@@ -106,22 +106,26 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
   );
 
   const handleNextGame = () => {
-    setRows(
-      Array.from({length: 6}).map(() =>
-        Array(5).fill({
-          character: " ",
-          correct: false,
-          misplaced: false,
-        }),
-      ),
-    );
-    setMisplacedLetters([]);
-    setCorrectLetters([]);
-    setWrongLetters([]);
-    setCurrentCol(0);
-    setCurrentRow(0);
-    setIsGameOverModalOpen(false);
-    setIsFetchingWord(true);
+    if (isCorrect) {
+      setRows(
+        Array.from({length: 6}).map(() =>
+          Array(5).fill({
+            character: " ",
+            correct: false,
+            misplaced: false,
+          }),
+        ),
+      );
+      setMisplacedLetters([]);
+      setCorrectLetters([]);
+      setWrongLetters([]);
+      setCurrentCol(0);
+      setCurrentRow(0);
+      setIsGameOverModalOpen(false);
+      setIsFetchingWord(true);
+    } else {
+      location.reload();
+    }
   };
 
   const handleEnter = useCallback(() => {
@@ -141,13 +145,13 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
       }, 1000);
     }
 
+    setIsCorrect(correct);
     if (correct) {
       setScore(score + 1);
       setTimeout(() => {
         setGameOverTitle(t("phrasePuzzle.correct"));
         setGameOverMessage(t("phrasePuzzle.winningMessage"));
         setIsGameOverModalOpen(true);
-        setIsCorrect(correct);
       }, 1000);
     } else {
       setCurrentRow(currentRow + 1);

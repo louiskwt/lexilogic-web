@@ -5,6 +5,7 @@ import {findVowels, getWord} from "../utils";
 export type DictatorContextValue = {
   currentWord: IWord | null;
   userInput: IUserInput[];
+  score: number;
   isCorrect: boolean;
   currentIndex: number;
   inputRefsArray: React.RefObject<HTMLInputElement | null>[];
@@ -29,6 +30,7 @@ export const useDictatorContext = () => {
 
 export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   const [currentWord, setCurrentWord] = useState<IWord | null>(null);
+  const [score, setScore] = useState<number>(0);
   const [currentFrequency, setCurrentFrequency] = useState<number>(Infinity);
   const [usedWords, setUsedWords] = useState<Set<string | unknown>>(new Set());
   const [wordHint, setWordHint] = useState<WordHint>({
@@ -54,6 +56,8 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
   // const {t} = useLanguageContext();
 
   const startGame = async () => {
+    if (isGameOver) setScore(0);
+
     setIsFetchingWord(true);
     let inputs: IUserInput[] = [{character: "", correct: false}];
 
@@ -105,12 +109,11 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     setUserInput(updatedInput);
   };
 
-  // useEffect(() => {
-  //   const localProfileData = getLocalProfileData();
-  //   const currentWeeklyXP = profile ? profile.weekly_xp : localProfileData ? localProfileData.weekly_xp : 0;
-  //   const currentTotalXP = profile ? profile.total_xp : localProfileData ? localProfileData.total_xp : 0;
-  //   const xp = isCorrect ? 3 : isGameOver ? 1 : 0;
-  // }, [isGameOver, isCorrect]);
+  useEffect(() => {
+    if (isCorrect) {
+      setScore(score + 1);
+    }
+  }, [isGameOver, isCorrect]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -177,5 +180,5 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     }
   };
 
-  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, wordHint, isGameOver, isFetchingWord, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio}}>{children}</DictatorContext.Provider>;
+  return <DictatorContext.Provider value={{currentWord, userInput, isCorrect, currentIndex, tries, wordHint, isGameOver, isFetchingWord, startGame, handleUserInput, setCurrentIndex, inputRefsArray, checkAns, playAudio, score}}>{children}</DictatorContext.Provider>;
 };

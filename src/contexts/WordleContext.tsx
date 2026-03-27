@@ -105,22 +105,26 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
   );
 
   const handleNextGame = () => {
-    setRows(
-      Array.from({length: 6}).map(() =>
-        Array(5).fill({
-          character: " ",
-          correct: false,
-          misplaced: false,
-        }),
-      ),
-    );
-    setMisplacedLetters([]);
-    setCorrectLetters([]);
-    setWrongLetters([]);
-    setCurrentCol(0);
-    setCurrentRow(0);
-    setIsGameOverModalOpen(false);
-    setIsFetchingWord(true);
+    if (isCorrect) {
+      setRows(
+        Array.from({length: 6}).map(() =>
+          Array(5).fill({
+            character: " ",
+            correct: false,
+            misplaced: false,
+          }),
+        ),
+      );
+      setMisplacedLetters([]);
+      setCorrectLetters([]);
+      setWrongLetters([]);
+      setCurrentCol(0);
+      setCurrentRow(0);
+      setIsGameOverModalOpen(false);
+      setIsFetchingWord(true);
+    } else {
+      location.reload();
+    }
   };
 
   const handleEnter = useCallback(() => {
@@ -132,6 +136,7 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
     const guess = rows[currentRow].map((col) => col.character);
     const correct = handleChecking(guess);
 
+    setIsCorrect(correct);
     if (!correct && currentRow === 5) {
       setTimeout(() => {
         setGameOverTitle(t("wordWonder.gameOver.title"));
@@ -146,7 +151,6 @@ export const WordleProvider: FC<{children: ReactNode}> = ({children}) => {
         setGameOverTitle(t("wordWonder.correct"));
         setGameOverMessage(t("wordWonder.winningMessage"));
         setIsGameOverModalOpen(true);
-        setIsCorrect(correct);
       }, 1000);
     } else {
       setCurrentRow(currentRow + 1);
