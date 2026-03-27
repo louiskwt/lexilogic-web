@@ -2,6 +2,8 @@ import {useState} from "react";
 import Confetti from "react-confetti-boom";
 import {useLanguageContext} from "../contexts/LanguageContext";
 import {submitScore} from "../utils";
+import Modal from "./Modal";
+import RankingModalContent from "./RankingModalContent";
 
 interface IGameOverDisplayProps {
   title: string;
@@ -17,8 +19,18 @@ interface IGameOverDisplayProps {
 const GameOverDisplay = ({handleNewGame, title, message, answer = "", pos = "", meaning = "", isCorrect, score}: IGameOverDisplayProps) => {
   const {t} = useLanguageContext();
   const [name, setName] = useState<string>("");
-  const handleSaveScore = () => {
-    submitScore(name, score.toString());
+  const [showRanking, setShowRanking] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const handleSaveScore = async () => {
+    setSubmitted(true);
+    const success = await submitScore(name, score.toString());
+    if (success) {
+      alert(t("saved"));
+      setShowRanking(true);
+    } else {
+      alert(t("warning.errorTryAgain"));
+      setSubmitted(false);
+    }
   };
 
   return (
@@ -45,7 +57,7 @@ const GameOverDisplay = ({handleNewGame, title, message, answer = "", pos = "", 
               {t("save")}
             </label>
             <input type="text" placeholder="Enter a name" value={name} onChange={(e) => setName(e.target.value)} className="bg-zinc-700 rounded-md border-2 border-zinc-600 py-2 px-4 mb-4 focus:outline-none focus:border-lime-600" />
-            <button className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-4 rounded" onClick={handleSaveScore}>
+            <button disabled={submitted} className="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 ml-4 rounded disabled:bg-slate-500" onClick={handleSaveScore}>
               {t("saveBtn")}
             </button>
           </div>
@@ -56,6 +68,11 @@ const GameOverDisplay = ({handleNewGame, title, message, answer = "", pos = "", 
           {t("tryAgain")}
         </button>
       </div>
+
+      <Modal isOpen={showRanking} onClose={() => setShowRanking(false)}>
+        {/* Modal content */}
+        <RankingModalContent />
+      </Modal>
     </>
   );
 };
