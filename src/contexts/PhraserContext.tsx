@@ -176,7 +176,7 @@ export const PhraserProvider: FC<{children: ReactNode}> = ({children}) => {
 
     const fetchRandomWord = async () => {
       try {
-        const wordData = await getWord(Infinity, currentFrequency, usedWords);
+        const wordData = await getWord(8, currentFrequency, usedWords);
         if (cancelled) return;
         if (wordData?.picked) {
           setWord(wordData.picked.word.toUpperCase());

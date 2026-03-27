@@ -61,7 +61,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     setIsFetchingWord(true);
     let inputs: IUserInput[] = [{character: "", correct: false}];
 
-    const wordData = await getWord(Infinity, currentFrequency, usedWords);
+    const wordData = await getWord(8, currentFrequency, usedWords);
     if (wordData?.picked) {
       setCurrentWord({
         word: wordData.picked.word,
