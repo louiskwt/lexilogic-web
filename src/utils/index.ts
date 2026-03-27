@@ -78,22 +78,29 @@ export function isDateOneDayBefore(currentDate: Date, referenceDate: Date) {
 // }
 
 const LEXI_WORDS = "LEXI_WORDS";
+let cachedData: WordData[] | null = null;
 
-export function getWord(length = 5, currentFrequency = Infinity, usedWords = new Set()): Promise<PickedWord> | null {
+async function fetchWordData(): Promise<WordData[] | null> {
   try {
+    if (cachedData) return cachedData;
     const parser = new PublicGoogleSheetsParser("16FdDn6cew8nIrl70IQl-GyLfYMFsL1AOpAjMr1nf3rE");
-    const word = parser
-      .parse()
-      .then((data: WordData[]) => {
-        const wordData = pickWord(data, length, currentFrequency, usedWords);
-        return wordData;
-      })
-      .catch((error) => {
-        console.log(error);
-        return {picked: null, nextFrequency: Infinity, usedWords: new Set()};
-      });
+    const data = await parser.parse();
+    cachedData = data;
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
 
-    return word;
+export async function getWord(length = 5, currentFrequency = Infinity, usedWords = new Set()): Promise<PickedWord | null> {
+  try {
+    const data = await fetchWordData();
+    if (data) {
+      return pickWord(data, length, currentFrequency, usedWords);
+    } else {
+      return null;
+    }
   } catch (error) {
     console.log(error);
     return null;
@@ -101,7 +108,7 @@ export function getWord(length = 5, currentFrequency = Infinity, usedWords = new
 }
 
 export function pickWord(words: WordData[], length: number = 5, currentFrequency: number = Infinity, usedWords = new Set(), poolRatio = 0.2): PickedWord {
-  const candidates = words.filter((w) => (length === 5 ? w.word.length === length : true) && w.frequency <= currentFrequency && !usedWords.has(w)).sort((a, b) => b.frequency - a.frequency);
+  const candidates = words.filter((w) => (length === 5 ? w.word.length === length : w.word.length <= length) && w.frequency <= currentFrequency && !usedWords.has(w)).sort((a, b) => b.frequency - a.frequency);
 
   if (candidates.length === 0) return {picked: null, nextFrequency: 1, usedWords};
 
