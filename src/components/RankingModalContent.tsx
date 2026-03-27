@@ -22,7 +22,7 @@ const RankingModalContent = () => {
 
     fetchRanking()
       .then((data) => {
-        setRankingData(data);
+        setRankingData(data.sort((a, b) => +b.score - +a.score));
       })
       .catch((err) => console.error(err));
     return () => {
@@ -41,7 +41,7 @@ const RankingModalContent = () => {
                 <span className="mr-2">{index + 1}.</span>
                 <span>{player.name}</span>
               </div>
-              <span>{player.score} xp</span>
+              <span>{player.score} pts</span>
             </div>
           ))
         ) : (
