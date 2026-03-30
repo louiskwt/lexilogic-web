@@ -56,23 +56,27 @@ const DictatorGame: React.FC = () => {
           ),
         }}
       />
-      <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8 overflow-y-auto">
+        {/* Correct ans feedback */}
         {isCorrect && (
           <>
             {" "}
-            <div className="animate-drop-bounce text-green-500 font-bold text-2xl my-6 text-center">{t(pickRandomCorrectMessage())}</div>
+            <div className="animate-drop-bounce text-green-400 font-bold text-xl md:text-2xl my-4 text-center">{t(pickRandomCorrectMessage())}</div>
             <Confetti mode="boom" particleCount={120} effectCount={2} effectInterval={2000} colors={["#ff577f", "#ff884b"]} />
           </>
         )}
-        <h1 className="text-4xl font-bold mb-8">{t("dictator")}</h1>
+        {/* Title */}
+        <h1 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">{t("dictator")}</h1>
         {currentWord ? (
-          <div className="flex flex-col items-center justify-center">
-            <div className="border-b-2 flex justify-items-center space-x-2">
+          <div className="flex flex-col items-center justify-center w-full max-w-lg">
+            <div className="flex items-center gap-1.5 mb-8">
               {Array.from({length: tries}).map((_, index) => (
-                <FontAwesomeIcon icon={faHeart} key={index} size="2x" color="lime" />
+                <FontAwesomeIcon icon={faHeart} key={index} className={`text-2xl md:text-3xl transition-all duration-300 ${index < tries ? "text-lime-400 drop-shadow-[0_0_6px_rgba(132,204,22,0.5)] scale-100" : "text-zinc-700 scale-90"}`} />
               ))}
+              <span className="ml-3 text-zinc-400 text-sm font-medium">{tries}/5</span>
             </div>
-            <div className="text-4xl font-bold mb-4 flex justify-center mt-6 space-x-3">
+            {/* Letter input */}
+            <div className="flex justify-center gap-1.5 md:gap-3 mb-8 w-full px-2">
               {userInput.map(({character, correct}, index) => (
                 <input
                   key={index}
@@ -84,37 +88,94 @@ const DictatorGame: React.FC = () => {
                   onChange={(e) => {
                     handleUserInput(e, index);
                   }}
-                  className={`bg-transparent border-b-2 border-gray-400 outline-none focus:border-lime-600 focus:outline-none w-8 md:w-12 md:h-12 text-center text-4xl ${correct ? "text-green-500" : tries === 5 || character === "" ? "text-white" : "text-red-500"}`}
+                  className={`
+                    min-w-0 flex-1 max-w-14 aspect-square
+                    text-center text-xl md:text-3xl font-bold
+                    rounded-xl
+                    border-2 outline-none
+                    transition-all duration-200
+                    bg-zinc-800/60 backdrop-blur-sm
+                    focus:ring-2 focus:ring-lime-500/50 focus:scale-105
+                    ${correct ? "border-emerald-500 text-emerald-400 bg-emerald-500/10" : character === "" ? "border-zinc-600 text-white" : tries === 5 ? "border-zinc-600 text-white" : "border-red-500/70 text-red-400 bg-red-500/10 animate-[shake_0.3s_ease-in-out]"}
+            `}
                 />
               ))}
             </div>
-            {!isCorrect && (
-              <button onClick={playAudio} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 flex items-center mt-8">
-                <FontAwesomeIcon icon={faVolumeUp} className="mr-2" />
-                {t("dictatorGame.playAudio.label")}
-              </button>
-            )}
-
-            {!isCorrect && userInput.every((i) => i.character !== "") && (
-              <button onClick={checkAns} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4 flex items-center mt-8">
-                <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                {t("dictatorGame.checkAnswer.label")}
-              </button>
-            )}
-
-            {isCorrect && (
-              <div className="mt-6">
-                {" "}
-                <button onClick={startGame} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4">
-                  {t(`dictatorGame.nextChallenge`)}
+            {/* Button Area */}
+            <div className="flex flex-col items-center gap-4 w-full max-w-xs">
+              {!isCorrect && (
+                <button
+                  onClick={playAudio}
+                  className="
+                    group w-full
+                    bg-gradient-to-r from-lime-600 to-emerald-600
+                    hover:from-lime-500 hover:to-emerald-500
+                    active:scale-95
+                    rounded-2xl border border-lime-500/30
+                    text-white font-bold py-4 px-6
+                    flex items-center justify-center gap-3
+                    transition-all duration-200
+                    shadow-lg shadow-lime-600/20
+                  ">
+                  <FontAwesomeIcon icon={faVolumeUp} className="text-xl group-hover:animate-pulse" />
+                  <span className="text-lg">{t("dictatorGame.playAudio.label")}</span>
                 </button>
-              </div>
-            )}
+              )}
+              {!isCorrect && userInput.every((i) => i.character !== "") && (
+                <button
+                  onClick={checkAns}
+                  className="
+                    w-full
+                    bg-zinc-700 hover:bg-zinc-600
+                    active:scale-95
+                    rounded-2xl border border-zinc-600
+                    text-white font-bold py-4 px-6
+                    flex items-center justify-center gap-3
+                    transition-all duration-200
+                  ">
+                  <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                  <span className="text-lg">{t("dictatorGame.checkAnswer.label")}</span>
+                </button>
+              )}
+              {isCorrect && (
+                <button
+                  onClick={startGame}
+                  className="
+              w-full
+              bg-gradient-to-r from-lime-600 to-emerald-600
+              hover:from-lime-500 hover:to-emerald-500
+              active:scale-95
+              rounded-2xl border border-lime-500/30
+              text-white font-bold py-4 px-6
+              text-lg
+              transition-all duration-200
+              shadow-lg shadow-lime-600/20
+              animate-pulse
+            ">
+                  {t("dictatorGame.nextChallenge")} →
+                </button>
+              )}
+            </div>
           </div>
         ) : (
-          <button onClick={startGame} className="bg-lime-600 hover:bg-lime-50 hover:text-gray-800 rounded-md border-2 text-white font-bold py-2 px-4">
-            {t("dictatorGame.startGame")}
-          </button>
+          /* Start screen */
+          <div className="flex flex-col items-center gap-6 mt-4">
+            <p className="text-zinc-400 text-center text-lg max-w-sm">Listen carefully and spell the word correctly!</p>
+            <button
+              onClick={startGame}
+              className="
+              bg-gradient-to-r from-lime-600 to-emerald-600
+              hover:from-lime-500 hover:to-emerald-500
+              active:scale-95
+              rounded-2xl border border-lime-500/30
+              text-white font-bold py-4 px-10
+              text-xl
+              transition-all duration-200
+              shadow-lg shadow-lime-600/20
+            ">
+              {t("dictatorGame.startGame")}
+            </button>
+          </div>
         )}
       </div>
     </>
