@@ -133,6 +133,7 @@ export const DictatorProvider: FC<{children: ReactNode}> = ({children}) => {
     if (currentWord) {
       const synth = window.speechSynthesis;
       const utterThis = new SpeechSynthesisUtterance(currentWord.word);
+      utterThis.rate = 0.4;
       synth.speak(utterThis);
     }
     inputRefsArray[currentIndex].current?.focus();
