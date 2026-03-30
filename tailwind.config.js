@@ -22,6 +22,10 @@ export default {
           "60%": {transform: "translateX(-4px)"},
           "80%": {transform: "translateX(4px)"},
         },
+        fadeIn: {
+          from: {opacity: 0, transform: "scale(0.95)"},
+          to: {opacity: 0, transform: "scale(1)"},
+        },
       },
       animation: {
         shake: "shake 0.3s ease-in-out",
