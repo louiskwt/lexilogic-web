@@ -32,7 +32,7 @@ const DictatorGame: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="h-dvh flex flex-col overflow-hidden shrink-0">
       <GameNav
         wordHint={wordHint}
         name="Dictator"
@@ -178,7 +178,7 @@ const DictatorGame: React.FC = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
