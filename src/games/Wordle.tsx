@@ -9,7 +9,7 @@ const Wordle = () => {
   const {t} = useLanguageContext();
   const {rows, handleKeyPress, handleBackspace, handleEnter, misplacedLetters, correctLetters, wrongLetters, wordHint, isFetchingWord} = useWordleContext();
   return (
-    <>
+    <div className="h-dvh flex flex-col overflow-hidden">
       <GameNav
         name="Wordle"
         wordHint={wordHint}
@@ -36,22 +36,25 @@ const Wordle = () => {
         }}
       />
       {isFetchingWord ? (
-        <Spinner size="lg" />
+        <div className="flex-1 flex items-center justify-center">
+          <Spinner size="lg" />
+        </div>
       ) : (
         <>
-          <div className="flex-1 flex flex-col items-center justify-center h-80 space-y-6 mt-4">
-            {rows.map((row, index: number) => (
-              <div key={index} className="flex space-x-2">
-                {row.map((square, index) => (
-                  <ResponsiveSquare key={index} char={square.character} misplaced={square.misplaced} correct={square.correct} />
-                ))}
+          {/* Grid Area */}
+          <div className="flex-1 flex flex-col items-center justify-center gap-[6px] sm:gap-2 px-2 py-3 min-h-0">
+            {rows.map((row, rowIndex) => (
+              <div key={rowIndex} className="flex gap-[5px] sm:gap-2">
+                {row.map((square, index) => {
+                  return <ResponsiveSquare key={index} size={8} char={square.character} misplaced={square.misplaced} correct={square.correct} />;
+                })}
               </div>
             ))}
           </div>
           <Keyboard handleKeyPress={handleKeyPress} handleEnter={handleEnter} handleBackSpace={handleBackspace} correctLetters={correctLetters} misplacedLetters={misplacedLetters} wrongLetters={wrongLetters} />
         </>
       )}
-    </>
+    </div>
   );
 };
 
